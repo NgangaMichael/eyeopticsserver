@@ -1,25 +1,71 @@
-import * as repo from "./stock.repository";
+import prisma from "../../lib/prisma";
 
-export const createStock = async (data: any) => {
-  return repo.createStock(data);
+type StockCreateInput = {
+  name: string;
+  code: string;
+  type: string;
+
+  qty: number;
+  sold?: number;
+
+  priceUsd: number;
+  priceKsh: number;
+  appPrice?: number;
+
+  costUsd?: number;
+  costKsh?: number;
+  prevCostPb?: number;
+  profitPerBale?: number;
+
+  bought?: string;
+  etr?: string;
+
+  fob?: number;
+  loading?: number;
+
+  supplier?: string;
+  notes?: string;
+  imageUrl?: string;
 };
 
-export const getAllStocks = async () => {
-  return repo.getAllStocks();
+export const createStock = (data: StockCreateInput) => {
+  return prisma.stock.create({
+    data: {
+      ...data,
+      bought: data.bought ? new Date(data.bought) : undefined,
+      etr: data.etr ? new Date(data.etr) : undefined,
+    },
+  });
 };
 
-export const getStockById = async (id: number) => {
-  const stock = await repo.getStockById(id);
-  if (!stock) throw { status: 404, message: "Stock not found" };
-  return stock;
+export const getAllStocks = () => {
+  return prisma.stock.findMany({
+    orderBy: { createdAt: "desc" },
+  });
 };
 
-export const updateStock = async (id: number, data: any) => {
-  await getStockById(id);
-  return repo.updateStock(id, data);
+export const getStockById = (id: number) => {
+  return prisma.stock.findUnique({
+    where: { id },
+  });
 };
 
-export const deleteStock = async (id: number) => {
-  await getStockById(id);
-  return repo.deleteStock(id);
+export const updateStock = (
+  id: number,
+  data: Partial<StockCreateInput>
+) => {
+  return prisma.stock.update({
+    where: { id },
+    data: {
+      ...data,
+      bought: data.bought ? new Date(data.bought) : undefined,
+      etr: data.etr ? new Date(data.etr) : undefined,
+    },
+  });
+};
+
+export const deleteStock = (id: number) => {
+  return prisma.stock.delete({
+    where: { id },
+  });
 };

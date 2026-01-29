@@ -7,6 +7,7 @@ import * as repo from "./user.repository";
 export const createUser = async (data: {
   username: string;
   email: string;
+  phone?: string; // ✅ string
   designation?: string;
   password: string;
 }) => {
@@ -56,6 +57,7 @@ export const updateUser = async (
   data: {
     username?: string;
     email?: string;
+    phone?: string; // ✅ string
     designation?: string;
     password?: string;
   }

@@ -6,6 +6,7 @@ import prisma from "../../lib/prisma";
 export const createUser = (data: {
   username: string;
   email: string;
+  phone?: string;   // ✅ string
   designation?: string;
   password: string;
 }) => {
@@ -22,6 +23,7 @@ export const getAllUsers = () => {
       id: true,
       username: true,
       email: true,
+      phone: true,
       designation: true,
       createdAt: true,
     },
@@ -38,6 +40,7 @@ export const getUserById = (id: number) => {
       id: true,
       username: true,
       email: true,
+      phone: true,
       designation: true,
       createdAt: true,
     },
@@ -52,6 +55,7 @@ export const updateUser = (
   data: {
     username?: string;
     email?: string;
+    phone?: string;   // ✅ string
     designation?: string;
     password?: string;
   }

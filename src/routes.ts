@@ -5,6 +5,8 @@ import stockRoutes from "./modules/stocks/stock.routes";
 import patientRoutes from "./modules/patients/patient.routes";
 import orderRoutes from "./modules/orders/order.routes";
 import salesRoutes from "./modules/sales/sale.routes";
+import customerRoutes from "./modules/customer/customer.routes";
+import supplierRoutes from "./modules/supplier/supplier.routes";
 import authRoutes from "./modules/auth/auth.routes";
 
 const router = Router();
@@ -22,5 +24,7 @@ router.use("/stocks", stockRoutes);
 router.use("/patients", patientRoutes);
 router.use("/orders", orderRoutes);
 router.use("/sales", salesRoutes);
+router.use("/customers", customerRoutes);
+router.use("/suppliers", supplierRoutes);
 
 export default router;

@@ -8,6 +8,7 @@ export const createUserSchema = z.object({
     username: z.string().min(2),
     designation: z.string().min(1).optional(),
     email: z.string().email(),
+    phone: z.string().min(9),
     password: z.string().min(6),
   }),
 });
@@ -23,6 +24,7 @@ export const updateUserSchema = z.object({
     username: z.string().min(2).optional(),
     designation: z.string().min(1).optional(),
     email: z.string().email().optional(),
+    phone: z.string().min(9).optional(),
     password: z.string().min(6).optional(),
   }),
 });

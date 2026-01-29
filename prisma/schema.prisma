@@ -2,6 +2,9 @@ generator client {
   provider = "prisma-client-js"
 }
 
+// npx prisma migrate dev --name add_customer_table 
+// npx prisma generate 
+
 datasource db {
   provider = "mysql"
   url      = env("DATABASE_URL")
@@ -13,6 +16,7 @@ model User {
   email       String   @unique
   designation String?
   password    String
+  phone       String?
   createdAt   DateTime @default(now())
   updatedAt   DateTime @updatedAt
 }
@@ -28,21 +32,44 @@ model Expense {
 }
 
 model Stock {
-  id           Int        @id @default(autoincrement())
-  itemType     String // "frame" or "lens"
-  brand        String
-  model        String? // optional for lenses
-  material     String
-  color        String? // mainly for frames
-  size         String? // mainly for frames
-  type         String // frame: full/semi-rimless/rimless, lens: single/progressive/bifocal
-  coating      String? // lens only: AR, blue-light, photochromic
-  prescription Json? // lens only, e.g., {"sphere": -2.00, "cyl": -0.50, "axis": 180}
-  quantity     Int
-  price        Float
-  saleItems    SaleItem[] // 👈 REQUIRED opposite relation
-  createdAt    DateTime   @default(now())
-  updatedAt    DateTime   @updatedAt
+  id Int @id @default(autoincrement())
+
+  // Core identity
+  name String
+  code String @unique
+  type String // frame, lens, accessory, etc.
+
+  // Quantities
+  qty  Int
+  sold Int @default(0)
+
+  // Pricing
+  priceUsd Decimal  @db.Decimal(10, 2)
+  priceKsh Decimal  @db.Decimal(10, 2)
+  appPrice Decimal? @db.Decimal(10, 2)
+
+  // Costing
+  costUsd       Decimal? @db.Decimal(10, 2)
+  costKsh       Decimal? @db.Decimal(10, 2)
+  prevCostPb    Decimal? @db.Decimal(10, 2)
+  profitPerBale Decimal? @db.Decimal(10, 2)
+
+  // Procurement
+  bought  DateTime?
+  etr     DateTime?
+  fob     Decimal?  @db.Decimal(10, 2)
+  loading Decimal?  @db.Decimal(10, 2)
+
+  supplier String?
+  notes    String?
+
+  imageUrl String?
+
+  // Relations
+  saleItems SaleItem[]
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
 }
 
 model Patient {
@@ -110,4 +137,15 @@ model Customer {
   updatedAt DateTime @updatedAt
 
   sales Sale[]
+}
+
+model Supplier {
+  id        Int      @id @default(autoincrement())
+  name      String
+  email     String?
+  phone     String?
+  address   String?
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
 }
