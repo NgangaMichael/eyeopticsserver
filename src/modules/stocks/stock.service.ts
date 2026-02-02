@@ -1,59 +1,39 @@
 import prisma from "../../lib/prisma";
 
-type StockCreateInput = {
-  name: string;
-  code: string;
-  type: string;
-
-  qty: number;
-  sold?: number;
-
-  priceUsd: number;
-  priceKsh: number;
-  appPrice?: number;
-
-  costUsd?: number;
-  costKsh?: number;
-  prevCostPb?: number;
-  profitPerBale?: number;
-
-  bought?: string;
-  etr?: string;
-
-  fob?: number;
-  loading?: number;
-
-  supplier?: string;
-  notes?: string;
-  imageUrl?: string;
-};
-
-export const createStock = (data: StockCreateInput) => {
+// Use the fields that actually exist in your Prisma Model
+export const createStock = (data: any) => {
   return prisma.stock.create({
     data: {
-      ...data,
+      name: data.name,
+      code: data.code,
+      type: data.type,
+      qty: data.qty, // Changed from 'quantity'
+      priceUsd: data.priceUsd, // Changed from 'price'
+      priceKsh: data.priceKsh,
+      appPrice: data.appPrice,
+      costUsd: data.costUsd,
+      costKsh: data.costKsh,
+      prevCostPb: data.prevCostPb,
+      profitPerBale: data.profitPerBale,
       bought: data.bought ? new Date(data.bought) : undefined,
       etr: data.etr ? new Date(data.etr) : undefined,
+      fob: data.fob,
+      loading: data.loading,
+      supplier: data.supplier,
+      notes: data.notes,
     },
   });
 };
 
 export const getAllStocks = () => {
-  return prisma.stock.findMany({
-    orderBy: { createdAt: "desc" },
-  });
+  return prisma.stock.findMany({ orderBy: { createdAt: "desc" } });
 };
 
 export const getStockById = (id: number) => {
-  return prisma.stock.findUnique({
-    where: { id },
-  });
+  return prisma.stock.findUnique({ where: { id } });
 };
 
-export const updateStock = (
-  id: number,
-  data: Partial<StockCreateInput>
-) => {
+export const updateStock = (id: number, data: any) => {
   return prisma.stock.update({
     where: { id },
     data: {
@@ -65,7 +45,5 @@ export const updateStock = (
 };
 
 export const deleteStock = (id: number) => {
-  return prisma.stock.delete({
-    where: { id },
-  });
+  return prisma.stock.delete({ where: { id } });
 };

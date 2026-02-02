@@ -7,7 +7,6 @@ export const createStockSchema = z.object({
     type: z.string().min(2),
 
     qty: z.number().int().nonnegative(),
-    sold: z.number().int().nonnegative().optional(),
 
     priceUsd: z.number().positive(),
     priceKsh: z.number().positive(),
@@ -26,7 +25,6 @@ export const createStockSchema = z.object({
 
     supplier: z.string().optional(),
     notes: z.string().optional(),
-    imageUrl: z.string().url().optional(),
   }),
 });
 

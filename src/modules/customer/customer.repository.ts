@@ -7,14 +7,14 @@ export const createCustomer = (data: any) => {
 export const getAllCustomers = () => {
   return prisma.customer.findMany({
     orderBy: { createdAt: "desc" },
-    include: { _count: { select: { sales: true } } }
+    include: { _count: { select: { sale: true } } }
   });
 };
 
 export const getCustomerById = (id: number) => {
   return prisma.customer.findUnique({
     where: { id },
-    include: { sales: true }
+    include: { sale: true }
   });
 };
 

@@ -2,150 +2,131 @@ generator client {
   provider = "prisma-client-js"
 }
 
-// npx prisma migrate dev --name add_customer_table 
-// npx prisma generate 
-
 datasource db {
   provider = "mysql"
   url      = env("DATABASE_URL")
 }
 
-model User {
-  id          Int      @id @default(autoincrement())
-  username    String
-  email       String   @unique
-  designation String?
-  password    String
-  phone       String?
-  createdAt   DateTime @default(now())
-  updatedAt   DateTime @updatedAt
+model customer {
+  id        Int      @id @default(autoincrement())
+  name      String
+  type      String
+  email     String?
+  phone     String?
+  address   String?
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt  // Added @updatedAt
+  sale      sale[]
 }
 
-model Expense {
-  id        String   @id @default(uuid())
+model expense {
+  id        String   @id @default(cuid())
   title     String
   amount    Float
   category  String?
   note      String?
   createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
+  updatedAt DateTime @updatedAt  // Added @updatedAt
 }
 
-model Stock {
-  id Int @id @default(autoincrement())
-
-  // Core identity
-  name String
-  code String @unique
-  type String // frame, lens, accessory, etc.
-
-  // Quantities
-  qty  Int
-  sold Int @default(0)
-
-  // Pricing
-  priceUsd Decimal  @db.Decimal(10, 2)
-  priceKsh Decimal  @db.Decimal(10, 2)
-  appPrice Decimal? @db.Decimal(10, 2)
-
-  // Costing
-  costUsd       Decimal? @db.Decimal(10, 2)
-  costKsh       Decimal? @db.Decimal(10, 2)
-  prevCostPb    Decimal? @db.Decimal(10, 2)
-  profitPerBale Decimal? @db.Decimal(10, 2)
-
-  // Procurement
-  bought  DateTime?
-  etr     DateTime?
-  fob     Decimal?  @db.Decimal(10, 2)
-  loading Decimal?  @db.Decimal(10, 2)
-
-  supplier String?
-  notes    String?
-
-  imageUrl String?
-
-  // Relations
-  saleItems SaleItem[]
-
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
+model order {
+  id               Int       @id @default(autoincrement())
+  supplierName     String
+  supplierEmail    String?
+  supplierPhone    String?
+  lensType         String
+  material         String
+  coating          String?
+  quantityOrdered  Int
+  quantityReceived Int       @default(0)
+  landedCost       Float
+  orderDate        DateTime  @default(now())
+  expectedArrival  DateTime?
+  receivedDate     DateTime?
+  status           String
+  createdAt        DateTime  @default(now())
+  updatedAt        DateTime  @updatedAt  // Added @updatedAt
 }
 
-model Patient {
+model patient {
   id        Int       @id @default(autoincrement())
   firstName String
   lastName  String
-  email     String?   @unique
+  email     String?   @unique(map: "Patient_email_key")
   phone     String
   dob       DateTime?
   gender    String?
   address   String?
   createdAt DateTime  @default(now())
-  updatedAt DateTime  @updatedAt
+  updatedAt DateTime  @updatedAt  // Added @updatedAt
 }
 
-model Order {
-  id               Int       @id @default(autoincrement())
-  supplierName     String
-  supplierEmail    String?
-  supplierPhone    String?
-  lensType         String // single, progressive, bifocal
-  material         String // polycarbonate, high-index, plastic
-  coating          String? // AR, photochromic, blue-light
-  quantityOrdered  Int
-  quantityReceived Int       @default(0)
-  landedCost       Float // total landed cost per lens
-  orderDate        DateTime  @default(now())
-  expectedArrival  DateTime?
-  receivedDate     DateTime?
-  status           String // pending, shipped, partial, received
-  createdAt        DateTime  @default(now())
-  updatedAt        DateTime  @updatedAt
-}
-
-model Sale {
-  id         Int      @id @default(autoincrement())
+model sale {
+  id         Int        @id @default(autoincrement())
   customerId Int
   total      Float
-  createdAt  DateTime @default(now())
-  updatedAt  DateTime @updatedAt
+  createdAt  DateTime   @default(now())
+  updatedAt  DateTime   @updatedAt  // Added @updatedAt
+  customer   customer   @relation(fields: [customerId], references: [id], map: "Sale_customerId_fkey")
+  saleitem   saleitem[]
 
-  customer Customer   @relation(fields: [customerId], references: [id])
-  items    SaleItem[]
+  @@index([customerId], map: "Sale_customerId_fkey")
 }
 
-model SaleItem {
+model saleitem {
   id       Int   @id @default(autoincrement())
   saleId   Int
   stockId  Int
   quantity Int
   price    Float
+  sale     sale  @relation(fields: [saleId], references: [id], map: "SaleItem_saleId_fkey")
+  stock    stock @relation(fields: [stockId], references: [id], map: "SaleItem_stockId_fkey")
 
-  sale  Sale  @relation(fields: [saleId], references: [id])
-  stock Stock @relation(fields: [stockId], references: [id])
+  @@index([saleId], map: "SaleItem_saleId_fkey")
+  @@index([stockId], map: "SaleItem_stockId_fkey")
 }
 
-model Customer {
+model stock {
+  id            Int        @id @default(autoincrement())
+  type          String
+  createdAt     DateTime   @default(now())
+  updatedAt     DateTime   @updatedAt  // Added @updatedAt
+  appPrice      Decimal?   @db.Decimal(10, 2)
+  bought        DateTime?
+  code          String     @unique(map: "Stock_code_key")
+  costKsh       Decimal?   @db.Decimal(10, 2)
+  costUsd       Decimal?   @db.Decimal(10, 2)
+  etr           DateTime?
+  fob           Decimal?   @db.Decimal(10, 2)
+  loading       Decimal?   @db.Decimal(10, 2)
+  name          String
+  notes         String?
+  prevCostPb    Decimal?   @db.Decimal(10, 2)
+  priceKsh      Decimal    @db.Decimal(10, 2)
+  priceUsd      Decimal    @db.Decimal(10, 2)
+  profitPerBale Decimal?   @db.Decimal(10, 2)
+  qty           Int
+  supplier      String?
+  saleitem      saleitem[]
+}
+
+model supplier {
   id        Int      @id @default(autoincrement())
   name      String
-  type      String // "patient", "company", "outlet"
   email     String?
   phone     String?
   address   String?
   createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
-
-  sales Sale[]
+  updatedAt DateTime @updatedAt  // Added @updatedAt
 }
 
-model Supplier {
-  id        Int      @id @default(autoincrement())
-  name      String
-  email     String?
-  phone     String?
-  address   String?
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
-
+model user {
+  id          Int      @id @default(autoincrement())
+  username    String
+  email       String   @unique(map: "User_email_key")
+  designation String?
+  password    String
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt  // Added @updatedAt
+  phone       String?
 }

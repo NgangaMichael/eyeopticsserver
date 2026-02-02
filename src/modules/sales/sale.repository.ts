@@ -9,22 +9,43 @@ export const createSale = async (data: {
     price: number;
   }[];
 }) => {
-  return prisma.sale.create({
-    data: {
-      customerId: data.customerId,
-      total: data.total,
-      items: {
-        create: data.items,
-      },
-    },
-    include: {
-      customer: true,
-      items: {
-        include: {
-          stock: true,
+  return prisma.$transaction(async (tx) => {
+    // 1. Create the Sale and the related saleitems
+    const newSale = await tx.sale.create({
+      data: {
+        customerId: data.customerId,
+        total: data.total,
+        saleitem: { // Matches the schema field name
+          create: data.items.map((item) => ({
+            stockId: item.stockId,
+            quantity: item.quantity,
+            price: item.price,
+          })),
         },
       },
-    },
+      include: {
+        customer: true,
+        saleitem: { // Matches the schema field name
+          include: {
+            stock: true,
+          },
+        },
+      },
+    });
+
+    // 2. Decrement Stock qty
+    for (const item of data.items) {
+      await tx.stock.update({
+        where: { id: item.stockId },
+        data: {
+          qty: {
+            decrement: item.quantity,
+          },
+        },
+      });
+    }
+
+    return newSale;
   });
 };
 
@@ -33,7 +54,7 @@ export const getAllSales = () => {
     orderBy: { createdAt: "desc" },
     include: {
       customer: true,
-      items: {
+      saleitem: { // Corrected field name
         include: {
           stock: true,
         },
@@ -47,7 +68,7 @@ export const getSaleById = (id: number) => {
     where: { id },
     include: {
       customer: true,
-      items: {
+      saleitem: { // This was line 71 causing your error!
         include: {
           stock: true,
         },
