@@ -25,8 +25,12 @@ export const createStock = (data: any) => {
   });
 };
 
-export const getAllStocks = () => {
-  return prisma.stock.findMany({ orderBy: { createdAt: "desc" } });
+export const getAllStock = () => {
+  return prisma.stock.findMany({
+    where: {
+      isDeleted: false, // Only get active stock
+    },
+  });
 };
 
 export const getStockById = (id: number) => {
@@ -45,5 +49,8 @@ export const updateStock = (id: number, data: any) => {
 };
 
 export const deleteStock = (id: number) => {
-  return prisma.stock.delete({ where: { id } });
+  return prisma.stock.update({
+    where: { id },
+    data: { isDeleted: true },
+  });
 };

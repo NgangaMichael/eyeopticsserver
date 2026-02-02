@@ -2,16 +2,16 @@ import { z } from "zod";
 
 export const createOrderSchema = z.object({
   body: z.object({
+    name: z.string().min(1, "Item name is required"), // Added
+    code: z.string().min(1, "Code is required"),     // Added
+    type: z.string().min(1, "Type is required"),     // Added
     supplierName: z.string().min(2),
-    supplierEmail: z.string().email().optional(),
-    supplierPhone: z.string().optional(),
-    lensType: z.string().min(2),
-    material: z.string().min(2),
-    coating: z.string().optional(),
     quantityOrdered: z.number().int().positive(),
     landedCost: z.number().positive(),
-    expectedArrival: z.string().optional(), // ISO date
-    status: z.enum(["pending", "shipped", "partial", "received"]),
+    priceKsh: z.number().nonnegative().optional(),   // Added
+    priceUsd: z.number().nonnegative().optional(),   // Added
+    status: z.enum(["pending", "shipped", "partial", "received"]).optional(),
+    expectedArrival: z.string().optional(),
   }),
 });
 

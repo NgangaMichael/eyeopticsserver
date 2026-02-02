@@ -31,21 +31,23 @@ model expense {
 
 model order {
   id               Int       @id @default(autoincrement())
+  code             String    // Will be "AUTO" or an existing code
+  name             String    // Required to create/update stock
+  type             String    // Required to create/update stock
   supplierName     String
   supplierEmail    String?
   supplierPhone    String?
-  lensType         String
-  material         String
-  coating          String?
   quantityOrdered  Int
   quantityReceived Int       @default(0)
-  landedCost       Float
+  landedCost       Float     // Maps to stock.costKsh
+  priceKsh         Float     @default(0) // Maps to stock.priceKsh
+  priceUsd         Float     @default(0) // Maps to stock.priceUsd
   orderDate        DateTime  @default(now())
   expectedArrival  DateTime?
   receivedDate     DateTime?
-  status           String
+  status           String    @default("pending") 
   createdAt        DateTime  @default(now())
-  updatedAt        DateTime  @updatedAt  // Added @updatedAt
+  updatedAt        DateTime  @updatedAt
 }
 
 model patient {
@@ -107,6 +109,7 @@ model stock {
   profitPerBale Decimal?   @db.Decimal(10, 2)
   qty           Int
   supplier      String?
+  isDeleted Boolean  @default(false)
   saleitem      saleitem[]
 }
 

@@ -1,19 +1,26 @@
 import prisma from "../../lib/prisma";
 
-// Create order
-export const createOrder = (data: {
-  supplierName: string;
-  supplierEmail?: string;
-  supplierPhone?: string;
-  lensType: string;
-  material: string;
-  coating?: string;
-  quantityOrdered: number;
-  landedCost: number;
-  expectedArrival?: string;
-  status: "pending" | "shipped" | "partial" | "received";
-}) => {
-  return prisma.order.create({ data });
+export const createOrder = (data: any) => {
+  // Destructure 'notes' out and collect everything else into 'rest'
+  const { notes, ...rest } = data;
+
+  return prisma.order.create({ 
+    data: {
+      name: rest.name,
+      code: rest.code,
+      type: rest.type,
+      supplierName: rest.supplierName,
+      quantityOrdered: Number(rest.quantityOrdered),
+      landedCost: Number(rest.landedCost),
+      priceKsh: Number(rest.priceKsh || 0),
+      priceUsd: Number(rest.priceUsd || 0),
+      status: rest.status || "pending",
+      // Map any other optional fields explicitly
+      supplierEmail: rest.supplierEmail,
+      supplierPhone: rest.supplierPhone,
+      expectedArrival: rest.expectedArrival ? new Date(rest.expectedArrival) : undefined,
+    }
+  });
 };
 
 // Get all orders
@@ -34,6 +41,7 @@ export const getOrderById = (id: number) => {
 export const updateOrder = (
   id: number,
   data: {
+    code?: string; // Added for uniformity
     supplierName?: string;
     supplierEmail?: string;
     supplierPhone?: string;
@@ -50,7 +58,11 @@ export const updateOrder = (
 ) => {
   return prisma.order.update({
     where: { id },
-    data,
+    data: {
+      ...data,
+      expectedArrival: data.expectedArrival ? new Date(data.expectedArrival) : undefined,
+      receivedDate: data.receivedDate ? new Date(data.receivedDate) : undefined,
+    },
   });
 };
 

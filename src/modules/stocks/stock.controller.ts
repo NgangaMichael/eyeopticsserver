@@ -14,7 +14,7 @@ export const createStock = async (req: Request, res: Response, next: NextFunctio
 
 export const getStocks = async (req: Request, res: Response, next: NextFunction) => {
   try {
-    const stocks = await service.getAllStocks();
+    const stocks = await service.getAllStock();
     res.json(stocks);
   } catch (err) {
     next(err);
