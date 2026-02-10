@@ -5,8 +5,12 @@ export const createOrderSchema = z.object({
     name: z.string().min(1, "Item name is required"), // Added
     code: z.string().min(1, "Code is required"),     // Added
     type: z.string().min(1, "Type is required"),     // Added
+
+    sph: z.number().optional(),
+    cyl: z.number().optional(),
+
     supplierName: z.string().min(2),
-    quantityOrdered: z.number().int().positive(),
+    quantityOrdered: z.number().positive(),
     landedCost: z.number().positive(),
     priceKsh: z.number().nonnegative().optional(),   // Added
     priceUsd: z.number().nonnegative().optional(),   // Added

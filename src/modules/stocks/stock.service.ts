@@ -7,8 +7,10 @@ export const createStock = (data: any) => {
       name: data.name,
       code: data.code,
       type: data.type,
-      qty: data.qty, // Changed from 'quantity'
-      priceUsd: data.priceUsd, // Changed from 'price'
+      qty: data.qty,
+      sph: data.sph ?? null,   // e.g., -2.25
+      cyl: data.cyl ?? null,
+      priceUsd: data.priceUsd,
       priceKsh: data.priceKsh,
       appPrice: data.appPrice,
       costUsd: data.costUsd,

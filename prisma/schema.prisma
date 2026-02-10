@@ -37,11 +37,17 @@ model order {
   supplierName     String
   supplierEmail    String?
   supplierPhone    String?
-  quantityOrdered  Int
-  quantityReceived Int       @default(0)
-  landedCost       Float     // Maps to stock.costKsh
-  priceKsh         Float     @default(0) // Maps to stock.priceKsh
-  priceUsd         Float     @default(0) // Maps to stock.priceUsd
+  
+  quantityOrdered  Decimal   @db.Decimal(10, 2)
+  quantityReceived Decimal   @default(0) @db.Decimal(10, 2)
+
+  landedCost       Decimal   @db.Decimal(10, 2) 
+  priceKsh         Decimal   @default(0) @db.Decimal(10, 2)
+  priceUsd         Decimal   @default(0) @db.Decimal(10, 2)
+
+  sph              Decimal?  @db.Decimal(4, 2) 
+  cyl              Decimal?  @db.Decimal(4, 2)
+
   orderDate        DateTime  @default(now())
   expectedArrival  DateTime?
   receivedDate     DateTime?
@@ -61,15 +67,24 @@ model patient {
   address   String?
   createdAt DateTime  @default(now())
   updatedAt DateTime  @updatedAt  // Added @updatedAt
+  jobcards  jobcard[]
+  sales      sale[]
 }
 
 model sale {
   id         Int        @id @default(autoincrement())
-  customerId Int
+  
+  //customerId optional (?)
+  customerId Int?       
+  customer   customer?  @relation(fields: [customerId], references: [id], map: "Sale_customerId_fkey")
+  
+  // Add optional patient relation
+  patientId  Int?       
+  patient    patient?   @relation(fields: [patientId], references: [id])
+
   total      Float
   createdAt  DateTime   @default(now())
   updatedAt  DateTime   @updatedAt  // Added @updatedAt
-  customer   customer   @relation(fields: [customerId], references: [id], map: "Sale_customerId_fkey")
   saleitem   saleitem[]
 
   @@index([customerId], map: "Sale_customerId_fkey")
@@ -79,7 +94,7 @@ model saleitem {
   id       Int   @id @default(autoincrement())
   saleId   Int
   stockId  Int
-  quantity Int
+  quantity Decimal @db.Decimal(10, 2) // Changed from Int to Decimal
   price    Float
   sale     sale  @relation(fields: [saleId], references: [id], map: "SaleItem_saleId_fkey")
   stock    stock @relation(fields: [stockId], references: [id], map: "SaleItem_stockId_fkey")
@@ -107,8 +122,13 @@ model stock {
   priceKsh      Decimal    @db.Decimal(10, 2)
   priceUsd      Decimal    @db.Decimal(10, 2)
   profitPerBale Decimal?   @db.Decimal(10, 2)
-  qty           Int
+  qty           Decimal    @default(0) @db.Decimal(10, 2)
   supplier      String?
+
+  // Lens Specific Fields (Optional for Frames)
+  sph           Decimal?   @db.Decimal(4, 2) 
+  cyl           Decimal?   @db.Decimal(4, 2)
+  
   isDeleted Boolean  @default(false)
   saleitem      saleitem[]
 }
@@ -132,4 +152,50 @@ model user {
   createdAt   DateTime @default(now())
   updatedAt   DateTime @updatedAt  // Added @updatedAt
   phone       String?
+}
+
+model jobcard {
+  id               Int      @id @default(autoincrement())
+  jobCardNumber    String   @unique // The red number "1419"
+  patientId        Int
+  patient          patient  @relation(fields: [patientId], references: [id])
+  insuranceCompany String?
+  date             DateTime @default(now())
+  
+  // Right Eye (OD)
+  rSph             Decimal? @db.Decimal(4, 2)
+  rCyl             Decimal? @db.Decimal(4, 2)
+  rAxis            Int?
+  rPrism           String?
+  rBase            String?
+
+  // Left Eye (OS)
+  lSph             Decimal? @db.Decimal(4, 2)
+  lCyl             Decimal? @db.Decimal(4, 2)
+  lAxis            Int?
+  lPrism           String?
+  lBase            String?
+
+  nearAdd          String?
+  distPd           String?
+  nearPd           String?
+  heights          String?
+  lenses           String?
+  lensQty          Decimal? @default(1.0) @db.Decimal(4, 2)
+  frame            String?
+  frameQty         Int?     @default(1)
+
+  frameStockId     Int?
+  lensStockId      Int?
+
+  // Financials
+  total            Decimal  @default(0) @db.Decimal(10, 2)
+  advance          Decimal  @default(0) @db.Decimal(10, 2)
+  balance          Decimal  @default(0) @db.Decimal(10, 2)
+  jobDelDate       DateTime?
+
+  createdAt        DateTime @default(now())
+  updatedAt        DateTime @updatedAt
+
+  @@index([patientId])
 }

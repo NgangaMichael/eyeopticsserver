@@ -6,12 +6,21 @@ import { CLIENT_URL, NODE_ENV } from "./config/env";
 const app = express();
 
 /* ---------------- CORS ---------------- */
+// app.use(
+//   cors({
+//     origin:
+//       NODE_ENV === "development"
+//         ? "http://localhost:5173"
+//         : CLIENT_URL,
+//     credentials: true,
+//     methods: ["GET", "POST", "PUT", "PATCH", "DELETE", "OPTIONS"],
+//     allowedHeaders: ["Content-Type", "Authorization"],
+//   })
+// );
+
 app.use(
   cors({
-    origin:
-      NODE_ENV === "development"
-        ? "http://localhost:5173"
-        : CLIENT_URL,
+    origin: CLIENT_URL,
     credentials: true,
     methods: ["GET", "POST", "PUT", "PATCH", "DELETE", "OPTIONS"],
     allowedHeaders: ["Content-Type", "Authorization"],

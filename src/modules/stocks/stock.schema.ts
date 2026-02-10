@@ -4,9 +4,13 @@ export const createStockSchema = z.object({
   body: z.object({
     name: z.string().min(2),
     code: z.string().min(2),
-    type: z.string().min(2),
+    type: z.enum(["FRAME", "LENS"]), // Enforce type
 
-    qty: z.number().int().nonnegative(),
+    qty: z.number().nonnegative(),
+
+    // Lens specific fields
+    sph: z.number().optional(),
+    cyl: z.number().optional(),
 
     priceUsd: z.number().positive(),
     priceKsh: z.number().positive(),

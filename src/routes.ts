@@ -6,6 +6,7 @@ import patientRoutes from "./modules/patients/patient.routes";
 import orderRoutes from "./modules/orders/order.routes";
 import salesRoutes from "./modules/sales/sale.routes";
 import customerRoutes from "./modules/customer/customer.routes";
+import jobcardRoutes from "./modules/jobcard/jobcard.routes";
 import supplierRoutes from "./modules/supplier/supplier.routes";
 import authRoutes from "./modules/auth/auth.routes";
 
@@ -26,5 +27,6 @@ router.use("/orders", orderRoutes);
 router.use("/sales", salesRoutes);
 router.use("/customers", customerRoutes);
 router.use("/suppliers", supplierRoutes);
+router.use("/jobcards", jobcardRoutes);
 
 export default router;

@@ -9,6 +9,10 @@ export const createOrder = (data: any) => {
       name: rest.name,
       code: rest.code,
       type: rest.type,
+
+      sph: rest.sph ? Number(rest.sph) : null,
+      cyl: rest.cyl ? Number(rest.cyl) : null,
+      
       supplierName: rest.supplierName,
       quantityOrdered: Number(rest.quantityOrdered),
       landedCost: Number(rest.landedCost),

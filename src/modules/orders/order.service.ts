@@ -38,7 +38,6 @@ export const receiveOrder = async (id: number) => {
     const existingStock = await tx.stock.findUnique({ where: { code: order.code } });
 
     if (existingStock) {
-      // UPDATE existing stock
       await tx.stock.update({
         where: { id: existingStock.id },
         data: { 
@@ -49,25 +48,16 @@ export const receiveOrder = async (id: number) => {
         }
       });
     } else {
-      // CREATE NEW stock with Auto-Code logic
-      let finalCode = order.code;
-      
-      if (!finalCode || finalCode === "AUTO") {
-        const lastStock = await tx.stock.findFirst({
-          where: { code: { startsWith: 'PEO' } },
-          orderBy: { code: 'desc' }
-        });
-        
-        const lastNum = lastStock ? parseInt(lastStock.code.replace('PEO', '')) : 0;
-        finalCode = `PEO${String(lastNum + 1).padStart(4, '0')}`;
-      }
-
+      // Logic for new stock (Lenses or Frames)
       await tx.stock.create({
         data: {
-          code: finalCode,
+          code: order.code,
           name: order.name,
           type: order.type,
           qty: order.quantityOrdered,
+          // PASS THE POWERS HERE:
+          sph: order.sph, 
+          cyl: order.cyl,
           priceUsd: order.priceUsd,
           priceKsh: order.priceKsh,
           costKsh: order.landedCost,

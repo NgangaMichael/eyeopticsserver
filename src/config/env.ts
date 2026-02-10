@@ -2,17 +2,18 @@ import dotenv from "dotenv";
 
 dotenv.config();
 
-// Build DATABASE_URL dynamically from individual variables
-export const DATABASE_URL =
-  process.env.DATABASE_URL ||
-  `mysql://${process.env.DB_USERNAME}:${process.env.DB_PASSWORD}@${process.env.DB_HOST}:${process.env.DB_PORT}/${process.env.DB_NAME}`;
+function required(name: string): string {
+  const value = process.env[name];
+  if (!value) throw new Error(`Missing env variable: ${name}`);
+  return value;
+}
 
-export const PORT = process.env.API_PORT || 5000;
-export const JWT_SECRET = process.env.JWT_SECRET!;
-
-export const CLIENT_URL = process.env.CLIENT_URL!;
+export const PORT = Number(required("API_PORT"));
+export const CLIENT_URL = required("CLIENT_URL");
 export const NODE_ENV = process.env.NODE_ENV || "development";
+export const DATABASE_URL = required("DATABASE_URL");
+export const JWT_SECRET = required("JWT_SECRET");
 
-export const EMAIL_USER = process.env.EMAIL_USER!;
-export const EMAIL_PASS = process.env.EMAIL_PASS!;
-export const SMTP_HOST = process.env.SMTP_HOST!;
+export const EMAIL_USER = required("EMAIL_USER");
+export const EMAIL_PASS = required("EMAIL_PASS");
+export const SMTP_HOST = required("SMTP_HOST");

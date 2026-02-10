@@ -6,7 +6,7 @@ export const createSaleSchema = z.object({
     items: z.array(
       z.object({
         stockId: z.number().int().positive(),
-        quantity: z.number().int().positive(),
+        quantity: z.number().positive(),
         price: z.number().positive(),
       })
     ).min(1),
@@ -21,7 +21,7 @@ export const updateSaleSchema = z.object({
     items: z.array(
       z.object({
         stockId: z.number().int().positive(),
-        quantity: z.number().int().positive(),
+        quantity: z.number().positive(),
         price: z.number().positive(),
       })
     ).min(1),
