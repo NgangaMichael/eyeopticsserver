@@ -2,18 +2,22 @@ import { z } from "zod";
 
 export const createOrderSchema = z.object({
   body: z.object({
-    name: z.string().min(1, "Item name is required"), // Added
-    code: z.string().min(1, "Code is required"),     // Added
-    type: z.string().min(1, "Type is required"),     // Added
+    name: z.string().min(1, "Item name is required"),
+    code: z.string().min(1, "Code is required"),  
+    type: z.string().min(1, "Type is required"),    
 
     sph: z.number().optional(),
     cyl: z.number().optional(),
+    axis: z.number().int().min(0).max(180).optional(),
+    nearAdd: z.number().optional(),                   
+    
+    lensCategory: z.enum(["Stock", "Custom"]).optional(),
 
     supplierName: z.string().min(2),
     quantityOrdered: z.number().positive(),
     landedCost: z.number().positive(),
-    priceKsh: z.number().nonnegative().optional(),   // Added
-    priceUsd: z.number().nonnegative().optional(),   // Added
+    priceKsh: z.number().nonnegative().optional(),
+    priceUsd: z.number().nonnegative().optional(),
     status: z.enum(["pending", "shipped", "partial", "received"]).optional(),
     expectedArrival: z.string().optional(),
   }),

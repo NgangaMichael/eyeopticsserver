@@ -9,12 +9,16 @@ export const createJobCard = (data: any) => {
       
       patientId: Number(data.patientId),
       total: Number(data.total),
+      discount: Number(data.discount),
       advance: Number(data.advance),
       balance: Number(data.balance),
+      consultation: Number(data.consultation || 0),
       
       // Handle new quantities
       lensQty: data.lensQty ? Number(data.lensQty) : 1.0,
+      lensPrice: data.lensPrice ? Number(data.lensPrice) : 0,
       frameQty: data.frameQty ? Number(data.frameQty) : 1,
+      framePrice: data.framePrice ? Number(data.framePrice) : 0,
       
       // Axis needs to be Int
       rAxis: data.rAxis ? Number(data.rAxis) : null,

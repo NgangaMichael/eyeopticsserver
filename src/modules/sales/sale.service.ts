@@ -1,37 +1,48 @@
 import * as repo from "./sale.repository";
+// src/modules/sales/sale.service.ts
 import prisma from "../../lib/prisma";
 
-// Add this to your sale.repository.ts or service
 export const createSale = async (data: any) => {
   return await prisma.$transaction(async (tx) => {
-    // 1. Create the Sale record
+    
+    // 1. Calculate the subtotal from the items array
+    const subtotal = data.items.reduce((acc: number, item: any) => {
+      return acc + (Number(item.price) * Number(item.quantity));
+    }, 0);
+
+    // 2. Calculate final total (Subtotal - Discount)
+    const discountAmount = Number(data.discount) || 0;
+    const finalTotal = subtotal - discountAmount;
+
+    // 3. Create the Sale record
     const sale = await tx.sale.create({
       data: {
-        customerId: data.customerId,
-        total: data.total,
+        customerId: data.customerId ? Number(data.customerId) : null,
+        total: finalTotal,       // This satisfies the Prisma requirement
+        discount: discountAmount,
         saleitem: {
           create: data.items.map((item: any) => ({
-            stockId: item.stockId,
-            quantity: item.quantity, // This will be 0.50 or 1.00
-            price: item.price,
+            stockId: Number(item.stockId),
+            quantity: Number(item.quantity),
+            price: Number(item.price),
           })),
         },
       },
     });
 
-    // 2. Loop through items and REDUCE the stock
+    // 4. Reduce stock
     for (const item of data.items) {
       await tx.stock.update({
-        where: { id: item.stockId },
+        where: { id: Number(item.stockId) },
         data: {
-          qty: { decrement: item.quantity },
+          qty: { decrement: Number(item.quantity) },
         },
       });
     }
 
     return sale;
   });
-};
+};  
 
 export const getAllSales = async () => {
   return repo.getAllSales();

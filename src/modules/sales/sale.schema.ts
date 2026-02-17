@@ -2,7 +2,8 @@ import { z } from "zod";
 
 export const createSaleSchema = z.object({
   body: z.object({
-    patientId: z.number().int().positive(),
+    customerId: z.coerce.number().int().positive(),
+    discount: z.number().nonnegative().optional(),
     items: z.array(
       z.object({
         stockId: z.number().int().positive(),

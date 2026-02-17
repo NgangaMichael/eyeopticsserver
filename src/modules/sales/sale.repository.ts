@@ -1,51 +1,45 @@
+// src/modules/sales/sale.repository.ts
 import prisma from "../../lib/prisma";
 
-export const createSale = async (data: {
-  customerId: number;
-  total: number;
-  items: {
-    stockId: number;
-    quantity: number;
-    price: number;
-  }[];
-}) => {
-  return prisma.$transaction(async (tx) => {
-    // 1. Create the Sale and the related saleitems
-    const newSale = await tx.sale.create({
+export const createSale = async (data: any) => {
+  return await prisma.$transaction(async (tx) => {
+    // 1. Calculate the subtotal from items
+    const subtotal = data.items.reduce((acc: number, item: any) => 
+      acc + (Number(item.price) * Number(item.quantity)), 0
+    );
+    
+    // 2. Final total is subtotal minus the discount
+    const discountAmount = Number(data.discount) || 0;
+    const finalTotal = subtotal - discountAmount;
+
+    const sale = await tx.sale.create({
       data: {
-        customerId: data.customerId,
-        total: data.total,
-        saleitem: { // Matches the schema field name
-          create: data.items.map((item) => ({
-            stockId: item.stockId,
-            quantity: item.quantity,
-            price: item.price,
+        customerId: data.customerId ? Number(data.customerId) : null,
+        total: finalTotal,
+        discount: discountAmount,
+        saleitem: {
+          create: data.items.map((item: any) => ({
+            stockId: Number(item.stockId),
+            quantity: Number(item.quantity),
+            price: Number(item.price),
           })),
-        },
-      },
-      include: {
-        customer: true,
-        saleitem: { // Matches the schema field name
-          include: {
-            stock: true,
-          },
         },
       },
     });
 
-    // 2. Decrement Stock qty
+    // 3. Decrement Stock qty
     for (const item of data.items) {
       await tx.stock.update({
-        where: { id: item.stockId },
+        where: { id: Number(item.stockId) },
         data: {
           qty: {
-            decrement: item.quantity,
+            decrement: Number(item.quantity),
           },
         },
       });
     }
 
-    return newSale;
+    return sale;
   });
 };
 

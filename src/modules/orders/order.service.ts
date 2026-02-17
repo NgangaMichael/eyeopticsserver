@@ -44,7 +44,11 @@ export const receiveOrder = async (id: number) => {
           qty: { increment: order.quantityOrdered },
           costKsh: order.landedCost,
           priceKsh: order.priceKsh,
-          priceUsd: order.priceUsd
+          priceUsd: order.priceUsd,
+          sph: order.sph,
+          cyl: order.cyl,
+          axis: order.axis,
+          nearAdd: order.nearAdd
         }
       });
     } else {
@@ -58,6 +62,9 @@ export const receiveOrder = async (id: number) => {
           // PASS THE POWERS HERE:
           sph: order.sph, 
           cyl: order.cyl,
+          axis: order.axis,      
+          nearAdd: order.nearAdd,
+          lensCategory: order.lensCategory,
           priceUsd: order.priceUsd,
           priceKsh: order.priceKsh,
           costKsh: order.landedCost,

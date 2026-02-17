@@ -1,4 +1,5 @@
 import prisma from "../../lib/prisma";
+import { nanoid } from 'nanoid';
 
 export const createOrder = (data: any) => {
   // Destructure 'notes' out and collect everything else into 'rest'
@@ -7,11 +8,15 @@ export const createOrder = (data: any) => {
   return prisma.order.create({ 
     data: {
       name: rest.name,
-      code: rest.code,
+      // code: rest.code,
+      code:`ORD-${nanoid(10)}`,
       type: rest.type,
+      lensCategory: rest.lensCategory,
 
       sph: rest.sph ? Number(rest.sph) : null,
       cyl: rest.cyl ? Number(rest.cyl) : null,
+      axis: rest.axis ? Number(rest.axis) : null, 
+      nearAdd: rest.nearAdd ? Number(rest.nearAdd) : null,
       
       supplierName: rest.supplierName,
       quantityOrdered: Number(rest.quantityOrdered),

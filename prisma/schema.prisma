@@ -47,6 +47,10 @@ model order {
 
   sph              Decimal?  @db.Decimal(4, 2) 
   cyl              Decimal?  @db.Decimal(4, 2)
+  axis             Int?      // Added: Axis is usually 0-180
+  nearAdd          Decimal?  @db.Decimal(4, 2)
+  
+  lensCategory     String?   // Added: "Stock" or "Custom"
 
   orderDate        DateTime  @default(now())
   expectedArrival  DateTime?
@@ -83,8 +87,9 @@ model sale {
   patient    patient?   @relation(fields: [patientId], references: [id])
 
   total      Float
+  discount   Float      @default(0)
   createdAt  DateTime   @default(now())
-  updatedAt  DateTime   @updatedAt  // Added @updatedAt
+  updatedAt  DateTime   @updatedAt
   saleitem   saleitem[]
 
   @@index([customerId], map: "Sale_customerId_fkey")
@@ -128,6 +133,9 @@ model stock {
   // Lens Specific Fields (Optional for Frames)
   sph           Decimal?   @db.Decimal(4, 2) 
   cyl           Decimal?   @db.Decimal(4, 2)
+  axis         Int?     // For lenses
+  nearAdd      Decimal? @db.Decimal(4, 2) // For lenses
+  lensCategory String?  // "Stock" or "Custom"
   
   isDeleted Boolean  @default(false)
   saleitem      saleitem[]
@@ -160,6 +168,7 @@ model jobcard {
   patientId        Int
   patient          patient  @relation(fields: [patientId], references: [id])
   insuranceCompany String?
+  notes            String?
   date             DateTime @default(now())
   
   // Right Eye (OD)
@@ -182,14 +191,18 @@ model jobcard {
   heights          String?
   lenses           String?
   lensQty          Decimal? @default(1.0) @db.Decimal(4, 2)
+  lensPrice        Decimal? @default(0) @db.Decimal(10, 2)
   frame            String?
   frameQty         Int?     @default(1)
+  framePrice       Decimal? @default(0) @db.Decimal(10, 2)
 
   frameStockId     Int?
   lensStockId      Int?
 
   // Financials
   total            Decimal  @default(0) @db.Decimal(10, 2)
+  consultation     Decimal  @default(0) @db.Decimal(10, 2)
+  discount         Decimal  @default(0) @db.Decimal(10, 2)
   advance          Decimal  @default(0) @db.Decimal(10, 2)
   balance          Decimal  @default(0) @db.Decimal(10, 2)
   jobDelDate       DateTime?
