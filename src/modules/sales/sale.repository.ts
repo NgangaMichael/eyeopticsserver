@@ -15,6 +15,7 @@ export const createSale = async (data: any) => {
     const sale = await tx.sale.create({
       data: {
         customerId: data.customerId ? Number(data.customerId) : null,
+        referenceNumber: data.referenceNumber,
         total: finalTotal,
         discount: discountAmount,
         saleitem: {
@@ -48,7 +49,8 @@ export const getAllSales = () => {
     orderBy: { createdAt: "desc" },
     include: {
       customer: true,
-      saleitem: { // Corrected field name
+      patient: true,
+      saleitem: {
         include: {
           stock: true,
         },

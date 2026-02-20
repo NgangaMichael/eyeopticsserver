@@ -1,5 +1,6 @@
 generator client {
-  provider = "prisma-client-js"
+  provider      = "prisma-client-js"
+  binaryTargets = ["native", "windows", "debian-openssl-1.0.x", "debian-openssl-3.0.x", "linux-musl-openssl-3.0.x", "rhel-openssl-3.0.x"]
 }
 
 datasource db {
@@ -31,9 +32,10 @@ model expense {
 
 model order {
   id               Int       @id @default(autoincrement())
-  code             String    // Will be "AUTO" or an existing code
-  name             String    // Required to create/update stock
-  type             String    // Required to create/update stock
+  code             String 
+  name             String 
+  type             String 
+  index            String?
   supplierName     String
   supplierEmail    String?
   supplierPhone    String?
@@ -47,10 +49,10 @@ model order {
 
   sph              Decimal?  @db.Decimal(4, 2) 
   cyl              Decimal?  @db.Decimal(4, 2)
-  axis             Int?      // Added: Axis is usually 0-180
+  axis             Int? 
   nearAdd          Decimal?  @db.Decimal(4, 2)
   
-  lensCategory     String?   // Added: "Stock" or "Custom"
+  lensCategory     String?
 
   orderDate        DateTime  @default(now())
   expectedArrival  DateTime?
@@ -78,13 +80,12 @@ model patient {
 model sale {
   id         Int        @id @default(autoincrement())
   
-  //customerId optional (?)
   customerId Int?       
   customer   customer?  @relation(fields: [customerId], references: [id], map: "Sale_customerId_fkey")
   
-  // Add optional patient relation
   patientId  Int?       
   patient    patient?   @relation(fields: [patientId], references: [id])
+  referenceNumber String?    @unique
 
   total      Float
   discount   Float      @default(0)
@@ -130,6 +131,9 @@ model stock {
   qty           Decimal    @default(0) @db.Decimal(10, 2)
   supplier      String?
 
+  index          String?
+  wholesalePrice Decimal?   @db.Decimal(10, 2)
+
   // Lens Specific Fields (Optional for Frames)
   sph           Decimal?   @db.Decimal(4, 2) 
   cyl           Decimal?   @db.Decimal(4, 2)
@@ -164,7 +168,7 @@ model user {
 
 model jobcard {
   id               Int      @id @default(autoincrement())
-  jobCardNumber    String   @unique // The red number "1419"
+  jobCardNumber    String   @unique
   patientId        Int
   patient          patient  @relation(fields: [patientId], references: [id])
   insuranceCompany String?
@@ -177,6 +181,9 @@ model jobcard {
   rAxis            Int?
   rPrism           String?
   rBase            String?
+  rLens            String?  
+  rLensStockId     Int?     
+  rLensPrice       Decimal? @default(0) @db.Decimal(10, 2)
 
   // Left Eye (OS)
   lSph             Decimal? @db.Decimal(4, 2)
@@ -184,20 +191,21 @@ model jobcard {
   lAxis            Int?
   lPrism           String?
   lBase            String?
+  lLens            String?  
+  lLensStockId     Int?     
+  lLensPrice       Decimal? @default(0) @db.Decimal(10, 2)
 
+  // Shared Specs
   nearAdd          String?
   distPd           String?
   nearPd           String?
   heights          String?
-  lenses           String?
-  lensQty          Decimal? @default(1.0) @db.Decimal(4, 2)
-  lensPrice        Decimal? @default(0) @db.Decimal(10, 2)
+
+  // Frames
   frame            String?
   frameQty         Int?     @default(1)
   framePrice       Decimal? @default(0) @db.Decimal(10, 2)
-
   frameStockId     Int?
-  lensStockId      Int?
 
   // Financials
   total            Decimal  @default(0) @db.Decimal(10, 2)

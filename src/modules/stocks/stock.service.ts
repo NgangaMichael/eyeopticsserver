@@ -1,6 +1,6 @@
+// src/modules/stocks/stock.service.ts
 import prisma from "../../lib/prisma";
 
-// Use the fields that actually exist in your Prisma Model
 export const createStock = (data: any) => {
   return prisma.stock.create({
     data: {
@@ -8,30 +8,31 @@ export const createStock = (data: any) => {
       code: data.code,
       type: data.type,
       qty: data.qty,
-      sph: data.sph ?? null,   // e.g., -2.25
-      cyl: data.cyl ?? null,
       priceUsd: data.priceUsd,
       priceKsh: data.priceKsh,
-      appPrice: data.appPrice,
-      costUsd: data.costUsd,
-      costKsh: data.costKsh,
-      prevCostPb: data.prevCostPb,
-      profitPerBale: data.profitPerBale,
-      bought: data.bought ? new Date(data.bought) : undefined,
-      etr: data.etr ? new Date(data.etr) : undefined,
-      fob: data.fob,
-      loading: data.loading,
-      supplier: data.supplier,
-      notes: data.notes,
+      // Optional fields with null-coalescing
+      sph: data.sph ?? null,
+      cyl: data.cyl ?? null,
+      appPrice: data.appPrice ?? null,
+      costUsd: data.costUsd ?? null,
+      costKsh: data.costKsh ?? null,
+      prevCostPb: data.prevCostPb ?? null,
+      profitPerBale: data.profitPerBale ?? null,
+      fob: data.fob ?? null,
+      loading: data.loading ?? null,
+      supplier: data.supplier ?? null,
+      notes: data.notes ?? null,
+      // Date conversions
+      bought: data.bought ? new Date(data.bought) : null,
+      etr: data.etr ? new Date(data.etr) : null,
     },
   });
 };
 
 export const getAllStock = () => {
   return prisma.stock.findMany({
-    where: {
-      isDeleted: false, // Only get active stock
-    },
+    where: { isDeleted: false },
+    orderBy: { createdAt: "desc" }
   });
 };
 
@@ -40,17 +41,20 @@ export const getStockById = (id: number) => {
 };
 
 export const updateStock = (id: number, data: any) => {
+  // Create a copy to avoid mutating the original
+  const updateData = { ...data };
+  
+  if (updateData.bought) updateData.bought = new Date(updateData.bought);
+  if (updateData.etr) updateData.etr = new Date(updateData.etr);
+
   return prisma.stock.update({
     where: { id },
-    data: {
-      ...data,
-      bought: data.bought ? new Date(data.bought) : undefined,
-      etr: data.etr ? new Date(data.etr) : undefined,
-    },
+    data: updateData,
   });
 };
 
 export const deleteStock = (id: number) => {
+  // Soft delete as per your requirement
   return prisma.stock.update({
     where: { id },
     data: { isDeleted: true },

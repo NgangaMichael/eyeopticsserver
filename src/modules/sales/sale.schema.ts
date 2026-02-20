@@ -1,8 +1,9 @@
 import { z } from "zod";
-
+// src/modules/sales/sale.schema.ts
 export const createSaleSchema = z.object({
   body: z.object({
-    customerId: z.coerce.number().int().positive(),
+    customerId: z.coerce.number().int().positive().optional(),
+    referenceNumber: z.string().min(1), // Add this line
     discount: z.number().nonnegative().optional(),
     items: z.array(
       z.object({

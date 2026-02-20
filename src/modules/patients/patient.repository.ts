@@ -1,34 +1,42 @@
+// src/modules/patients/patient.repository.ts
 import prisma from "../../lib/prisma";
 
-export const createpatient = (data: {
-  patientname: string;
-  email: string;
-  designation?: string;
-  password?: string;
+export const createPatient = (data: {
+  firstName: string;
+  lastName: string;
+  email?: string;
+  phone: string;
+  dob?: string;       // Will be converted to Date if needed
+  gender?: string;
+  address?: string;
 }) => {
-  return prisma.patient.create({ data });
+  return prisma.patient.create({ 
+    data: {
+      ...data,
+      // If your schema expects a Date object for dob:
+      dob: data.dob ? new Date(data.dob) : null 
+    } 
+  });
 };
 
-export const getAllpatients = () => {
+export const getAllPatients = () => {
   return prisma.patient.findMany({ orderBy: { createdAt: "desc" } });
 };
 
-export const getpatientById = (id: number) => {
+export const getPatientById = (id: number) => {
   return prisma.patient.findUnique({ where: { id } });
 };
 
-export const updatepatient = (
-  id: number,
-  data: {
-    patientname: string;
-    email: string;
-    designation?: string;
-    password?: string;
-  }
-) => {
-  return prisma.patient.update({ where: { id }, data });
+export const updatePatient = (id: number, data: any) => {
+  return prisma.patient.update({ 
+    where: { id }, 
+    data: {
+      ...data,
+      dob: data.dob ? new Date(data.dob) : undefined
+    } 
+  });
 };
 
-export const deletepatient = (id: number) => {
+export const deletePatient = (id: number) => {
   return prisma.patient.delete({ where: { id } });
 };

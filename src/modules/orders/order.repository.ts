@@ -9,6 +9,7 @@ export const createOrder = (data: any) => {
     data: {
       name: rest.name,
       // code: rest.code,
+      index: rest.index,
       code:`ORD-${nanoid(10)}`,
       type: rest.type,
       lensCategory: rest.lensCategory,

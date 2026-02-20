@@ -12,6 +12,7 @@ export const createOrderSchema = z.object({
     nearAdd: z.number().optional(),                   
     
     lensCategory: z.enum(["Stock", "Custom"]).optional(),
+    index: z.string().optional(),
 
     supplierName: z.string().min(2),
     quantityOrdered: z.number().positive(),
