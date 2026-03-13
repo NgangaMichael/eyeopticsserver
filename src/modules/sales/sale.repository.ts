@@ -3,12 +3,10 @@ import prisma from "../../lib/prisma";
 
 export const createSale = async (data: any) => {
   return await prisma.$transaction(async (tx) => {
-    // 1. Calculate the subtotal from items
     const subtotal = data.items.reduce((acc: number, item: any) => 
       acc + (Number(item.price) * Number(item.quantity)), 0
     );
     
-    // 2. Final total is subtotal minus the discount
     const discountAmount = Number(data.discount) || 0;
     const finalTotal = subtotal - discountAmount;
 
@@ -16,6 +14,8 @@ export const createSale = async (data: any) => {
       data: {
         customerId: data.customerId ? Number(data.customerId) : null,
         referenceNumber: data.referenceNumber,
+        etimsReceipt: data.etimsReceipt || null, // Added
+        etimsAmount: data.etimsAmount || null,   // Added
         total: finalTotal,
         discount: discountAmount,
         saleitem: {
@@ -28,19 +28,25 @@ export const createSale = async (data: any) => {
       },
     });
 
-    // 3. Decrement Stock qty
     for (const item of data.items) {
       await tx.stock.update({
         where: { id: Number(item.stockId) },
-        data: {
-          qty: {
-            decrement: Number(item.quantity),
-          },
-        },
+        data: { qty: { decrement: Number(item.quantity) } },
       });
     }
 
     return sale;
+  });
+};
+
+// New Update function
+export const updateSale = async (id: number, data: any) => {
+  return await prisma.sale.update({
+    where: { id },
+    data: {
+      etimsReceipt: data.etimsReceipt,
+      etimsAmount: data.etimsAmount,
+    },
   });
 };
 

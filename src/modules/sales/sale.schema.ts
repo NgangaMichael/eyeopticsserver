@@ -3,8 +3,10 @@ import { z } from "zod";
 export const createSaleSchema = z.object({
   body: z.object({
     customerId: z.coerce.number().int().positive().optional(),
-    referenceNumber: z.string().min(1), // Add this line
+    referenceNumber: z.string().min(1),
     discount: z.number().nonnegative().optional(),
+    etimsReceipt: z.string().optional(), // Added
+    etimsAmount: z.number().nonnegative().optional(), // Added
     items: z.array(
       z.object({
         stockId: z.number().int().positive(),
@@ -15,17 +17,12 @@ export const createSaleSchema = z.object({
   }),
 });
 
-export const updateSaleSchema = z.object({
+export const updateEtimsSchema = z.object({
   params: z.object({
     id: z.coerce.number().int().positive(),
   }),
   body: z.object({
-    items: z.array(
-      z.object({
-        stockId: z.number().int().positive(),
-        quantity: z.number().positive(),
-        price: z.number().positive(),
-      })
-    ).min(1),
+    etimsReceipt: z.string().optional(),
+    etimsAmount: z.number().nonnegative().optional(),
   }),
 });

@@ -13,6 +13,7 @@ const createOrder = (data) => {
         data: {
             name: rest.name,
             // code: rest.code,
+            index: rest.index,
             code: `ORD-${(0, nanoid_1.nanoid)(10)}`,
             type: rest.type,
             lensCategory: rest.lensCategory,

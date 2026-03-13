@@ -1,6 +1,12 @@
+// generator client {
+//   provider      = "prisma-client-js"
+//   binaryTargets = ["native", "windows", "debian-openssl-1.0.x", "debian-openssl-3.0.x", "linux-musl-openssl-3.0.x", "rhel-openssl-3.0.x"]
+// }
+
 generator client {
   provider      = "prisma-client-js"
-  binaryTargets = ["native", "windows", "debian-openssl-1.0.x", "debian-openssl-3.0.x", "linux-musl-openssl-3.0.x", "rhel-openssl-3.0.x"]
+  output        = "../generated/client"
+  binaryTargets = ["native", "debian-openssl-1.0.x", "debian-openssl-1.1.x", "debian-openssl-3.0.x", "linux-musl", "rhel-openssl-1.0.x", "rhel-openssl-1.1.x", "rhel-openssl-3.0.x"]
 }
 
 datasource db {
@@ -30,38 +36,6 @@ model expense {
   updatedAt DateTime @updatedAt  // Added @updatedAt
 }
 
-model order {
-  id               Int       @id @default(autoincrement())
-  code             String 
-  name             String 
-  type             String 
-  index            String?
-  supplierName     String
-  supplierEmail    String?
-  supplierPhone    String?
-  
-  quantityOrdered  Decimal   @db.Decimal(10, 2)
-  quantityReceived Decimal   @default(0) @db.Decimal(10, 2)
-
-  landedCost       Decimal   @db.Decimal(10, 2) 
-  priceKsh         Decimal   @default(0) @db.Decimal(10, 2)
-  priceUsd         Decimal   @default(0) @db.Decimal(10, 2)
-
-  sph              Decimal?  @db.Decimal(4, 2) 
-  cyl              Decimal?  @db.Decimal(4, 2)
-  axis             Int? 
-  nearAdd          Decimal?  @db.Decimal(4, 2)
-  
-  lensCategory     String?
-
-  orderDate        DateTime  @default(now())
-  expectedArrival  DateTime?
-  receivedDate     DateTime?
-  status           String    @default("pending") 
-  createdAt        DateTime  @default(now())
-  updatedAt        DateTime  @updatedAt
-}
-
 model patient {
   id        Int       @id @default(autoincrement())
   firstName String
@@ -78,32 +52,73 @@ model patient {
 }
 
 model sale {
-  id         Int        @id @default(autoincrement())
+  id              Int        @id @default(autoincrement())
   
-  customerId Int?       
-  customer   customer?  @relation(fields: [customerId], references: [id], map: "Sale_customerId_fkey")
+  customerId      Int?       
+  customer        customer?  @relation(fields: [customerId], references: [id], map: "Sale_customerId_fkey")
   
-  patientId  Int?       
-  patient    patient?   @relation(fields: [patientId], references: [id])
+  patientId       Int?       
+  // patient         patient?   @relation(fields: [patientId], references: [id])
+  patient         patient?  @relation(fields: [patientId], references: [id], onDelete: Cascade)
   referenceNumber String?    @unique
 
-  total      Float
-  discount   Float      @default(0)
-  createdAt  DateTime   @default(now())
-  updatedAt  DateTime   @updatedAt
-  saleitem   saleitem[]
+  // New Fields
+  etimsReceipt    String?    // eTIMS Receipt Number
+  etimsAmount     Decimal?   @db.Decimal(10, 2) // Amount recorded in eTIMS
+
+  total           Float
+  discount        Float      @default(0)
+  createdAt       DateTime   @default(now())
+  updatedAt       DateTime   @updatedAt
+  saleitem        saleitem[]
 
   @@index([customerId], map: "Sale_customerId_fkey")
 }
 
+model container {
+  id           Int             @id @default(autoincrement())
+  code         String          @unique
+  name         String
+  createdBy    String
+  supplierName String
+  status       String          @default("pending")
+  createdAt    DateTime        @default(now())
+  updatedAt    DateTime        @updatedAt
+  items        containerItem[]
+}
+
+model containerItem {
+  id            Int        @id @default(autoincrement())
+  containerId   Int
+  container     container  @relation(fields: [containerId], references: [id])
+  name          String
+  code          String
+  type          String
+  index         String?
+  lensCategory  String?
+  sph           Decimal?   @db.Decimal(4, 2)
+  cyl           Decimal?   @db.Decimal(4, 2)
+  axis          Int?
+  nearAdd       Decimal?   @db.Decimal(4, 2)
+  quantityOrdered Decimal  @db.Decimal(10, 2)
+  landedCost    Decimal    @db.Decimal(10, 2)
+  wholesalePrice Decimal? @db.Decimal(10, 2)
+  priceKsh      Decimal    @default(0) @db.Decimal(10, 2)
+  priceUsd      Decimal    @default(0) @db.Decimal(10, 2)
+  createdAt     DateTime   @default(now())
+}
+
 model saleitem {
-  id       Int   @id @default(autoincrement())
+  id       Int     @id @default(autoincrement())
   saleId   Int
   stockId  Int
-  quantity Decimal @db.Decimal(10, 2) // Changed from Int to Decimal
+  quantity Decimal @db.Decimal(10, 2)
   price    Float
-  sale     sale  @relation(fields: [saleId], references: [id], map: "SaleItem_saleId_fkey")
-  stock    stock @relation(fields: [stockId], references: [id], map: "SaleItem_stockId_fkey")
+
+  // FIX: Add 'onDelete: Cascade' here
+  sale     sale    @relation(fields: [saleId], references: [id], map: "SaleItem_saleId_fkey", onDelete: Cascade)
+  
+  stock    stock   @relation(fields: [stockId], references: [id], map: "SaleItem_stockId_fkey")
 
   @@index([saleId], map: "SaleItem_saleId_fkey")
   @@index([stockId], map: "SaleItem_stockId_fkey")
@@ -170,7 +185,8 @@ model jobcard {
   id               Int      @id @default(autoincrement())
   jobCardNumber    String   @unique
   patientId        Int
-  patient          patient  @relation(fields: [patientId], references: [id])
+  // patient          patient  @relation(fields: [patientId], references: [id])
+  patient          patient  @relation(fields: [patientId], references: [id], onDelete: Cascade)
   insuranceCompany String?
   notes            String?
   date             DateTime @default(now())

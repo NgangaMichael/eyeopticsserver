@@ -32,49 +32,13 @@ var __importStar = (this && this.__importStar) || (function () {
         return result;
     };
 })();
-var __importDefault = (this && this.__importDefault) || function (mod) {
-    return (mod && mod.__esModule) ? mod : { "default": mod };
-};
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.deleteSale = exports.getSaleById = exports.getAllSales = exports.createSale = void 0;
 const repo = __importStar(require("./sale.repository"));
-// src/modules/sales/sale.service.ts
-const prisma_1 = __importDefault(require("../../lib/prisma"));
 const createSale = async (data) => {
-    return await prisma_1.default.$transaction(async (tx) => {
-        // 1. Calculate the subtotal from the items array
-        const subtotal = data.items.reduce((acc, item) => {
-            return acc + (Number(item.price) * Number(item.quantity));
-        }, 0);
-        // 2. Calculate final total (Subtotal - Discount)
-        const discountAmount = Number(data.discount) || 0;
-        const finalTotal = subtotal - discountAmount;
-        // 3. Create the Sale record
-        const sale = await tx.sale.create({
-            data: {
-                customerId: data.customerId ? Number(data.customerId) : null,
-                total: finalTotal, // This satisfies the Prisma requirement
-                discount: discountAmount,
-                saleitem: {
-                    create: data.items.map((item) => ({
-                        stockId: Number(item.stockId),
-                        quantity: Number(item.quantity),
-                        price: Number(item.price),
-                    })),
-                },
-            },
-        });
-        // 4. Reduce stock
-        for (const item of data.items) {
-            await tx.stock.update({
-                where: { id: Number(item.stockId) },
-                data: {
-                    qty: { decrement: Number(item.quantity) },
-                },
-            });
-        }
-        return sale;
-    });
+    // You can keep business logic here (like validation)
+    // but let the repository handle the Prisma transaction
+    return await repo.createSale(data);
 };
 exports.createSale = createSale;
 const getAllSales = async () => {

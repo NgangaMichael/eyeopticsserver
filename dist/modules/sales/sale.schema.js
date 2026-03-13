@@ -2,9 +2,11 @@
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.updateSaleSchema = exports.createSaleSchema = void 0;
 const zod_1 = require("zod");
+// src/modules/sales/sale.schema.ts
 exports.createSaleSchema = zod_1.z.object({
     body: zod_1.z.object({
-        customerId: zod_1.z.coerce.number().int().positive(),
+        customerId: zod_1.z.coerce.number().int().positive().optional(),
+        referenceNumber: zod_1.z.string().min(1), // Add this line
         discount: zod_1.z.number().nonnegative().optional(),
         items: zod_1.z.array(zod_1.z.object({
             stockId: zod_1.z.number().int().positive(),

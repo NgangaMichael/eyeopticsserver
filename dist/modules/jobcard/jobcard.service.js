@@ -39,52 +39,45 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.deleteJobCard = exports.getJobCardById = exports.getAllJobCards = exports.updateJobCard = exports.createJobCard = void 0;
 const repo = __importStar(require("./jobcard.repository"));
 const prisma_1 = __importDefault(require("../../lib/prisma"));
-// 1. Helper to clean data (Move this to repo if you prefer)
 const formatJobCardData = (data) => ({
     jobCardNumber: data.jobCardNumber,
     patientId: Number(data.patientId),
     insuranceCompany: data.insuranceCompany,
     notes: data.notes,
     date: data.date ? new Date(data.date) : new Date(),
-    rSph: data.rSph,
-    rCyl: data.rCyl,
-    rAxis: data.rAxis ? Number(data.rAxis) : null,
-    rPrism: data.rPrism,
-    rBase: data.rBase,
-    lSph: data.lSph,
-    lCyl: data.lCyl,
-    lAxis: data.lAxis ? Number(data.lAxis) : null,
-    lPrism: data.lPrism,
-    lBase: data.lBase,
-    nearAdd: data.nearAdd,
-    distPd: data.distPd,
-    nearPd: data.nearPd,
-    heights: data.heights,
-    lenses: data.lenses,
-    lensQty: data.lensQty ? Number(data.lensQty) : 0,
-    lensPrice: Number(data.lensPrice || 0),
+    // Prescription
+    rSph: data.rSph, rCyl: data.rCyl, rAxis: data.rAxis ? Number(data.rAxis) : null,
+    rPrism: data.rPrism, rBase: data.rBase,
+    lSph: data.lSph, lCyl: data.lCyl, lAxis: data.lAxis ? Number(data.lAxis) : null,
+    lPrism: data.lPrism, lBase: data.lBase,
+    nearAdd: data.nearAdd, distPd: data.distPd, nearPd: data.nearPd, heights: data.heights,
+    // Split Lenses
+    rLens: data.rLens,
+    rLensStockId: data.rLensStockId ? Number(data.rLensStockId) : null,
+    rLensPrice: Number(data.rLensPrice || 0),
+    lLens: data.lLens,
+    lLensStockId: data.lLensStockId ? Number(data.lLensStockId) : null,
+    lLensPrice: Number(data.lLensPrice || 0),
+    // Frame
     frame: data.frame,
-    frameQty: data.frameQty ? Number(data.frameQty) : 0,
+    frameQty: Number(data.frameQty || 0),
     framePrice: Number(data.framePrice || 0),
+    frameStockId: data.frameStockId ? Number(data.frameStockId) : null,
+    // Financials
     total: Number(data.total),
     consultation: Number(data.consultation || 0),
-    discount: Number(data.discount),
-    advance: Number(data.advance),
-    balance: Number(data.balance),
+    discount: Number(data.discount || 0),
+    advance: Number(data.advance || 0),
+    balance: Number(data.balance || 0),
     jobDelDate: data.jobDelDate ? new Date(data.jobDelDate) : null,
-    // Ensure these fields exist in your schema if using them:
-    frameStockId: data.frameStockId ? Number(data.frameStockId) : null,
-    lensStockId: data.lensStockId ? Number(data.lensStockId) : null,
 });
-// 2. The Logic to sync Stock and Sales
 async function syncSaleAndStock(tx, patientId, total, items) {
     if (items.length === 0)
         return;
     await tx.sale.create({
         data: {
             total: total,
-            patientId: patientId, // Set the Patient ID
-            customerId: null, // Explicitly leave Customer empty
+            patientId: patientId,
             saleitem: {
                 create: items.map(item => ({
                     stockId: item.stockId,
@@ -94,7 +87,6 @@ async function syncSaleAndStock(tx, patientId, total, items) {
             }
         }
     });
-    // Loop to reduce stock quantity...
     for (const item of items) {
         await tx.stock.update({
             where: { id: item.stockId },
@@ -104,89 +96,64 @@ async function syncSaleAndStock(tx, patientId, total, items) {
 }
 const createJobCard = async (data) => {
     return await prisma_1.default.$transaction(async (tx) => {
-        const newJobCard = await tx.jobcard.create({ data: formatJobCardData(data) });
+        const formatted = formatJobCardData(data);
+        const newJobCard = await tx.jobcard.create({ data: formatted });
         const items = [];
-        if (data.frameStockId) {
+        if (formatted.frameStockId) {
             items.push({
-                stockId: Number(data.frameStockId),
-                quantity: Number(data.frameQty || 1),
-                price: Number(data.framePrice || 0) // Pull from data
+                stockId: formatted.frameStockId,
+                quantity: formatted.frameQty,
+                price: formatted.framePrice
             });
         }
-        if (data.lensStockId) {
-            items.push({
-                stockId: Number(data.lensStockId),
-                quantity: Number(data.lensQty || 1),
-                price: Number(data.lensPrice || 0) // Pull from data
-            });
+        // UPDATE: Change quantity from 1 to 0.5
+        if (formatted.rLensStockId) {
+            items.push({ stockId: formatted.rLensStockId, quantity: 0.5, price: formatted.rLensPrice });
         }
-        // Add consultation as a "Service" item if your SaleItem supports null stockId
-        // Or just pass the total to the Sale record
-        await syncSaleAndStock(tx, Number(data.patientId), Number(data.total), items);
+        if (formatted.lLensStockId) {
+            items.push({ stockId: formatted.lLensStockId, quantity: 0.5, price: formatted.lLensPrice });
+        }
+        await syncSaleAndStock(tx, formatted.patientId, formatted.total, items);
         return newJobCard;
     });
 };
 exports.createJobCard = createJobCard;
 const updateJobCard = async (id, data) => {
     return await prisma_1.default.$transaction(async (tx) => {
-        // 1. Get existing card
         const oldCard = await tx.jobcard.findUnique({ where: { id } });
         if (!oldCard)
-            throw { status: 404, message: "Job Card not found" };
-        // 2. ROLLBACK: Use "|| 0" to ensure we don't pass null to increment
+            throw new Error("Job Card not found");
+        // 1. ROLLBACK: Put back 0.5 units for lenses
         if (oldCard.frameStockId) {
-            await tx.stock.update({
-                where: { id: oldCard.frameStockId },
-                data: {
-                    qty: { increment: Number(oldCard.frameQty || 0) }
-                }
-            });
+            await tx.stock.update({ where: { id: oldCard.frameStockId }, data: { qty: { increment: Number(oldCard.frameQty) } } });
         }
-        if (oldCard.lensStockId) {
-            await tx.stock.update({
-                where: { id: oldCard.lensStockId },
-                data: {
-                    qty: { increment: Number(oldCard.lensQty || 0) }
-                }
-            });
+        if (oldCard.rLensStockId) {
+            await tx.stock.update({ where: { id: oldCard.rLensStockId }, data: { qty: { increment: 0.5 } } });
         }
-        // 3. UPDATE the card
-        const updated = await tx.jobcard.update({
-            where: { id },
-            data: formatJobCardData(data)
-        });
-        // 4. APPLY NEW STOCK: Use fallback values here too for safety
-        if (data.frameStockId) {
-            await tx.stock.update({
-                where: { id: Number(data.frameStockId) },
-                data: { qty: { decrement: Number(data.frameQty || 0) } }
-            });
+        if (oldCard.lLensStockId) {
+            await tx.stock.update({ where: { id: oldCard.lLensStockId }, data: { qty: { increment: 0.5 } } });
         }
-        if (data.lensStockId) {
-            await tx.stock.update({
-                where: { id: Number(data.lensStockId) },
-                data: { qty: { decrement: Number(data.lensQty || 0) } }
-            });
+        // 2. UPDATE JOBCARD
+        const formatted = formatJobCardData(data);
+        const updated = await tx.jobcard.update({ where: { id }, data: formatted });
+        // 3. DEDUCT NEW STOCK: Deduct 0.5 units for lenses
+        if (formatted.frameStockId) {
+            await tx.stock.update({ where: { id: formatted.frameStockId }, data: { qty: { decrement: formatted.frameQty } } });
+        }
+        if (formatted.rLensStockId) {
+            await tx.stock.update({ where: { id: formatted.rLensStockId }, data: { qty: { decrement: 0.5 } } });
+        }
+        if (formatted.lLensStockId) {
+            await tx.stock.update({ where: { id: formatted.lLensStockId }, data: { qty: { decrement: 0.5 } } });
         }
         return updated;
     });
 };
 exports.updateJobCard = updateJobCard;
-// THESE WERE MISSING:
-const getAllJobCards = async () => {
-    return repo.getAllJobCards();
-};
+const getAllJobCards = () => repo.getAllJobCards();
 exports.getAllJobCards = getAllJobCards;
-const getJobCardById = async (id) => {
-    const card = await repo.getJobCardById(id);
-    if (!card)
-        throw { status: 404, message: "Job Card not found" };
-    return card;
-};
+const getJobCardById = (id) => repo.getJobCardById(id);
 exports.getJobCardById = getJobCardById;
-const deleteJobCard = async (id) => {
-    const card = await (0, exports.getJobCardById)(id); // Check if it exists first
-    return repo.deleteJobCard(id);
-};
+const deleteJobCard = (id) => repo.deleteJobCard(id);
 exports.deleteJobCard = deleteJobCard;
 //# sourceMappingURL=jobcard.service.js.map

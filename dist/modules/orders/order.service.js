@@ -79,6 +79,7 @@ const receiveOrder = async (id) => {
                 where: { id: existingStock.id },
                 data: {
                     qty: { increment: order.quantityOrdered },
+                    index: order.index,
                     costKsh: order.landedCost,
                     priceKsh: order.priceKsh,
                     priceUsd: order.priceUsd,
@@ -95,6 +96,7 @@ const receiveOrder = async (id) => {
                 data: {
                     code: order.code,
                     name: order.name,
+                    index: order.index,
                     type: order.type,
                     qty: order.quantityOrdered,
                     // PASS THE POWERS HERE:

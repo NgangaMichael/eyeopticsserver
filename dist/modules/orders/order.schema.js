@@ -12,6 +12,7 @@ exports.createOrderSchema = zod_1.z.object({
         axis: zod_1.z.number().int().min(0).max(180).optional(),
         nearAdd: zod_1.z.number().optional(),
         lensCategory: zod_1.z.enum(["Stock", "Custom"]).optional(),
+        index: zod_1.z.string().optional(),
         supplierName: zod_1.z.string().min(2),
         quantityOrdered: zod_1.z.number().positive(),
         landedCost: zod_1.z.number().positive(),

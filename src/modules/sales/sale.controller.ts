@@ -30,6 +30,15 @@ export const getSale = async (req: Request<IdParams>, res: Response, next: NextF
   }
 };
 
+export const updateSale = async (req: Request<IdParams>, res: Response, next: NextFunction) => {
+  try {
+    const updated = await service.updateSale(Number(req.params.id), req.body);
+    res.json(updated);
+  } catch (err) {
+    next(err);
+  }
+};
+
 export const deleteSale = async (req: Request<IdParams>, res: Response, next: NextFunction) => {
   try {
     await service.deleteSale(Number(req.params.id));

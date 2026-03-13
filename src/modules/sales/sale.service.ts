@@ -18,6 +18,11 @@ export const getSaleById = async (id: number) => {
   return sale;
 };
 
+export const updateSale = async (id: number, data: any) => {
+  await getSaleById(id); // Ensure it exists
+  return repo.updateSale(id, data);
+};
+
 export const deleteSale = async (id: number) => {
   await getSaleById(id);
   return repo.deleteSale(id);
