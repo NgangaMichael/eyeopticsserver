@@ -142,33 +142,6 @@ exports.Prisma.ExpenseScalarFieldEnum = {
   updatedAt: 'updatedAt'
 };
 
-exports.Prisma.OrderScalarFieldEnum = {
-  id: 'id',
-  code: 'code',
-  name: 'name',
-  type: 'type',
-  index: 'index',
-  supplierName: 'supplierName',
-  supplierEmail: 'supplierEmail',
-  supplierPhone: 'supplierPhone',
-  quantityOrdered: 'quantityOrdered',
-  quantityReceived: 'quantityReceived',
-  landedCost: 'landedCost',
-  priceKsh: 'priceKsh',
-  priceUsd: 'priceUsd',
-  sph: 'sph',
-  cyl: 'cyl',
-  axis: 'axis',
-  nearAdd: 'nearAdd',
-  lensCategory: 'lensCategory',
-  orderDate: 'orderDate',
-  expectedArrival: 'expectedArrival',
-  receivedDate: 'receivedDate',
-  status: 'status',
-  createdAt: 'createdAt',
-  updatedAt: 'updatedAt'
-};
-
 exports.Prisma.PatientScalarFieldEnum = {
   id: 'id',
   firstName: 'firstName',
@@ -223,6 +196,7 @@ exports.Prisma.ContainerItemScalarFieldEnum = {
   wholesalePrice: 'wholesalePrice',
   priceKsh: 'priceKsh',
   priceUsd: 'priceUsd',
+  costKsh: 'costKsh',
   createdAt: 'createdAt'
 };
 
@@ -247,6 +221,7 @@ exports.Prisma.StockScalarFieldEnum = {
   etr: 'etr',
   fob: 'fob',
   loading: 'loading',
+  landedCost: 'landedCost',
   name: 'name',
   notes: 'notes',
   prevCostPb: 'prevCostPb',
@@ -352,18 +327,6 @@ exports.Prisma.expenseOrderByRelevanceFieldEnum = {
   note: 'note'
 };
 
-exports.Prisma.orderOrderByRelevanceFieldEnum = {
-  code: 'code',
-  name: 'name',
-  type: 'type',
-  index: 'index',
-  supplierName: 'supplierName',
-  supplierEmail: 'supplierEmail',
-  supplierPhone: 'supplierPhone',
-  lensCategory: 'lensCategory',
-  status: 'status'
-};
-
 exports.Prisma.patientOrderByRelevanceFieldEnum = {
   firstName: 'firstName',
   lastName: 'lastName',
@@ -440,7 +403,6 @@ exports.Prisma.jobcardOrderByRelevanceFieldEnum = {
 exports.Prisma.ModelName = {
   customer: 'customer',
   expense: 'expense',
-  order: 'order',
   patient: 'patient',
   sale: 'sale',
   container: 'container',

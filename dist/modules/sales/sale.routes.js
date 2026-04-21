@@ -39,7 +39,7 @@ const router = (0, express_1.Router)();
 router.post("/", controller.createSale);
 router.get("/", controller.getSales);
 router.get("/:id", controller.getSale);
-// router.put("/:id", controller.updateSale);
+router.put("/:id", controller.updateSale);
 router.delete("/:id", controller.deleteSale);
 exports.default = router;
 //# sourceMappingURL=sale.routes.js.map

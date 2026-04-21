@@ -35,6 +35,7 @@ export const addItemSchema = z.object({
     quantityOrdered: z.number().positive(),
     landedCost: z.number().nonnegative(),
     priceKsh: z.number().nonnegative().optional(),
+    costKsh: z.number().nonnegative().optional(),
     priceUsd: z.number().nonnegative().optional(),
   }),
 });
@@ -58,6 +59,7 @@ export const bulkAddItemsSchema = z.object({
         quantityOrdered: z.number().positive(),
         landedCost: z.number().nonnegative(),
         priceKsh: z.number().nonnegative().optional(),
+        costKsh: z.number().nonnegative().optional(),
         priceUsd: z.number().nonnegative().optional(),
       })
     ).min(1, "At least one item is required"),

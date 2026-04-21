@@ -40,6 +40,19 @@ export const updateContainer = async (req: Request<IdParams>, res: Response, nex
   }
 };
 
+export const updateItem = async (req: Request<ItemParams>, res: Response, next: NextFunction) => {
+  try {
+    const item = await service.updateContainerItem(
+      Number(req.params.id), 
+      Number(req.params.itemId), 
+      req.body
+    );
+    res.json(item);
+  } catch (err) {
+    next(err);
+  }
+};
+
 export const deleteContainer = async (req: Request<IdParams>, res: Response, next: NextFunction) => {
   try {
     await service.deleteContainer(Number(req.params.id));

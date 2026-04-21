@@ -25,6 +25,18 @@ export const updateContainer = async (id: number, data: { name?: string; supplie
   return repo.updateContainer(id, data);
 };
 
+export const updateContainerItem = async (containerId: number, itemId: number, data: any) => {
+  const container = await repo.getContainerById(containerId);
+  if (!container) throw { status: 404, message: "Container not found" };
+  
+  // Prevent editing if already received
+  if (container.status === "received") {
+    throw { status: 403, message: "Cannot edit items in a received container" };
+  }
+
+  return repo.updateContainerItem(itemId, data);
+};
+
 export const deleteContainer = async (id: number) => {
   const container = await repo.getContainerById(id);
   if (!container) throw { status: 404, message: "Container not found" };

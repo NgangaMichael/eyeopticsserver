@@ -33,7 +33,7 @@ var __importStar = (this && this.__importStar) || (function () {
     };
 })();
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.deleteSale = exports.getSale = exports.getSales = exports.createSale = void 0;
+exports.deleteSale = exports.updateSale = exports.getSale = exports.getSales = exports.createSale = void 0;
 const service = __importStar(require("./sale.service"));
 const createSale = async (req, res, next) => {
     try {
@@ -65,6 +65,16 @@ const getSale = async (req, res, next) => {
     }
 };
 exports.getSale = getSale;
+const updateSale = async (req, res, next) => {
+    try {
+        const updated = await service.updateSale(Number(req.params.id), req.body);
+        res.json(updated);
+    }
+    catch (err) {
+        next(err);
+    }
+};
+exports.updateSale = updateSale;
 const deleteSale = async (req, res, next) => {
     try {
         await service.deleteSale(Number(req.params.id));

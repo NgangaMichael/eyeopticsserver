@@ -24,11 +24,6 @@ export type customer = $Result.DefaultSelection<Prisma.$customerPayload>
  */
 export type expense = $Result.DefaultSelection<Prisma.$expensePayload>
 /**
- * Model order
- * 
- */
-export type order = $Result.DefaultSelection<Prisma.$orderPayload>
-/**
  * Model patient
  * 
  */
@@ -211,16 +206,6 @@ export class PrismaClient<
     * ```
     */
   get expense(): Prisma.expenseDelegate<ExtArgs, ClientOptions>;
-
-  /**
-   * `prisma.order`: Exposes CRUD operations for the **order** model.
-    * Example usage:
-    * ```ts
-    * // Fetch zero or more Orders
-    * const orders = await prisma.order.findMany()
-    * ```
-    */
-  get order(): Prisma.orderDelegate<ExtArgs, ClientOptions>;
 
   /**
    * `prisma.patient`: Exposes CRUD operations for the **patient** model.
@@ -754,7 +739,6 @@ export namespace Prisma {
   export const ModelName: {
     customer: 'customer',
     expense: 'expense',
-    order: 'order',
     patient: 'patient',
     sale: 'sale',
     container: 'container',
@@ -782,7 +766,7 @@ export namespace Prisma {
       omit: GlobalOmitOptions
     }
     meta: {
-      modelProps: "customer" | "expense" | "order" | "patient" | "sale" | "container" | "containerItem" | "saleitem" | "stock" | "supplier" | "user" | "jobcard"
+      modelProps: "customer" | "expense" | "patient" | "sale" | "container" | "containerItem" | "saleitem" | "stock" | "supplier" | "user" | "jobcard"
       txIsolationLevel: Prisma.TransactionIsolationLevel
     }
     model: {
@@ -915,72 +899,6 @@ export namespace Prisma {
           count: {
             args: Prisma.expenseCountArgs<ExtArgs>
             result: $Utils.Optional<ExpenseCountAggregateOutputType> | number
-          }
-        }
-      }
-      order: {
-        payload: Prisma.$orderPayload<ExtArgs>
-        fields: Prisma.orderFieldRefs
-        operations: {
-          findUnique: {
-            args: Prisma.orderFindUniqueArgs<ExtArgs>
-            result: $Utils.PayloadToResult<Prisma.$orderPayload> | null
-          }
-          findUniqueOrThrow: {
-            args: Prisma.orderFindUniqueOrThrowArgs<ExtArgs>
-            result: $Utils.PayloadToResult<Prisma.$orderPayload>
-          }
-          findFirst: {
-            args: Prisma.orderFindFirstArgs<ExtArgs>
-            result: $Utils.PayloadToResult<Prisma.$orderPayload> | null
-          }
-          findFirstOrThrow: {
-            args: Prisma.orderFindFirstOrThrowArgs<ExtArgs>
-            result: $Utils.PayloadToResult<Prisma.$orderPayload>
-          }
-          findMany: {
-            args: Prisma.orderFindManyArgs<ExtArgs>
-            result: $Utils.PayloadToResult<Prisma.$orderPayload>[]
-          }
-          create: {
-            args: Prisma.orderCreateArgs<ExtArgs>
-            result: $Utils.PayloadToResult<Prisma.$orderPayload>
-          }
-          createMany: {
-            args: Prisma.orderCreateManyArgs<ExtArgs>
-            result: BatchPayload
-          }
-          delete: {
-            args: Prisma.orderDeleteArgs<ExtArgs>
-            result: $Utils.PayloadToResult<Prisma.$orderPayload>
-          }
-          update: {
-            args: Prisma.orderUpdateArgs<ExtArgs>
-            result: $Utils.PayloadToResult<Prisma.$orderPayload>
-          }
-          deleteMany: {
-            args: Prisma.orderDeleteManyArgs<ExtArgs>
-            result: BatchPayload
-          }
-          updateMany: {
-            args: Prisma.orderUpdateManyArgs<ExtArgs>
-            result: BatchPayload
-          }
-          upsert: {
-            args: Prisma.orderUpsertArgs<ExtArgs>
-            result: $Utils.PayloadToResult<Prisma.$orderPayload>
-          }
-          aggregate: {
-            args: Prisma.OrderAggregateArgs<ExtArgs>
-            result: $Utils.Optional<AggregateOrder>
-          }
-          groupBy: {
-            args: Prisma.orderGroupByArgs<ExtArgs>
-            result: $Utils.Optional<OrderGroupByOutputType>[]
-          }
-          count: {
-            args: Prisma.orderCountArgs<ExtArgs>
-            result: $Utils.Optional<OrderCountAggregateOutputType> | number
           }
         }
       }
@@ -1676,7 +1594,6 @@ export namespace Prisma {
   export type GlobalOmitConfig = {
     customer?: customerOmit
     expense?: expenseOmit
-    order?: orderOmit
     patient?: patientOmit
     sale?: saleOmit
     container?: containerOmit
@@ -3886,1167 +3803,6 @@ export namespace Prisma {
      * Omit specific fields from the expense
      */
     omit?: expenseOmit<ExtArgs> | null
-  }
-
-
-  /**
-   * Model order
-   */
-
-  export type AggregateOrder = {
-    _count: OrderCountAggregateOutputType | null
-    _avg: OrderAvgAggregateOutputType | null
-    _sum: OrderSumAggregateOutputType | null
-    _min: OrderMinAggregateOutputType | null
-    _max: OrderMaxAggregateOutputType | null
-  }
-
-  export type OrderAvgAggregateOutputType = {
-    id: number | null
-    quantityOrdered: Decimal | null
-    quantityReceived: Decimal | null
-    landedCost: Decimal | null
-    priceKsh: Decimal | null
-    priceUsd: Decimal | null
-    sph: Decimal | null
-    cyl: Decimal | null
-    axis: number | null
-    nearAdd: Decimal | null
-  }
-
-  export type OrderSumAggregateOutputType = {
-    id: number | null
-    quantityOrdered: Decimal | null
-    quantityReceived: Decimal | null
-    landedCost: Decimal | null
-    priceKsh: Decimal | null
-    priceUsd: Decimal | null
-    sph: Decimal | null
-    cyl: Decimal | null
-    axis: number | null
-    nearAdd: Decimal | null
-  }
-
-  export type OrderMinAggregateOutputType = {
-    id: number | null
-    code: string | null
-    name: string | null
-    type: string | null
-    index: string | null
-    supplierName: string | null
-    supplierEmail: string | null
-    supplierPhone: string | null
-    quantityOrdered: Decimal | null
-    quantityReceived: Decimal | null
-    landedCost: Decimal | null
-    priceKsh: Decimal | null
-    priceUsd: Decimal | null
-    sph: Decimal | null
-    cyl: Decimal | null
-    axis: number | null
-    nearAdd: Decimal | null
-    lensCategory: string | null
-    orderDate: Date | null
-    expectedArrival: Date | null
-    receivedDate: Date | null
-    status: string | null
-    createdAt: Date | null
-    updatedAt: Date | null
-  }
-
-  export type OrderMaxAggregateOutputType = {
-    id: number | null
-    code: string | null
-    name: string | null
-    type: string | null
-    index: string | null
-    supplierName: string | null
-    supplierEmail: string | null
-    supplierPhone: string | null
-    quantityOrdered: Decimal | null
-    quantityReceived: Decimal | null
-    landedCost: Decimal | null
-    priceKsh: Decimal | null
-    priceUsd: Decimal | null
-    sph: Decimal | null
-    cyl: Decimal | null
-    axis: number | null
-    nearAdd: Decimal | null
-    lensCategory: string | null
-    orderDate: Date | null
-    expectedArrival: Date | null
-    receivedDate: Date | null
-    status: string | null
-    createdAt: Date | null
-    updatedAt: Date | null
-  }
-
-  export type OrderCountAggregateOutputType = {
-    id: number
-    code: number
-    name: number
-    type: number
-    index: number
-    supplierName: number
-    supplierEmail: number
-    supplierPhone: number
-    quantityOrdered: number
-    quantityReceived: number
-    landedCost: number
-    priceKsh: number
-    priceUsd: number
-    sph: number
-    cyl: number
-    axis: number
-    nearAdd: number
-    lensCategory: number
-    orderDate: number
-    expectedArrival: number
-    receivedDate: number
-    status: number
-    createdAt: number
-    updatedAt: number
-    _all: number
-  }
-
-
-  export type OrderAvgAggregateInputType = {
-    id?: true
-    quantityOrdered?: true
-    quantityReceived?: true
-    landedCost?: true
-    priceKsh?: true
-    priceUsd?: true
-    sph?: true
-    cyl?: true
-    axis?: true
-    nearAdd?: true
-  }
-
-  export type OrderSumAggregateInputType = {
-    id?: true
-    quantityOrdered?: true
-    quantityReceived?: true
-    landedCost?: true
-    priceKsh?: true
-    priceUsd?: true
-    sph?: true
-    cyl?: true
-    axis?: true
-    nearAdd?: true
-  }
-
-  export type OrderMinAggregateInputType = {
-    id?: true
-    code?: true
-    name?: true
-    type?: true
-    index?: true
-    supplierName?: true
-    supplierEmail?: true
-    supplierPhone?: true
-    quantityOrdered?: true
-    quantityReceived?: true
-    landedCost?: true
-    priceKsh?: true
-    priceUsd?: true
-    sph?: true
-    cyl?: true
-    axis?: true
-    nearAdd?: true
-    lensCategory?: true
-    orderDate?: true
-    expectedArrival?: true
-    receivedDate?: true
-    status?: true
-    createdAt?: true
-    updatedAt?: true
-  }
-
-  export type OrderMaxAggregateInputType = {
-    id?: true
-    code?: true
-    name?: true
-    type?: true
-    index?: true
-    supplierName?: true
-    supplierEmail?: true
-    supplierPhone?: true
-    quantityOrdered?: true
-    quantityReceived?: true
-    landedCost?: true
-    priceKsh?: true
-    priceUsd?: true
-    sph?: true
-    cyl?: true
-    axis?: true
-    nearAdd?: true
-    lensCategory?: true
-    orderDate?: true
-    expectedArrival?: true
-    receivedDate?: true
-    status?: true
-    createdAt?: true
-    updatedAt?: true
-  }
-
-  export type OrderCountAggregateInputType = {
-    id?: true
-    code?: true
-    name?: true
-    type?: true
-    index?: true
-    supplierName?: true
-    supplierEmail?: true
-    supplierPhone?: true
-    quantityOrdered?: true
-    quantityReceived?: true
-    landedCost?: true
-    priceKsh?: true
-    priceUsd?: true
-    sph?: true
-    cyl?: true
-    axis?: true
-    nearAdd?: true
-    lensCategory?: true
-    orderDate?: true
-    expectedArrival?: true
-    receivedDate?: true
-    status?: true
-    createdAt?: true
-    updatedAt?: true
-    _all?: true
-  }
-
-  export type OrderAggregateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Filter which order to aggregate.
-     */
-    where?: orderWhereInput
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
-     * 
-     * Determine the order of orders to fetch.
-     */
-    orderBy?: orderOrderByWithRelationInput | orderOrderByWithRelationInput[]
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
-     * 
-     * Sets the start position
-     */
-    cursor?: orderWhereUniqueInput
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
-     * 
-     * Take `±n` orders from the position of the cursor.
-     */
-    take?: number
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
-     * 
-     * Skip the first `n` orders.
-     */
-    skip?: number
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
-     * 
-     * Count returned orders
-    **/
-    _count?: true | OrderCountAggregateInputType
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
-     * 
-     * Select which fields to average
-    **/
-    _avg?: OrderAvgAggregateInputType
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
-     * 
-     * Select which fields to sum
-    **/
-    _sum?: OrderSumAggregateInputType
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
-     * 
-     * Select which fields to find the minimum value
-    **/
-    _min?: OrderMinAggregateInputType
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
-     * 
-     * Select which fields to find the maximum value
-    **/
-    _max?: OrderMaxAggregateInputType
-  }
-
-  export type GetOrderAggregateType<T extends OrderAggregateArgs> = {
-        [P in keyof T & keyof AggregateOrder]: P extends '_count' | 'count'
-      ? T[P] extends true
-        ? number
-        : GetScalarType<T[P], AggregateOrder[P]>
-      : GetScalarType<T[P], AggregateOrder[P]>
-  }
-
-
-
-
-  export type orderGroupByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    where?: orderWhereInput
-    orderBy?: orderOrderByWithAggregationInput | orderOrderByWithAggregationInput[]
-    by: OrderScalarFieldEnum[] | OrderScalarFieldEnum
-    having?: orderScalarWhereWithAggregatesInput
-    take?: number
-    skip?: number
-    _count?: OrderCountAggregateInputType | true
-    _avg?: OrderAvgAggregateInputType
-    _sum?: OrderSumAggregateInputType
-    _min?: OrderMinAggregateInputType
-    _max?: OrderMaxAggregateInputType
-  }
-
-  export type OrderGroupByOutputType = {
-    id: number
-    code: string
-    name: string
-    type: string
-    index: string | null
-    supplierName: string
-    supplierEmail: string | null
-    supplierPhone: string | null
-    quantityOrdered: Decimal
-    quantityReceived: Decimal
-    landedCost: Decimal
-    priceKsh: Decimal
-    priceUsd: Decimal
-    sph: Decimal | null
-    cyl: Decimal | null
-    axis: number | null
-    nearAdd: Decimal | null
-    lensCategory: string | null
-    orderDate: Date
-    expectedArrival: Date | null
-    receivedDate: Date | null
-    status: string
-    createdAt: Date
-    updatedAt: Date
-    _count: OrderCountAggregateOutputType | null
-    _avg: OrderAvgAggregateOutputType | null
-    _sum: OrderSumAggregateOutputType | null
-    _min: OrderMinAggregateOutputType | null
-    _max: OrderMaxAggregateOutputType | null
-  }
-
-  type GetOrderGroupByPayload<T extends orderGroupByArgs> = Prisma.PrismaPromise<
-    Array<
-      PickEnumerable<OrderGroupByOutputType, T['by']> &
-        {
-          [P in ((keyof T) & (keyof OrderGroupByOutputType))]: P extends '_count'
-            ? T[P] extends boolean
-              ? number
-              : GetScalarType<T[P], OrderGroupByOutputType[P]>
-            : GetScalarType<T[P], OrderGroupByOutputType[P]>
-        }
-      >
-    >
-
-
-  export type orderSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
-    id?: boolean
-    code?: boolean
-    name?: boolean
-    type?: boolean
-    index?: boolean
-    supplierName?: boolean
-    supplierEmail?: boolean
-    supplierPhone?: boolean
-    quantityOrdered?: boolean
-    quantityReceived?: boolean
-    landedCost?: boolean
-    priceKsh?: boolean
-    priceUsd?: boolean
-    sph?: boolean
-    cyl?: boolean
-    axis?: boolean
-    nearAdd?: boolean
-    lensCategory?: boolean
-    orderDate?: boolean
-    expectedArrival?: boolean
-    receivedDate?: boolean
-    status?: boolean
-    createdAt?: boolean
-    updatedAt?: boolean
-  }, ExtArgs["result"]["order"]>
-
-
-
-  export type orderSelectScalar = {
-    id?: boolean
-    code?: boolean
-    name?: boolean
-    type?: boolean
-    index?: boolean
-    supplierName?: boolean
-    supplierEmail?: boolean
-    supplierPhone?: boolean
-    quantityOrdered?: boolean
-    quantityReceived?: boolean
-    landedCost?: boolean
-    priceKsh?: boolean
-    priceUsd?: boolean
-    sph?: boolean
-    cyl?: boolean
-    axis?: boolean
-    nearAdd?: boolean
-    lensCategory?: boolean
-    orderDate?: boolean
-    expectedArrival?: boolean
-    receivedDate?: boolean
-    status?: boolean
-    createdAt?: boolean
-    updatedAt?: boolean
-  }
-
-  export type orderOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "code" | "name" | "type" | "index" | "supplierName" | "supplierEmail" | "supplierPhone" | "quantityOrdered" | "quantityReceived" | "landedCost" | "priceKsh" | "priceUsd" | "sph" | "cyl" | "axis" | "nearAdd" | "lensCategory" | "orderDate" | "expectedArrival" | "receivedDate" | "status" | "createdAt" | "updatedAt", ExtArgs["result"]["order"]>
-
-  export type $orderPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    name: "order"
-    objects: {}
-    scalars: $Extensions.GetPayloadResult<{
-      id: number
-      code: string
-      name: string
-      type: string
-      index: string | null
-      supplierName: string
-      supplierEmail: string | null
-      supplierPhone: string | null
-      quantityOrdered: Prisma.Decimal
-      quantityReceived: Prisma.Decimal
-      landedCost: Prisma.Decimal
-      priceKsh: Prisma.Decimal
-      priceUsd: Prisma.Decimal
-      sph: Prisma.Decimal | null
-      cyl: Prisma.Decimal | null
-      axis: number | null
-      nearAdd: Prisma.Decimal | null
-      lensCategory: string | null
-      orderDate: Date
-      expectedArrival: Date | null
-      receivedDate: Date | null
-      status: string
-      createdAt: Date
-      updatedAt: Date
-    }, ExtArgs["result"]["order"]>
-    composites: {}
-  }
-
-  type orderGetPayload<S extends boolean | null | undefined | orderDefaultArgs> = $Result.GetResult<Prisma.$orderPayload, S>
-
-  type orderCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> =
-    Omit<orderFindManyArgs, 'select' | 'include' | 'distinct' | 'omit'> & {
-      select?: OrderCountAggregateInputType | true
-    }
-
-  export interface orderDelegate<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> {
-    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['order'], meta: { name: 'order' } }
-    /**
-     * Find zero or one Order that matches the filter.
-     * @param {orderFindUniqueArgs} args - Arguments to find a Order
-     * @example
-     * // Get one Order
-     * const order = await prisma.order.findUnique({
-     *   where: {
-     *     // ... provide filter here
-     *   }
-     * })
-     */
-    findUnique<T extends orderFindUniqueArgs>(args: SelectSubset<T, orderFindUniqueArgs<ExtArgs>>): Prisma__orderClient<$Result.GetResult<Prisma.$orderPayload<ExtArgs>, T, "findUnique", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
-
-    /**
-     * Find one Order that matches the filter or throw an error with `error.code='P2025'`
-     * if no matches were found.
-     * @param {orderFindUniqueOrThrowArgs} args - Arguments to find a Order
-     * @example
-     * // Get one Order
-     * const order = await prisma.order.findUniqueOrThrow({
-     *   where: {
-     *     // ... provide filter here
-     *   }
-     * })
-     */
-    findUniqueOrThrow<T extends orderFindUniqueOrThrowArgs>(args: SelectSubset<T, orderFindUniqueOrThrowArgs<ExtArgs>>): Prisma__orderClient<$Result.GetResult<Prisma.$orderPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
-
-    /**
-     * Find the first Order that matches the filter.
-     * Note, that providing `undefined` is treated as the value not being there.
-     * Read more here: https://pris.ly/d/null-undefined
-     * @param {orderFindFirstArgs} args - Arguments to find a Order
-     * @example
-     * // Get one Order
-     * const order = await prisma.order.findFirst({
-     *   where: {
-     *     // ... provide filter here
-     *   }
-     * })
-     */
-    findFirst<T extends orderFindFirstArgs>(args?: SelectSubset<T, orderFindFirstArgs<ExtArgs>>): Prisma__orderClient<$Result.GetResult<Prisma.$orderPayload<ExtArgs>, T, "findFirst", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
-
-    /**
-     * Find the first Order that matches the filter or
-     * throw `PrismaKnownClientError` with `P2025` code if no matches were found.
-     * Note, that providing `undefined` is treated as the value not being there.
-     * Read more here: https://pris.ly/d/null-undefined
-     * @param {orderFindFirstOrThrowArgs} args - Arguments to find a Order
-     * @example
-     * // Get one Order
-     * const order = await prisma.order.findFirstOrThrow({
-     *   where: {
-     *     // ... provide filter here
-     *   }
-     * })
-     */
-    findFirstOrThrow<T extends orderFindFirstOrThrowArgs>(args?: SelectSubset<T, orderFindFirstOrThrowArgs<ExtArgs>>): Prisma__orderClient<$Result.GetResult<Prisma.$orderPayload<ExtArgs>, T, "findFirstOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
-
-    /**
-     * Find zero or more Orders that matches the filter.
-     * Note, that providing `undefined` is treated as the value not being there.
-     * Read more here: https://pris.ly/d/null-undefined
-     * @param {orderFindManyArgs} args - Arguments to filter and select certain fields only.
-     * @example
-     * // Get all Orders
-     * const orders = await prisma.order.findMany()
-     * 
-     * // Get first 10 Orders
-     * const orders = await prisma.order.findMany({ take: 10 })
-     * 
-     * // Only select the `id`
-     * const orderWithIdOnly = await prisma.order.findMany({ select: { id: true } })
-     * 
-     */
-    findMany<T extends orderFindManyArgs>(args?: SelectSubset<T, orderFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$orderPayload<ExtArgs>, T, "findMany", GlobalOmitOptions>>
-
-    /**
-     * Create a Order.
-     * @param {orderCreateArgs} args - Arguments to create a Order.
-     * @example
-     * // Create one Order
-     * const Order = await prisma.order.create({
-     *   data: {
-     *     // ... data to create a Order
-     *   }
-     * })
-     * 
-     */
-    create<T extends orderCreateArgs>(args: SelectSubset<T, orderCreateArgs<ExtArgs>>): Prisma__orderClient<$Result.GetResult<Prisma.$orderPayload<ExtArgs>, T, "create", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
-
-    /**
-     * Create many Orders.
-     * @param {orderCreateManyArgs} args - Arguments to create many Orders.
-     * @example
-     * // Create many Orders
-     * const order = await prisma.order.createMany({
-     *   data: [
-     *     // ... provide data here
-     *   ]
-     * })
-     *     
-     */
-    createMany<T extends orderCreateManyArgs>(args?: SelectSubset<T, orderCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
-
-    /**
-     * Delete a Order.
-     * @param {orderDeleteArgs} args - Arguments to delete one Order.
-     * @example
-     * // Delete one Order
-     * const Order = await prisma.order.delete({
-     *   where: {
-     *     // ... filter to delete one Order
-     *   }
-     * })
-     * 
-     */
-    delete<T extends orderDeleteArgs>(args: SelectSubset<T, orderDeleteArgs<ExtArgs>>): Prisma__orderClient<$Result.GetResult<Prisma.$orderPayload<ExtArgs>, T, "delete", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
-
-    /**
-     * Update one Order.
-     * @param {orderUpdateArgs} args - Arguments to update one Order.
-     * @example
-     * // Update one Order
-     * const order = await prisma.order.update({
-     *   where: {
-     *     // ... provide filter here
-     *   },
-     *   data: {
-     *     // ... provide data here
-     *   }
-     * })
-     * 
-     */
-    update<T extends orderUpdateArgs>(args: SelectSubset<T, orderUpdateArgs<ExtArgs>>): Prisma__orderClient<$Result.GetResult<Prisma.$orderPayload<ExtArgs>, T, "update", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
-
-    /**
-     * Delete zero or more Orders.
-     * @param {orderDeleteManyArgs} args - Arguments to filter Orders to delete.
-     * @example
-     * // Delete a few Orders
-     * const { count } = await prisma.order.deleteMany({
-     *   where: {
-     *     // ... provide filter here
-     *   }
-     * })
-     * 
-     */
-    deleteMany<T extends orderDeleteManyArgs>(args?: SelectSubset<T, orderDeleteManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
-
-    /**
-     * Update zero or more Orders.
-     * Note, that providing `undefined` is treated as the value not being there.
-     * Read more here: https://pris.ly/d/null-undefined
-     * @param {orderUpdateManyArgs} args - Arguments to update one or more rows.
-     * @example
-     * // Update many Orders
-     * const order = await prisma.order.updateMany({
-     *   where: {
-     *     // ... provide filter here
-     *   },
-     *   data: {
-     *     // ... provide data here
-     *   }
-     * })
-     * 
-     */
-    updateMany<T extends orderUpdateManyArgs>(args: SelectSubset<T, orderUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
-
-    /**
-     * Create or update one Order.
-     * @param {orderUpsertArgs} args - Arguments to update or create a Order.
-     * @example
-     * // Update or create a Order
-     * const order = await prisma.order.upsert({
-     *   create: {
-     *     // ... data to create a Order
-     *   },
-     *   update: {
-     *     // ... in case it already exists, update
-     *   },
-     *   where: {
-     *     // ... the filter for the Order we want to update
-     *   }
-     * })
-     */
-    upsert<T extends orderUpsertArgs>(args: SelectSubset<T, orderUpsertArgs<ExtArgs>>): Prisma__orderClient<$Result.GetResult<Prisma.$orderPayload<ExtArgs>, T, "upsert", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
-
-
-    /**
-     * Count the number of Orders.
-     * Note, that providing `undefined` is treated as the value not being there.
-     * Read more here: https://pris.ly/d/null-undefined
-     * @param {orderCountArgs} args - Arguments to filter Orders to count.
-     * @example
-     * // Count the number of Orders
-     * const count = await prisma.order.count({
-     *   where: {
-     *     // ... the filter for the Orders we want to count
-     *   }
-     * })
-    **/
-    count<T extends orderCountArgs>(
-      args?: Subset<T, orderCountArgs>,
-    ): Prisma.PrismaPromise<
-      T extends $Utils.Record<'select', any>
-        ? T['select'] extends true
-          ? number
-          : GetScalarType<T['select'], OrderCountAggregateOutputType>
-        : number
-    >
-
-    /**
-     * Allows you to perform aggregations operations on a Order.
-     * Note, that providing `undefined` is treated as the value not being there.
-     * Read more here: https://pris.ly/d/null-undefined
-     * @param {OrderAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
-     * @example
-     * // Ordered by age ascending
-     * // Where email contains prisma.io
-     * // Limited to the 10 users
-     * const aggregations = await prisma.user.aggregate({
-     *   _avg: {
-     *     age: true,
-     *   },
-     *   where: {
-     *     email: {
-     *       contains: "prisma.io",
-     *     },
-     *   },
-     *   orderBy: {
-     *     age: "asc",
-     *   },
-     *   take: 10,
-     * })
-    **/
-    aggregate<T extends OrderAggregateArgs>(args: Subset<T, OrderAggregateArgs>): Prisma.PrismaPromise<GetOrderAggregateType<T>>
-
-    /**
-     * Group by Order.
-     * Note, that providing `undefined` is treated as the value not being there.
-     * Read more here: https://pris.ly/d/null-undefined
-     * @param {orderGroupByArgs} args - Group by arguments.
-     * @example
-     * // Group by city, order by createdAt, get count
-     * const result = await prisma.user.groupBy({
-     *   by: ['city', 'createdAt'],
-     *   orderBy: {
-     *     createdAt: true
-     *   },
-     *   _count: {
-     *     _all: true
-     *   },
-     * })
-     * 
-    **/
-    groupBy<
-      T extends orderGroupByArgs,
-      HasSelectOrTake extends Or<
-        Extends<'skip', Keys<T>>,
-        Extends<'take', Keys<T>>
-      >,
-      OrderByArg extends True extends HasSelectOrTake
-        ? { orderBy: orderGroupByArgs['orderBy'] }
-        : { orderBy?: orderGroupByArgs['orderBy'] },
-      OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
-      ByFields extends MaybeTupleToUnion<T['by']>,
-      ByValid extends Has<ByFields, OrderFields>,
-      HavingFields extends GetHavingFields<T['having']>,
-      HavingValid extends Has<ByFields, HavingFields>,
-      ByEmpty extends T['by'] extends never[] ? True : False,
-      InputErrors extends ByEmpty extends True
-      ? `Error: "by" must not be empty.`
-      : HavingValid extends False
-      ? {
-          [P in HavingFields]: P extends ByFields
-            ? never
-            : P extends string
-            ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
-            : [
-                Error,
-                'Field ',
-                P,
-                ` in "having" needs to be provided in "by"`,
-              ]
-        }[HavingFields]
-      : 'take' extends Keys<T>
-      ? 'orderBy' extends Keys<T>
-        ? ByValid extends True
-          ? {}
-          : {
-              [P in OrderFields]: P extends ByFields
-                ? never
-                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
-            }[OrderFields]
-        : 'Error: If you provide "take", you also need to provide "orderBy"'
-      : 'skip' extends Keys<T>
-      ? 'orderBy' extends Keys<T>
-        ? ByValid extends True
-          ? {}
-          : {
-              [P in OrderFields]: P extends ByFields
-                ? never
-                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
-            }[OrderFields]
-        : 'Error: If you provide "skip", you also need to provide "orderBy"'
-      : ByValid extends True
-      ? {}
-      : {
-          [P in OrderFields]: P extends ByFields
-            ? never
-            : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
-        }[OrderFields]
-    >(args: SubsetIntersection<T, orderGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetOrderGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
-  /**
-   * Fields of the order model
-   */
-  readonly fields: orderFieldRefs;
-  }
-
-  /**
-   * The delegate class that acts as a "Promise-like" for order.
-   * Why is this prefixed with `Prisma__`?
-   * Because we want to prevent naming conflicts as mentioned in
-   * https://github.com/prisma/prisma-client-js/issues/707
-   */
-  export interface Prisma__orderClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
-    readonly [Symbol.toStringTag]: "PrismaPromise"
-    /**
-     * Attaches callbacks for the resolution and/or rejection of the Promise.
-     * @param onfulfilled The callback to execute when the Promise is resolved.
-     * @param onrejected The callback to execute when the Promise is rejected.
-     * @returns A Promise for the completion of which ever callback is executed.
-     */
-    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): $Utils.JsPromise<TResult1 | TResult2>
-    /**
-     * Attaches a callback for only the rejection of the Promise.
-     * @param onrejected The callback to execute when the Promise is rejected.
-     * @returns A Promise for the completion of the callback.
-     */
-    catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): $Utils.JsPromise<T | TResult>
-    /**
-     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
-     * resolved value cannot be modified from the callback.
-     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
-     * @returns A Promise for the completion of the callback.
-     */
-    finally(onfinally?: (() => void) | undefined | null): $Utils.JsPromise<T>
-  }
-
-
-
-
-  /**
-   * Fields of the order model
-   */
-  interface orderFieldRefs {
-    readonly id: FieldRef<"order", 'Int'>
-    readonly code: FieldRef<"order", 'String'>
-    readonly name: FieldRef<"order", 'String'>
-    readonly type: FieldRef<"order", 'String'>
-    readonly index: FieldRef<"order", 'String'>
-    readonly supplierName: FieldRef<"order", 'String'>
-    readonly supplierEmail: FieldRef<"order", 'String'>
-    readonly supplierPhone: FieldRef<"order", 'String'>
-    readonly quantityOrdered: FieldRef<"order", 'Decimal'>
-    readonly quantityReceived: FieldRef<"order", 'Decimal'>
-    readonly landedCost: FieldRef<"order", 'Decimal'>
-    readonly priceKsh: FieldRef<"order", 'Decimal'>
-    readonly priceUsd: FieldRef<"order", 'Decimal'>
-    readonly sph: FieldRef<"order", 'Decimal'>
-    readonly cyl: FieldRef<"order", 'Decimal'>
-    readonly axis: FieldRef<"order", 'Int'>
-    readonly nearAdd: FieldRef<"order", 'Decimal'>
-    readonly lensCategory: FieldRef<"order", 'String'>
-    readonly orderDate: FieldRef<"order", 'DateTime'>
-    readonly expectedArrival: FieldRef<"order", 'DateTime'>
-    readonly receivedDate: FieldRef<"order", 'DateTime'>
-    readonly status: FieldRef<"order", 'String'>
-    readonly createdAt: FieldRef<"order", 'DateTime'>
-    readonly updatedAt: FieldRef<"order", 'DateTime'>
-  }
-    
-
-  // Custom InputTypes
-  /**
-   * order findUnique
-   */
-  export type orderFindUniqueArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Select specific fields to fetch from the order
-     */
-    select?: orderSelect<ExtArgs> | null
-    /**
-     * Omit specific fields from the order
-     */
-    omit?: orderOmit<ExtArgs> | null
-    /**
-     * Filter, which order to fetch.
-     */
-    where: orderWhereUniqueInput
-  }
-
-  /**
-   * order findUniqueOrThrow
-   */
-  export type orderFindUniqueOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Select specific fields to fetch from the order
-     */
-    select?: orderSelect<ExtArgs> | null
-    /**
-     * Omit specific fields from the order
-     */
-    omit?: orderOmit<ExtArgs> | null
-    /**
-     * Filter, which order to fetch.
-     */
-    where: orderWhereUniqueInput
-  }
-
-  /**
-   * order findFirst
-   */
-  export type orderFindFirstArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Select specific fields to fetch from the order
-     */
-    select?: orderSelect<ExtArgs> | null
-    /**
-     * Omit specific fields from the order
-     */
-    omit?: orderOmit<ExtArgs> | null
-    /**
-     * Filter, which order to fetch.
-     */
-    where?: orderWhereInput
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
-     * 
-     * Determine the order of orders to fetch.
-     */
-    orderBy?: orderOrderByWithRelationInput | orderOrderByWithRelationInput[]
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
-     * 
-     * Sets the position for searching for orders.
-     */
-    cursor?: orderWhereUniqueInput
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
-     * 
-     * Take `±n` orders from the position of the cursor.
-     */
-    take?: number
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
-     * 
-     * Skip the first `n` orders.
-     */
-    skip?: number
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
-     * 
-     * Filter by unique combinations of orders.
-     */
-    distinct?: OrderScalarFieldEnum | OrderScalarFieldEnum[]
-  }
-
-  /**
-   * order findFirstOrThrow
-   */
-  export type orderFindFirstOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Select specific fields to fetch from the order
-     */
-    select?: orderSelect<ExtArgs> | null
-    /**
-     * Omit specific fields from the order
-     */
-    omit?: orderOmit<ExtArgs> | null
-    /**
-     * Filter, which order to fetch.
-     */
-    where?: orderWhereInput
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
-     * 
-     * Determine the order of orders to fetch.
-     */
-    orderBy?: orderOrderByWithRelationInput | orderOrderByWithRelationInput[]
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
-     * 
-     * Sets the position for searching for orders.
-     */
-    cursor?: orderWhereUniqueInput
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
-     * 
-     * Take `±n` orders from the position of the cursor.
-     */
-    take?: number
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
-     * 
-     * Skip the first `n` orders.
-     */
-    skip?: number
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
-     * 
-     * Filter by unique combinations of orders.
-     */
-    distinct?: OrderScalarFieldEnum | OrderScalarFieldEnum[]
-  }
-
-  /**
-   * order findMany
-   */
-  export type orderFindManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Select specific fields to fetch from the order
-     */
-    select?: orderSelect<ExtArgs> | null
-    /**
-     * Omit specific fields from the order
-     */
-    omit?: orderOmit<ExtArgs> | null
-    /**
-     * Filter, which orders to fetch.
-     */
-    where?: orderWhereInput
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
-     * 
-     * Determine the order of orders to fetch.
-     */
-    orderBy?: orderOrderByWithRelationInput | orderOrderByWithRelationInput[]
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
-     * 
-     * Sets the position for listing orders.
-     */
-    cursor?: orderWhereUniqueInput
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
-     * 
-     * Take `±n` orders from the position of the cursor.
-     */
-    take?: number
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
-     * 
-     * Skip the first `n` orders.
-     */
-    skip?: number
-    distinct?: OrderScalarFieldEnum | OrderScalarFieldEnum[]
-  }
-
-  /**
-   * order create
-   */
-  export type orderCreateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Select specific fields to fetch from the order
-     */
-    select?: orderSelect<ExtArgs> | null
-    /**
-     * Omit specific fields from the order
-     */
-    omit?: orderOmit<ExtArgs> | null
-    /**
-     * The data needed to create a order.
-     */
-    data: XOR<orderCreateInput, orderUncheckedCreateInput>
-  }
-
-  /**
-   * order createMany
-   */
-  export type orderCreateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * The data used to create many orders.
-     */
-    data: orderCreateManyInput | orderCreateManyInput[]
-    skipDuplicates?: boolean
-  }
-
-  /**
-   * order update
-   */
-  export type orderUpdateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Select specific fields to fetch from the order
-     */
-    select?: orderSelect<ExtArgs> | null
-    /**
-     * Omit specific fields from the order
-     */
-    omit?: orderOmit<ExtArgs> | null
-    /**
-     * The data needed to update a order.
-     */
-    data: XOR<orderUpdateInput, orderUncheckedUpdateInput>
-    /**
-     * Choose, which order to update.
-     */
-    where: orderWhereUniqueInput
-  }
-
-  /**
-   * order updateMany
-   */
-  export type orderUpdateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * The data used to update orders.
-     */
-    data: XOR<orderUpdateManyMutationInput, orderUncheckedUpdateManyInput>
-    /**
-     * Filter which orders to update
-     */
-    where?: orderWhereInput
-    /**
-     * Limit how many orders to update.
-     */
-    limit?: number
-  }
-
-  /**
-   * order upsert
-   */
-  export type orderUpsertArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Select specific fields to fetch from the order
-     */
-    select?: orderSelect<ExtArgs> | null
-    /**
-     * Omit specific fields from the order
-     */
-    omit?: orderOmit<ExtArgs> | null
-    /**
-     * The filter to search for the order to update in case it exists.
-     */
-    where: orderWhereUniqueInput
-    /**
-     * In case the order found by the `where` argument doesn't exist, create a new order with this data.
-     */
-    create: XOR<orderCreateInput, orderUncheckedCreateInput>
-    /**
-     * In case the order was found with the provided `where` argument, update it with this data.
-     */
-    update: XOR<orderUpdateInput, orderUncheckedUpdateInput>
-  }
-
-  /**
-   * order delete
-   */
-  export type orderDeleteArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Select specific fields to fetch from the order
-     */
-    select?: orderSelect<ExtArgs> | null
-    /**
-     * Omit specific fields from the order
-     */
-    omit?: orderOmit<ExtArgs> | null
-    /**
-     * Filter which order to delete.
-     */
-    where: orderWhereUniqueInput
-  }
-
-  /**
-   * order deleteMany
-   */
-  export type orderDeleteManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Filter which orders to delete
-     */
-    where?: orderWhereInput
-    /**
-     * Limit how many orders to delete.
-     */
-    limit?: number
-  }
-
-  /**
-   * order without action
-   */
-  export type orderDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Select specific fields to fetch from the order
-     */
-    select?: orderSelect<ExtArgs> | null
-    /**
-     * Omit specific fields from the order
-     */
-    omit?: orderOmit<ExtArgs> | null
   }
 
 
@@ -8278,6 +7034,7 @@ export namespace Prisma {
     wholesalePrice: Decimal | null
     priceKsh: Decimal | null
     priceUsd: Decimal | null
+    costKsh: Decimal | null
   }
 
   export type ContainerItemSumAggregateOutputType = {
@@ -8292,6 +7049,7 @@ export namespace Prisma {
     wholesalePrice: Decimal | null
     priceKsh: Decimal | null
     priceUsd: Decimal | null
+    costKsh: Decimal | null
   }
 
   export type ContainerItemMinAggregateOutputType = {
@@ -8311,6 +7069,7 @@ export namespace Prisma {
     wholesalePrice: Decimal | null
     priceKsh: Decimal | null
     priceUsd: Decimal | null
+    costKsh: Decimal | null
     createdAt: Date | null
   }
 
@@ -8331,6 +7090,7 @@ export namespace Prisma {
     wholesalePrice: Decimal | null
     priceKsh: Decimal | null
     priceUsd: Decimal | null
+    costKsh: Decimal | null
     createdAt: Date | null
   }
 
@@ -8351,6 +7111,7 @@ export namespace Prisma {
     wholesalePrice: number
     priceKsh: number
     priceUsd: number
+    costKsh: number
     createdAt: number
     _all: number
   }
@@ -8368,6 +7129,7 @@ export namespace Prisma {
     wholesalePrice?: true
     priceKsh?: true
     priceUsd?: true
+    costKsh?: true
   }
 
   export type ContainerItemSumAggregateInputType = {
@@ -8382,6 +7144,7 @@ export namespace Prisma {
     wholesalePrice?: true
     priceKsh?: true
     priceUsd?: true
+    costKsh?: true
   }
 
   export type ContainerItemMinAggregateInputType = {
@@ -8401,6 +7164,7 @@ export namespace Prisma {
     wholesalePrice?: true
     priceKsh?: true
     priceUsd?: true
+    costKsh?: true
     createdAt?: true
   }
 
@@ -8421,6 +7185,7 @@ export namespace Prisma {
     wholesalePrice?: true
     priceKsh?: true
     priceUsd?: true
+    costKsh?: true
     createdAt?: true
   }
 
@@ -8441,6 +7206,7 @@ export namespace Prisma {
     wholesalePrice?: true
     priceKsh?: true
     priceUsd?: true
+    costKsh?: true
     createdAt?: true
     _all?: true
   }
@@ -8548,6 +7314,7 @@ export namespace Prisma {
     wholesalePrice: Decimal | null
     priceKsh: Decimal
     priceUsd: Decimal
+    costKsh: Decimal
     createdAt: Date
     _count: ContainerItemCountAggregateOutputType | null
     _avg: ContainerItemAvgAggregateOutputType | null
@@ -8587,6 +7354,7 @@ export namespace Prisma {
     wholesalePrice?: boolean
     priceKsh?: boolean
     priceUsd?: boolean
+    costKsh?: boolean
     createdAt?: boolean
     container?: boolean | containerDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["containerItem"]>
@@ -8610,10 +7378,11 @@ export namespace Prisma {
     wholesalePrice?: boolean
     priceKsh?: boolean
     priceUsd?: boolean
+    costKsh?: boolean
     createdAt?: boolean
   }
 
-  export type containerItemOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "containerId" | "name" | "code" | "type" | "index" | "lensCategory" | "sph" | "cyl" | "axis" | "nearAdd" | "quantityOrdered" | "landedCost" | "wholesalePrice" | "priceKsh" | "priceUsd" | "createdAt", ExtArgs["result"]["containerItem"]>
+  export type containerItemOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "containerId" | "name" | "code" | "type" | "index" | "lensCategory" | "sph" | "cyl" | "axis" | "nearAdd" | "quantityOrdered" | "landedCost" | "wholesalePrice" | "priceKsh" | "priceUsd" | "costKsh" | "createdAt", ExtArgs["result"]["containerItem"]>
   export type containerItemInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     container?: boolean | containerDefaultArgs<ExtArgs>
   }
@@ -8640,6 +7409,7 @@ export namespace Prisma {
       wholesalePrice: Prisma.Decimal | null
       priceKsh: Prisma.Decimal
       priceUsd: Prisma.Decimal
+      costKsh: Prisma.Decimal
       createdAt: Date
     }, ExtArgs["result"]["containerItem"]>
     composites: {}
@@ -9027,6 +7797,7 @@ export namespace Prisma {
     readonly wholesalePrice: FieldRef<"containerItem", 'Decimal'>
     readonly priceKsh: FieldRef<"containerItem", 'Decimal'>
     readonly priceUsd: FieldRef<"containerItem", 'Decimal'>
+    readonly costKsh: FieldRef<"containerItem", 'Decimal'>
     readonly createdAt: FieldRef<"containerItem", 'DateTime'>
   }
     
@@ -10391,6 +9162,7 @@ export namespace Prisma {
     costUsd: Decimal | null
     fob: Decimal | null
     loading: Decimal | null
+    landedCost: Decimal | null
     prevCostPb: Decimal | null
     priceKsh: Decimal | null
     priceUsd: Decimal | null
@@ -10410,6 +9182,7 @@ export namespace Prisma {
     costUsd: Decimal | null
     fob: Decimal | null
     loading: Decimal | null
+    landedCost: Decimal | null
     prevCostPb: Decimal | null
     priceKsh: Decimal | null
     priceUsd: Decimal | null
@@ -10435,6 +9208,7 @@ export namespace Prisma {
     etr: Date | null
     fob: Decimal | null
     loading: Decimal | null
+    landedCost: Decimal | null
     name: string | null
     notes: string | null
     prevCostPb: Decimal | null
@@ -10466,6 +9240,7 @@ export namespace Prisma {
     etr: Date | null
     fob: Decimal | null
     loading: Decimal | null
+    landedCost: Decimal | null
     name: string | null
     notes: string | null
     prevCostPb: Decimal | null
@@ -10497,6 +9272,7 @@ export namespace Prisma {
     etr: number
     fob: number
     loading: number
+    landedCost: number
     name: number
     notes: number
     prevCostPb: number
@@ -10524,6 +9300,7 @@ export namespace Prisma {
     costUsd?: true
     fob?: true
     loading?: true
+    landedCost?: true
     prevCostPb?: true
     priceKsh?: true
     priceUsd?: true
@@ -10543,6 +9320,7 @@ export namespace Prisma {
     costUsd?: true
     fob?: true
     loading?: true
+    landedCost?: true
     prevCostPb?: true
     priceKsh?: true
     priceUsd?: true
@@ -10568,6 +9346,7 @@ export namespace Prisma {
     etr?: true
     fob?: true
     loading?: true
+    landedCost?: true
     name?: true
     notes?: true
     prevCostPb?: true
@@ -10599,6 +9378,7 @@ export namespace Prisma {
     etr?: true
     fob?: true
     loading?: true
+    landedCost?: true
     name?: true
     notes?: true
     prevCostPb?: true
@@ -10630,6 +9410,7 @@ export namespace Prisma {
     etr?: true
     fob?: true
     loading?: true
+    landedCost?: true
     name?: true
     notes?: true
     prevCostPb?: true
@@ -10748,6 +9529,7 @@ export namespace Prisma {
     etr: Date | null
     fob: Decimal | null
     loading: Decimal | null
+    landedCost: Decimal | null
     name: string
     notes: string | null
     prevCostPb: Decimal | null
@@ -10798,6 +9580,7 @@ export namespace Prisma {
     etr?: boolean
     fob?: boolean
     loading?: boolean
+    landedCost?: boolean
     name?: boolean
     notes?: boolean
     prevCostPb?: boolean
@@ -10833,6 +9616,7 @@ export namespace Prisma {
     etr?: boolean
     fob?: boolean
     loading?: boolean
+    landedCost?: boolean
     name?: boolean
     notes?: boolean
     prevCostPb?: boolean
@@ -10851,7 +9635,7 @@ export namespace Prisma {
     isDeleted?: boolean
   }
 
-  export type stockOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "type" | "createdAt" | "updatedAt" | "appPrice" | "bought" | "code" | "costKsh" | "costUsd" | "etr" | "fob" | "loading" | "name" | "notes" | "prevCostPb" | "priceKsh" | "priceUsd" | "profitPerBale" | "qty" | "supplier" | "index" | "wholesalePrice" | "sph" | "cyl" | "axis" | "nearAdd" | "lensCategory" | "isDeleted", ExtArgs["result"]["stock"]>
+  export type stockOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "type" | "createdAt" | "updatedAt" | "appPrice" | "bought" | "code" | "costKsh" | "costUsd" | "etr" | "fob" | "loading" | "landedCost" | "name" | "notes" | "prevCostPb" | "priceKsh" | "priceUsd" | "profitPerBale" | "qty" | "supplier" | "index" | "wholesalePrice" | "sph" | "cyl" | "axis" | "nearAdd" | "lensCategory" | "isDeleted", ExtArgs["result"]["stock"]>
   export type stockInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     saleitem?: boolean | stock$saleitemArgs<ExtArgs>
     _count?: boolean | StockCountOutputTypeDefaultArgs<ExtArgs>
@@ -10875,6 +9659,7 @@ export namespace Prisma {
       etr: Date | null
       fob: Prisma.Decimal | null
       loading: Prisma.Decimal | null
+      landedCost: Prisma.Decimal | null
       name: string
       notes: string | null
       prevCostPb: Prisma.Decimal | null
@@ -11273,6 +10058,7 @@ export namespace Prisma {
     readonly etr: FieldRef<"stock", 'DateTime'>
     readonly fob: FieldRef<"stock", 'Decimal'>
     readonly loading: FieldRef<"stock", 'Decimal'>
+    readonly landedCost: FieldRef<"stock", 'Decimal'>
     readonly name: FieldRef<"stock", 'String'>
     readonly notes: FieldRef<"stock", 'String'>
     readonly prevCostPb: FieldRef<"stock", 'Decimal'>
@@ -15004,36 +13790,6 @@ export namespace Prisma {
   export type ExpenseScalarFieldEnum = (typeof ExpenseScalarFieldEnum)[keyof typeof ExpenseScalarFieldEnum]
 
 
-  export const OrderScalarFieldEnum: {
-    id: 'id',
-    code: 'code',
-    name: 'name',
-    type: 'type',
-    index: 'index',
-    supplierName: 'supplierName',
-    supplierEmail: 'supplierEmail',
-    supplierPhone: 'supplierPhone',
-    quantityOrdered: 'quantityOrdered',
-    quantityReceived: 'quantityReceived',
-    landedCost: 'landedCost',
-    priceKsh: 'priceKsh',
-    priceUsd: 'priceUsd',
-    sph: 'sph',
-    cyl: 'cyl',
-    axis: 'axis',
-    nearAdd: 'nearAdd',
-    lensCategory: 'lensCategory',
-    orderDate: 'orderDate',
-    expectedArrival: 'expectedArrival',
-    receivedDate: 'receivedDate',
-    status: 'status',
-    createdAt: 'createdAt',
-    updatedAt: 'updatedAt'
-  };
-
-  export type OrderScalarFieldEnum = (typeof OrderScalarFieldEnum)[keyof typeof OrderScalarFieldEnum]
-
-
   export const PatientScalarFieldEnum: {
     id: 'id',
     firstName: 'firstName',
@@ -15097,6 +13853,7 @@ export namespace Prisma {
     wholesalePrice: 'wholesalePrice',
     priceKsh: 'priceKsh',
     priceUsd: 'priceUsd',
+    costKsh: 'costKsh',
     createdAt: 'createdAt'
   };
 
@@ -15127,6 +13884,7 @@ export namespace Prisma {
     etr: 'etr',
     fob: 'fob',
     loading: 'loading',
+    landedCost: 'landedCost',
     name: 'name',
     notes: 'notes',
     prevCostPb: 'prevCostPb',
@@ -15254,21 +14012,6 @@ export namespace Prisma {
   };
 
   export type expenseOrderByRelevanceFieldEnum = (typeof expenseOrderByRelevanceFieldEnum)[keyof typeof expenseOrderByRelevanceFieldEnum]
-
-
-  export const orderOrderByRelevanceFieldEnum: {
-    code: 'code',
-    name: 'name',
-    type: 'type',
-    index: 'index',
-    supplierName: 'supplierName',
-    supplierEmail: 'supplierEmail',
-    supplierPhone: 'supplierPhone',
-    lensCategory: 'lensCategory',
-    status: 'status'
-  };
-
-  export type orderOrderByRelevanceFieldEnum = (typeof orderOrderByRelevanceFieldEnum)[keyof typeof orderOrderByRelevanceFieldEnum]
 
 
   export const patientOrderByRelevanceFieldEnum: {
@@ -15555,156 +14298,6 @@ export namespace Prisma {
     updatedAt?: DateTimeWithAggregatesFilter<"expense"> | Date | string
   }
 
-  export type orderWhereInput = {
-    AND?: orderWhereInput | orderWhereInput[]
-    OR?: orderWhereInput[]
-    NOT?: orderWhereInput | orderWhereInput[]
-    id?: IntFilter<"order"> | number
-    code?: StringFilter<"order"> | string
-    name?: StringFilter<"order"> | string
-    type?: StringFilter<"order"> | string
-    index?: StringNullableFilter<"order"> | string | null
-    supplierName?: StringFilter<"order"> | string
-    supplierEmail?: StringNullableFilter<"order"> | string | null
-    supplierPhone?: StringNullableFilter<"order"> | string | null
-    quantityOrdered?: DecimalFilter<"order"> | Decimal | DecimalJsLike | number | string
-    quantityReceived?: DecimalFilter<"order"> | Decimal | DecimalJsLike | number | string
-    landedCost?: DecimalFilter<"order"> | Decimal | DecimalJsLike | number | string
-    priceKsh?: DecimalFilter<"order"> | Decimal | DecimalJsLike | number | string
-    priceUsd?: DecimalFilter<"order"> | Decimal | DecimalJsLike | number | string
-    sph?: DecimalNullableFilter<"order"> | Decimal | DecimalJsLike | number | string | null
-    cyl?: DecimalNullableFilter<"order"> | Decimal | DecimalJsLike | number | string | null
-    axis?: IntNullableFilter<"order"> | number | null
-    nearAdd?: DecimalNullableFilter<"order"> | Decimal | DecimalJsLike | number | string | null
-    lensCategory?: StringNullableFilter<"order"> | string | null
-    orderDate?: DateTimeFilter<"order"> | Date | string
-    expectedArrival?: DateTimeNullableFilter<"order"> | Date | string | null
-    receivedDate?: DateTimeNullableFilter<"order"> | Date | string | null
-    status?: StringFilter<"order"> | string
-    createdAt?: DateTimeFilter<"order"> | Date | string
-    updatedAt?: DateTimeFilter<"order"> | Date | string
-  }
-
-  export type orderOrderByWithRelationInput = {
-    id?: SortOrder
-    code?: SortOrder
-    name?: SortOrder
-    type?: SortOrder
-    index?: SortOrderInput | SortOrder
-    supplierName?: SortOrder
-    supplierEmail?: SortOrderInput | SortOrder
-    supplierPhone?: SortOrderInput | SortOrder
-    quantityOrdered?: SortOrder
-    quantityReceived?: SortOrder
-    landedCost?: SortOrder
-    priceKsh?: SortOrder
-    priceUsd?: SortOrder
-    sph?: SortOrderInput | SortOrder
-    cyl?: SortOrderInput | SortOrder
-    axis?: SortOrderInput | SortOrder
-    nearAdd?: SortOrderInput | SortOrder
-    lensCategory?: SortOrderInput | SortOrder
-    orderDate?: SortOrder
-    expectedArrival?: SortOrderInput | SortOrder
-    receivedDate?: SortOrderInput | SortOrder
-    status?: SortOrder
-    createdAt?: SortOrder
-    updatedAt?: SortOrder
-    _relevance?: orderOrderByRelevanceInput
-  }
-
-  export type orderWhereUniqueInput = Prisma.AtLeast<{
-    id?: number
-    AND?: orderWhereInput | orderWhereInput[]
-    OR?: orderWhereInput[]
-    NOT?: orderWhereInput | orderWhereInput[]
-    code?: StringFilter<"order"> | string
-    name?: StringFilter<"order"> | string
-    type?: StringFilter<"order"> | string
-    index?: StringNullableFilter<"order"> | string | null
-    supplierName?: StringFilter<"order"> | string
-    supplierEmail?: StringNullableFilter<"order"> | string | null
-    supplierPhone?: StringNullableFilter<"order"> | string | null
-    quantityOrdered?: DecimalFilter<"order"> | Decimal | DecimalJsLike | number | string
-    quantityReceived?: DecimalFilter<"order"> | Decimal | DecimalJsLike | number | string
-    landedCost?: DecimalFilter<"order"> | Decimal | DecimalJsLike | number | string
-    priceKsh?: DecimalFilter<"order"> | Decimal | DecimalJsLike | number | string
-    priceUsd?: DecimalFilter<"order"> | Decimal | DecimalJsLike | number | string
-    sph?: DecimalNullableFilter<"order"> | Decimal | DecimalJsLike | number | string | null
-    cyl?: DecimalNullableFilter<"order"> | Decimal | DecimalJsLike | number | string | null
-    axis?: IntNullableFilter<"order"> | number | null
-    nearAdd?: DecimalNullableFilter<"order"> | Decimal | DecimalJsLike | number | string | null
-    lensCategory?: StringNullableFilter<"order"> | string | null
-    orderDate?: DateTimeFilter<"order"> | Date | string
-    expectedArrival?: DateTimeNullableFilter<"order"> | Date | string | null
-    receivedDate?: DateTimeNullableFilter<"order"> | Date | string | null
-    status?: StringFilter<"order"> | string
-    createdAt?: DateTimeFilter<"order"> | Date | string
-    updatedAt?: DateTimeFilter<"order"> | Date | string
-  }, "id">
-
-  export type orderOrderByWithAggregationInput = {
-    id?: SortOrder
-    code?: SortOrder
-    name?: SortOrder
-    type?: SortOrder
-    index?: SortOrderInput | SortOrder
-    supplierName?: SortOrder
-    supplierEmail?: SortOrderInput | SortOrder
-    supplierPhone?: SortOrderInput | SortOrder
-    quantityOrdered?: SortOrder
-    quantityReceived?: SortOrder
-    landedCost?: SortOrder
-    priceKsh?: SortOrder
-    priceUsd?: SortOrder
-    sph?: SortOrderInput | SortOrder
-    cyl?: SortOrderInput | SortOrder
-    axis?: SortOrderInput | SortOrder
-    nearAdd?: SortOrderInput | SortOrder
-    lensCategory?: SortOrderInput | SortOrder
-    orderDate?: SortOrder
-    expectedArrival?: SortOrderInput | SortOrder
-    receivedDate?: SortOrderInput | SortOrder
-    status?: SortOrder
-    createdAt?: SortOrder
-    updatedAt?: SortOrder
-    _count?: orderCountOrderByAggregateInput
-    _avg?: orderAvgOrderByAggregateInput
-    _max?: orderMaxOrderByAggregateInput
-    _min?: orderMinOrderByAggregateInput
-    _sum?: orderSumOrderByAggregateInput
-  }
-
-  export type orderScalarWhereWithAggregatesInput = {
-    AND?: orderScalarWhereWithAggregatesInput | orderScalarWhereWithAggregatesInput[]
-    OR?: orderScalarWhereWithAggregatesInput[]
-    NOT?: orderScalarWhereWithAggregatesInput | orderScalarWhereWithAggregatesInput[]
-    id?: IntWithAggregatesFilter<"order"> | number
-    code?: StringWithAggregatesFilter<"order"> | string
-    name?: StringWithAggregatesFilter<"order"> | string
-    type?: StringWithAggregatesFilter<"order"> | string
-    index?: StringNullableWithAggregatesFilter<"order"> | string | null
-    supplierName?: StringWithAggregatesFilter<"order"> | string
-    supplierEmail?: StringNullableWithAggregatesFilter<"order"> | string | null
-    supplierPhone?: StringNullableWithAggregatesFilter<"order"> | string | null
-    quantityOrdered?: DecimalWithAggregatesFilter<"order"> | Decimal | DecimalJsLike | number | string
-    quantityReceived?: DecimalWithAggregatesFilter<"order"> | Decimal | DecimalJsLike | number | string
-    landedCost?: DecimalWithAggregatesFilter<"order"> | Decimal | DecimalJsLike | number | string
-    priceKsh?: DecimalWithAggregatesFilter<"order"> | Decimal | DecimalJsLike | number | string
-    priceUsd?: DecimalWithAggregatesFilter<"order"> | Decimal | DecimalJsLike | number | string
-    sph?: DecimalNullableWithAggregatesFilter<"order"> | Decimal | DecimalJsLike | number | string | null
-    cyl?: DecimalNullableWithAggregatesFilter<"order"> | Decimal | DecimalJsLike | number | string | null
-    axis?: IntNullableWithAggregatesFilter<"order"> | number | null
-    nearAdd?: DecimalNullableWithAggregatesFilter<"order"> | Decimal | DecimalJsLike | number | string | null
-    lensCategory?: StringNullableWithAggregatesFilter<"order"> | string | null
-    orderDate?: DateTimeWithAggregatesFilter<"order"> | Date | string
-    expectedArrival?: DateTimeNullableWithAggregatesFilter<"order"> | Date | string | null
-    receivedDate?: DateTimeNullableWithAggregatesFilter<"order"> | Date | string | null
-    status?: StringWithAggregatesFilter<"order"> | string
-    createdAt?: DateTimeWithAggregatesFilter<"order"> | Date | string
-    updatedAt?: DateTimeWithAggregatesFilter<"order"> | Date | string
-  }
-
   export type patientWhereInput = {
     AND?: patientWhereInput | patientWhereInput[]
     OR?: patientWhereInput[]
@@ -15973,6 +14566,7 @@ export namespace Prisma {
     wholesalePrice?: DecimalNullableFilter<"containerItem"> | Decimal | DecimalJsLike | number | string | null
     priceKsh?: DecimalFilter<"containerItem"> | Decimal | DecimalJsLike | number | string
     priceUsd?: DecimalFilter<"containerItem"> | Decimal | DecimalJsLike | number | string
+    costKsh?: DecimalFilter<"containerItem"> | Decimal | DecimalJsLike | number | string
     createdAt?: DateTimeFilter<"containerItem"> | Date | string
     container?: XOR<ContainerScalarRelationFilter, containerWhereInput>
   }
@@ -15994,6 +14588,7 @@ export namespace Prisma {
     wholesalePrice?: SortOrderInput | SortOrder
     priceKsh?: SortOrder
     priceUsd?: SortOrder
+    costKsh?: SortOrder
     createdAt?: SortOrder
     container?: containerOrderByWithRelationInput
     _relevance?: containerItemOrderByRelevanceInput
@@ -16019,6 +14614,7 @@ export namespace Prisma {
     wholesalePrice?: DecimalNullableFilter<"containerItem"> | Decimal | DecimalJsLike | number | string | null
     priceKsh?: DecimalFilter<"containerItem"> | Decimal | DecimalJsLike | number | string
     priceUsd?: DecimalFilter<"containerItem"> | Decimal | DecimalJsLike | number | string
+    costKsh?: DecimalFilter<"containerItem"> | Decimal | DecimalJsLike | number | string
     createdAt?: DateTimeFilter<"containerItem"> | Date | string
     container?: XOR<ContainerScalarRelationFilter, containerWhereInput>
   }, "id">
@@ -16040,6 +14636,7 @@ export namespace Prisma {
     wholesalePrice?: SortOrderInput | SortOrder
     priceKsh?: SortOrder
     priceUsd?: SortOrder
+    costKsh?: SortOrder
     createdAt?: SortOrder
     _count?: containerItemCountOrderByAggregateInput
     _avg?: containerItemAvgOrderByAggregateInput
@@ -16068,6 +14665,7 @@ export namespace Prisma {
     wholesalePrice?: DecimalNullableWithAggregatesFilter<"containerItem"> | Decimal | DecimalJsLike | number | string | null
     priceKsh?: DecimalWithAggregatesFilter<"containerItem"> | Decimal | DecimalJsLike | number | string
     priceUsd?: DecimalWithAggregatesFilter<"containerItem"> | Decimal | DecimalJsLike | number | string
+    costKsh?: DecimalWithAggregatesFilter<"containerItem"> | Decimal | DecimalJsLike | number | string
     createdAt?: DateTimeWithAggregatesFilter<"containerItem"> | Date | string
   }
 
@@ -16147,6 +14745,7 @@ export namespace Prisma {
     etr?: DateTimeNullableFilter<"stock"> | Date | string | null
     fob?: DecimalNullableFilter<"stock"> | Decimal | DecimalJsLike | number | string | null
     loading?: DecimalNullableFilter<"stock"> | Decimal | DecimalJsLike | number | string | null
+    landedCost?: DecimalNullableFilter<"stock"> | Decimal | DecimalJsLike | number | string | null
     name?: StringFilter<"stock"> | string
     notes?: StringNullableFilter<"stock"> | string | null
     prevCostPb?: DecimalNullableFilter<"stock"> | Decimal | DecimalJsLike | number | string | null
@@ -16179,6 +14778,7 @@ export namespace Prisma {
     etr?: SortOrderInput | SortOrder
     fob?: SortOrderInput | SortOrder
     loading?: SortOrderInput | SortOrder
+    landedCost?: SortOrderInput | SortOrder
     name?: SortOrder
     notes?: SortOrderInput | SortOrder
     prevCostPb?: SortOrderInput | SortOrder
@@ -16215,6 +14815,7 @@ export namespace Prisma {
     etr?: DateTimeNullableFilter<"stock"> | Date | string | null
     fob?: DecimalNullableFilter<"stock"> | Decimal | DecimalJsLike | number | string | null
     loading?: DecimalNullableFilter<"stock"> | Decimal | DecimalJsLike | number | string | null
+    landedCost?: DecimalNullableFilter<"stock"> | Decimal | DecimalJsLike | number | string | null
     name?: StringFilter<"stock"> | string
     notes?: StringNullableFilter<"stock"> | string | null
     prevCostPb?: DecimalNullableFilter<"stock"> | Decimal | DecimalJsLike | number | string | null
@@ -16247,6 +14848,7 @@ export namespace Prisma {
     etr?: SortOrderInput | SortOrder
     fob?: SortOrderInput | SortOrder
     loading?: SortOrderInput | SortOrder
+    landedCost?: SortOrderInput | SortOrder
     name?: SortOrder
     notes?: SortOrderInput | SortOrder
     prevCostPb?: SortOrderInput | SortOrder
@@ -16286,6 +14888,7 @@ export namespace Prisma {
     etr?: DateTimeNullableWithAggregatesFilter<"stock"> | Date | string | null
     fob?: DecimalNullableWithAggregatesFilter<"stock"> | Decimal | DecimalJsLike | number | string | null
     loading?: DecimalNullableWithAggregatesFilter<"stock"> | Decimal | DecimalJsLike | number | string | null
+    landedCost?: DecimalNullableWithAggregatesFilter<"stock"> | Decimal | DecimalJsLike | number | string | null
     name?: StringWithAggregatesFilter<"stock"> | string
     notes?: StringNullableWithAggregatesFilter<"stock"> | string | null
     prevCostPb?: DecimalNullableWithAggregatesFilter<"stock"> | Decimal | DecimalJsLike | number | string | null
@@ -16810,192 +15413,6 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
-  export type orderCreateInput = {
-    code: string
-    name: string
-    type: string
-    index?: string | null
-    supplierName: string
-    supplierEmail?: string | null
-    supplierPhone?: string | null
-    quantityOrdered: Decimal | DecimalJsLike | number | string
-    quantityReceived?: Decimal | DecimalJsLike | number | string
-    landedCost: Decimal | DecimalJsLike | number | string
-    priceKsh?: Decimal | DecimalJsLike | number | string
-    priceUsd?: Decimal | DecimalJsLike | number | string
-    sph?: Decimal | DecimalJsLike | number | string | null
-    cyl?: Decimal | DecimalJsLike | number | string | null
-    axis?: number | null
-    nearAdd?: Decimal | DecimalJsLike | number | string | null
-    lensCategory?: string | null
-    orderDate?: Date | string
-    expectedArrival?: Date | string | null
-    receivedDate?: Date | string | null
-    status?: string
-    createdAt?: Date | string
-    updatedAt?: Date | string
-  }
-
-  export type orderUncheckedCreateInput = {
-    id?: number
-    code: string
-    name: string
-    type: string
-    index?: string | null
-    supplierName: string
-    supplierEmail?: string | null
-    supplierPhone?: string | null
-    quantityOrdered: Decimal | DecimalJsLike | number | string
-    quantityReceived?: Decimal | DecimalJsLike | number | string
-    landedCost: Decimal | DecimalJsLike | number | string
-    priceKsh?: Decimal | DecimalJsLike | number | string
-    priceUsd?: Decimal | DecimalJsLike | number | string
-    sph?: Decimal | DecimalJsLike | number | string | null
-    cyl?: Decimal | DecimalJsLike | number | string | null
-    axis?: number | null
-    nearAdd?: Decimal | DecimalJsLike | number | string | null
-    lensCategory?: string | null
-    orderDate?: Date | string
-    expectedArrival?: Date | string | null
-    receivedDate?: Date | string | null
-    status?: string
-    createdAt?: Date | string
-    updatedAt?: Date | string
-  }
-
-  export type orderUpdateInput = {
-    code?: StringFieldUpdateOperationsInput | string
-    name?: StringFieldUpdateOperationsInput | string
-    type?: StringFieldUpdateOperationsInput | string
-    index?: NullableStringFieldUpdateOperationsInput | string | null
-    supplierName?: StringFieldUpdateOperationsInput | string
-    supplierEmail?: NullableStringFieldUpdateOperationsInput | string | null
-    supplierPhone?: NullableStringFieldUpdateOperationsInput | string | null
-    quantityOrdered?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
-    quantityReceived?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
-    landedCost?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
-    priceKsh?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
-    priceUsd?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
-    sph?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
-    cyl?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
-    axis?: NullableIntFieldUpdateOperationsInput | number | null
-    nearAdd?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
-    lensCategory?: NullableStringFieldUpdateOperationsInput | string | null
-    orderDate?: DateTimeFieldUpdateOperationsInput | Date | string
-    expectedArrival?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    receivedDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    status?: StringFieldUpdateOperationsInput | string
-    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-  }
-
-  export type orderUncheckedUpdateInput = {
-    id?: IntFieldUpdateOperationsInput | number
-    code?: StringFieldUpdateOperationsInput | string
-    name?: StringFieldUpdateOperationsInput | string
-    type?: StringFieldUpdateOperationsInput | string
-    index?: NullableStringFieldUpdateOperationsInput | string | null
-    supplierName?: StringFieldUpdateOperationsInput | string
-    supplierEmail?: NullableStringFieldUpdateOperationsInput | string | null
-    supplierPhone?: NullableStringFieldUpdateOperationsInput | string | null
-    quantityOrdered?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
-    quantityReceived?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
-    landedCost?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
-    priceKsh?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
-    priceUsd?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
-    sph?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
-    cyl?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
-    axis?: NullableIntFieldUpdateOperationsInput | number | null
-    nearAdd?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
-    lensCategory?: NullableStringFieldUpdateOperationsInput | string | null
-    orderDate?: DateTimeFieldUpdateOperationsInput | Date | string
-    expectedArrival?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    receivedDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    status?: StringFieldUpdateOperationsInput | string
-    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-  }
-
-  export type orderCreateManyInput = {
-    id?: number
-    code: string
-    name: string
-    type: string
-    index?: string | null
-    supplierName: string
-    supplierEmail?: string | null
-    supplierPhone?: string | null
-    quantityOrdered: Decimal | DecimalJsLike | number | string
-    quantityReceived?: Decimal | DecimalJsLike | number | string
-    landedCost: Decimal | DecimalJsLike | number | string
-    priceKsh?: Decimal | DecimalJsLike | number | string
-    priceUsd?: Decimal | DecimalJsLike | number | string
-    sph?: Decimal | DecimalJsLike | number | string | null
-    cyl?: Decimal | DecimalJsLike | number | string | null
-    axis?: number | null
-    nearAdd?: Decimal | DecimalJsLike | number | string | null
-    lensCategory?: string | null
-    orderDate?: Date | string
-    expectedArrival?: Date | string | null
-    receivedDate?: Date | string | null
-    status?: string
-    createdAt?: Date | string
-    updatedAt?: Date | string
-  }
-
-  export type orderUpdateManyMutationInput = {
-    code?: StringFieldUpdateOperationsInput | string
-    name?: StringFieldUpdateOperationsInput | string
-    type?: StringFieldUpdateOperationsInput | string
-    index?: NullableStringFieldUpdateOperationsInput | string | null
-    supplierName?: StringFieldUpdateOperationsInput | string
-    supplierEmail?: NullableStringFieldUpdateOperationsInput | string | null
-    supplierPhone?: NullableStringFieldUpdateOperationsInput | string | null
-    quantityOrdered?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
-    quantityReceived?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
-    landedCost?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
-    priceKsh?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
-    priceUsd?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
-    sph?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
-    cyl?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
-    axis?: NullableIntFieldUpdateOperationsInput | number | null
-    nearAdd?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
-    lensCategory?: NullableStringFieldUpdateOperationsInput | string | null
-    orderDate?: DateTimeFieldUpdateOperationsInput | Date | string
-    expectedArrival?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    receivedDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    status?: StringFieldUpdateOperationsInput | string
-    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-  }
-
-  export type orderUncheckedUpdateManyInput = {
-    id?: IntFieldUpdateOperationsInput | number
-    code?: StringFieldUpdateOperationsInput | string
-    name?: StringFieldUpdateOperationsInput | string
-    type?: StringFieldUpdateOperationsInput | string
-    index?: NullableStringFieldUpdateOperationsInput | string | null
-    supplierName?: StringFieldUpdateOperationsInput | string
-    supplierEmail?: NullableStringFieldUpdateOperationsInput | string | null
-    supplierPhone?: NullableStringFieldUpdateOperationsInput | string | null
-    quantityOrdered?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
-    quantityReceived?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
-    landedCost?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
-    priceKsh?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
-    priceUsd?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
-    sph?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
-    cyl?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
-    axis?: NullableIntFieldUpdateOperationsInput | number | null
-    nearAdd?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
-    lensCategory?: NullableStringFieldUpdateOperationsInput | string | null
-    orderDate?: DateTimeFieldUpdateOperationsInput | Date | string
-    expectedArrival?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    receivedDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    status?: StringFieldUpdateOperationsInput | string
-    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-  }
-
   export type patientCreateInput = {
     firstName: string
     lastName: string
@@ -17275,6 +15692,7 @@ export namespace Prisma {
     wholesalePrice?: Decimal | DecimalJsLike | number | string | null
     priceKsh?: Decimal | DecimalJsLike | number | string
     priceUsd?: Decimal | DecimalJsLike | number | string
+    costKsh?: Decimal | DecimalJsLike | number | string
     createdAt?: Date | string
     container: containerCreateNestedOneWithoutItemsInput
   }
@@ -17296,6 +15714,7 @@ export namespace Prisma {
     wholesalePrice?: Decimal | DecimalJsLike | number | string | null
     priceKsh?: Decimal | DecimalJsLike | number | string
     priceUsd?: Decimal | DecimalJsLike | number | string
+    costKsh?: Decimal | DecimalJsLike | number | string
     createdAt?: Date | string
   }
 
@@ -17314,6 +15733,7 @@ export namespace Prisma {
     wholesalePrice?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
     priceKsh?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
     priceUsd?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    costKsh?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     container?: containerUpdateOneRequiredWithoutItemsNestedInput
   }
@@ -17335,6 +15755,7 @@ export namespace Prisma {
     wholesalePrice?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
     priceKsh?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
     priceUsd?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    costKsh?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
@@ -17355,6 +15776,7 @@ export namespace Prisma {
     wholesalePrice?: Decimal | DecimalJsLike | number | string | null
     priceKsh?: Decimal | DecimalJsLike | number | string
     priceUsd?: Decimal | DecimalJsLike | number | string
+    costKsh?: Decimal | DecimalJsLike | number | string
     createdAt?: Date | string
   }
 
@@ -17373,6 +15795,7 @@ export namespace Prisma {
     wholesalePrice?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
     priceKsh?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
     priceUsd?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    costKsh?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
@@ -17393,6 +15816,7 @@ export namespace Prisma {
     wholesalePrice?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
     priceKsh?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
     priceUsd?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    costKsh?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
@@ -17459,6 +15883,7 @@ export namespace Prisma {
     etr?: Date | string | null
     fob?: Decimal | DecimalJsLike | number | string | null
     loading?: Decimal | DecimalJsLike | number | string | null
+    landedCost?: Decimal | DecimalJsLike | number | string | null
     name: string
     notes?: string | null
     prevCostPb?: Decimal | DecimalJsLike | number | string | null
@@ -17491,6 +15916,7 @@ export namespace Prisma {
     etr?: Date | string | null
     fob?: Decimal | DecimalJsLike | number | string | null
     loading?: Decimal | DecimalJsLike | number | string | null
+    landedCost?: Decimal | DecimalJsLike | number | string | null
     name: string
     notes?: string | null
     prevCostPb?: Decimal | DecimalJsLike | number | string | null
@@ -17522,6 +15948,7 @@ export namespace Prisma {
     etr?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     fob?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
     loading?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
+    landedCost?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
     name?: StringFieldUpdateOperationsInput | string
     notes?: NullableStringFieldUpdateOperationsInput | string | null
     prevCostPb?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
@@ -17554,6 +15981,7 @@ export namespace Prisma {
     etr?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     fob?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
     loading?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
+    landedCost?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
     name?: StringFieldUpdateOperationsInput | string
     notes?: NullableStringFieldUpdateOperationsInput | string | null
     prevCostPb?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
@@ -17586,6 +16014,7 @@ export namespace Prisma {
     etr?: Date | string | null
     fob?: Decimal | DecimalJsLike | number | string | null
     loading?: Decimal | DecimalJsLike | number | string | null
+    landedCost?: Decimal | DecimalJsLike | number | string | null
     name: string
     notes?: string | null
     prevCostPb?: Decimal | DecimalJsLike | number | string | null
@@ -17616,6 +16045,7 @@ export namespace Prisma {
     etr?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     fob?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
     loading?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
+    landedCost?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
     name?: StringFieldUpdateOperationsInput | string
     notes?: NullableStringFieldUpdateOperationsInput | string | null
     prevCostPb?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
@@ -17647,6 +16077,7 @@ export namespace Prisma {
     etr?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     fob?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
     loading?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
+    landedCost?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
     name?: StringFieldUpdateOperationsInput | string
     notes?: NullableStringFieldUpdateOperationsInput | string | null
     prevCostPb?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
@@ -18340,39 +16771,6 @@ export namespace Prisma {
     _max?: NestedFloatFilter<$PrismaModel>
   }
 
-  export type DecimalFilter<$PrismaModel = never> = {
-    equals?: Decimal | DecimalJsLike | number | string | DecimalFieldRefInput<$PrismaModel>
-    in?: Decimal[] | DecimalJsLike[] | number[] | string[]
-    notIn?: Decimal[] | DecimalJsLike[] | number[] | string[]
-    lt?: Decimal | DecimalJsLike | number | string | DecimalFieldRefInput<$PrismaModel>
-    lte?: Decimal | DecimalJsLike | number | string | DecimalFieldRefInput<$PrismaModel>
-    gt?: Decimal | DecimalJsLike | number | string | DecimalFieldRefInput<$PrismaModel>
-    gte?: Decimal | DecimalJsLike | number | string | DecimalFieldRefInput<$PrismaModel>
-    not?: NestedDecimalFilter<$PrismaModel> | Decimal | DecimalJsLike | number | string
-  }
-
-  export type DecimalNullableFilter<$PrismaModel = never> = {
-    equals?: Decimal | DecimalJsLike | number | string | DecimalFieldRefInput<$PrismaModel> | null
-    in?: Decimal[] | DecimalJsLike[] | number[] | string[] | null
-    notIn?: Decimal[] | DecimalJsLike[] | number[] | string[] | null
-    lt?: Decimal | DecimalJsLike | number | string | DecimalFieldRefInput<$PrismaModel>
-    lte?: Decimal | DecimalJsLike | number | string | DecimalFieldRefInput<$PrismaModel>
-    gt?: Decimal | DecimalJsLike | number | string | DecimalFieldRefInput<$PrismaModel>
-    gte?: Decimal | DecimalJsLike | number | string | DecimalFieldRefInput<$PrismaModel>
-    not?: NestedDecimalNullableFilter<$PrismaModel> | Decimal | DecimalJsLike | number | string | null
-  }
-
-  export type IntNullableFilter<$PrismaModel = never> = {
-    equals?: number | IntFieldRefInput<$PrismaModel> | null
-    in?: number[] | null
-    notIn?: number[] | null
-    lt?: number | IntFieldRefInput<$PrismaModel>
-    lte?: number | IntFieldRefInput<$PrismaModel>
-    gt?: number | IntFieldRefInput<$PrismaModel>
-    gte?: number | IntFieldRefInput<$PrismaModel>
-    not?: NestedIntNullableFilter<$PrismaModel> | number | null
-  }
-
   export type DateTimeNullableFilter<$PrismaModel = never> = {
     equals?: Date | string | DateTimeFieldRefInput<$PrismaModel> | null
     in?: Date[] | string[] | null
@@ -18382,181 +16780,6 @@ export namespace Prisma {
     gt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
     gte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
     not?: NestedDateTimeNullableFilter<$PrismaModel> | Date | string | null
-  }
-
-  export type orderOrderByRelevanceInput = {
-    fields: orderOrderByRelevanceFieldEnum | orderOrderByRelevanceFieldEnum[]
-    sort: SortOrder
-    search: string
-  }
-
-  export type orderCountOrderByAggregateInput = {
-    id?: SortOrder
-    code?: SortOrder
-    name?: SortOrder
-    type?: SortOrder
-    index?: SortOrder
-    supplierName?: SortOrder
-    supplierEmail?: SortOrder
-    supplierPhone?: SortOrder
-    quantityOrdered?: SortOrder
-    quantityReceived?: SortOrder
-    landedCost?: SortOrder
-    priceKsh?: SortOrder
-    priceUsd?: SortOrder
-    sph?: SortOrder
-    cyl?: SortOrder
-    axis?: SortOrder
-    nearAdd?: SortOrder
-    lensCategory?: SortOrder
-    orderDate?: SortOrder
-    expectedArrival?: SortOrder
-    receivedDate?: SortOrder
-    status?: SortOrder
-    createdAt?: SortOrder
-    updatedAt?: SortOrder
-  }
-
-  export type orderAvgOrderByAggregateInput = {
-    id?: SortOrder
-    quantityOrdered?: SortOrder
-    quantityReceived?: SortOrder
-    landedCost?: SortOrder
-    priceKsh?: SortOrder
-    priceUsd?: SortOrder
-    sph?: SortOrder
-    cyl?: SortOrder
-    axis?: SortOrder
-    nearAdd?: SortOrder
-  }
-
-  export type orderMaxOrderByAggregateInput = {
-    id?: SortOrder
-    code?: SortOrder
-    name?: SortOrder
-    type?: SortOrder
-    index?: SortOrder
-    supplierName?: SortOrder
-    supplierEmail?: SortOrder
-    supplierPhone?: SortOrder
-    quantityOrdered?: SortOrder
-    quantityReceived?: SortOrder
-    landedCost?: SortOrder
-    priceKsh?: SortOrder
-    priceUsd?: SortOrder
-    sph?: SortOrder
-    cyl?: SortOrder
-    axis?: SortOrder
-    nearAdd?: SortOrder
-    lensCategory?: SortOrder
-    orderDate?: SortOrder
-    expectedArrival?: SortOrder
-    receivedDate?: SortOrder
-    status?: SortOrder
-    createdAt?: SortOrder
-    updatedAt?: SortOrder
-  }
-
-  export type orderMinOrderByAggregateInput = {
-    id?: SortOrder
-    code?: SortOrder
-    name?: SortOrder
-    type?: SortOrder
-    index?: SortOrder
-    supplierName?: SortOrder
-    supplierEmail?: SortOrder
-    supplierPhone?: SortOrder
-    quantityOrdered?: SortOrder
-    quantityReceived?: SortOrder
-    landedCost?: SortOrder
-    priceKsh?: SortOrder
-    priceUsd?: SortOrder
-    sph?: SortOrder
-    cyl?: SortOrder
-    axis?: SortOrder
-    nearAdd?: SortOrder
-    lensCategory?: SortOrder
-    orderDate?: SortOrder
-    expectedArrival?: SortOrder
-    receivedDate?: SortOrder
-    status?: SortOrder
-    createdAt?: SortOrder
-    updatedAt?: SortOrder
-  }
-
-  export type orderSumOrderByAggregateInput = {
-    id?: SortOrder
-    quantityOrdered?: SortOrder
-    quantityReceived?: SortOrder
-    landedCost?: SortOrder
-    priceKsh?: SortOrder
-    priceUsd?: SortOrder
-    sph?: SortOrder
-    cyl?: SortOrder
-    axis?: SortOrder
-    nearAdd?: SortOrder
-  }
-
-  export type DecimalWithAggregatesFilter<$PrismaModel = never> = {
-    equals?: Decimal | DecimalJsLike | number | string | DecimalFieldRefInput<$PrismaModel>
-    in?: Decimal[] | DecimalJsLike[] | number[] | string[]
-    notIn?: Decimal[] | DecimalJsLike[] | number[] | string[]
-    lt?: Decimal | DecimalJsLike | number | string | DecimalFieldRefInput<$PrismaModel>
-    lte?: Decimal | DecimalJsLike | number | string | DecimalFieldRefInput<$PrismaModel>
-    gt?: Decimal | DecimalJsLike | number | string | DecimalFieldRefInput<$PrismaModel>
-    gte?: Decimal | DecimalJsLike | number | string | DecimalFieldRefInput<$PrismaModel>
-    not?: NestedDecimalWithAggregatesFilter<$PrismaModel> | Decimal | DecimalJsLike | number | string
-    _count?: NestedIntFilter<$PrismaModel>
-    _avg?: NestedDecimalFilter<$PrismaModel>
-    _sum?: NestedDecimalFilter<$PrismaModel>
-    _min?: NestedDecimalFilter<$PrismaModel>
-    _max?: NestedDecimalFilter<$PrismaModel>
-  }
-
-  export type DecimalNullableWithAggregatesFilter<$PrismaModel = never> = {
-    equals?: Decimal | DecimalJsLike | number | string | DecimalFieldRefInput<$PrismaModel> | null
-    in?: Decimal[] | DecimalJsLike[] | number[] | string[] | null
-    notIn?: Decimal[] | DecimalJsLike[] | number[] | string[] | null
-    lt?: Decimal | DecimalJsLike | number | string | DecimalFieldRefInput<$PrismaModel>
-    lte?: Decimal | DecimalJsLike | number | string | DecimalFieldRefInput<$PrismaModel>
-    gt?: Decimal | DecimalJsLike | number | string | DecimalFieldRefInput<$PrismaModel>
-    gte?: Decimal | DecimalJsLike | number | string | DecimalFieldRefInput<$PrismaModel>
-    not?: NestedDecimalNullableWithAggregatesFilter<$PrismaModel> | Decimal | DecimalJsLike | number | string | null
-    _count?: NestedIntNullableFilter<$PrismaModel>
-    _avg?: NestedDecimalNullableFilter<$PrismaModel>
-    _sum?: NestedDecimalNullableFilter<$PrismaModel>
-    _min?: NestedDecimalNullableFilter<$PrismaModel>
-    _max?: NestedDecimalNullableFilter<$PrismaModel>
-  }
-
-  export type IntNullableWithAggregatesFilter<$PrismaModel = never> = {
-    equals?: number | IntFieldRefInput<$PrismaModel> | null
-    in?: number[] | null
-    notIn?: number[] | null
-    lt?: number | IntFieldRefInput<$PrismaModel>
-    lte?: number | IntFieldRefInput<$PrismaModel>
-    gt?: number | IntFieldRefInput<$PrismaModel>
-    gte?: number | IntFieldRefInput<$PrismaModel>
-    not?: NestedIntNullableWithAggregatesFilter<$PrismaModel> | number | null
-    _count?: NestedIntNullableFilter<$PrismaModel>
-    _avg?: NestedFloatNullableFilter<$PrismaModel>
-    _sum?: NestedIntNullableFilter<$PrismaModel>
-    _min?: NestedIntNullableFilter<$PrismaModel>
-    _max?: NestedIntNullableFilter<$PrismaModel>
-  }
-
-  export type DateTimeNullableWithAggregatesFilter<$PrismaModel = never> = {
-    equals?: Date | string | DateTimeFieldRefInput<$PrismaModel> | null
-    in?: Date[] | string[] | null
-    notIn?: Date[] | string[] | null
-    lt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
-    lte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
-    gt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
-    gte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
-    not?: NestedDateTimeNullableWithAggregatesFilter<$PrismaModel> | Date | string | null
-    _count?: NestedIntNullableFilter<$PrismaModel>
-    _min?: NestedDateTimeNullableFilter<$PrismaModel>
-    _max?: NestedDateTimeNullableFilter<$PrismaModel>
   }
 
   export type JobcardListRelationFilter = {
@@ -18620,6 +16843,42 @@ export namespace Prisma {
 
   export type patientSumOrderByAggregateInput = {
     id?: SortOrder
+  }
+
+  export type DateTimeNullableWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: Date | string | DateTimeFieldRefInput<$PrismaModel> | null
+    in?: Date[] | string[] | null
+    notIn?: Date[] | string[] | null
+    lt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    lte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    gt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    gte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    not?: NestedDateTimeNullableWithAggregatesFilter<$PrismaModel> | Date | string | null
+    _count?: NestedIntNullableFilter<$PrismaModel>
+    _min?: NestedDateTimeNullableFilter<$PrismaModel>
+    _max?: NestedDateTimeNullableFilter<$PrismaModel>
+  }
+
+  export type IntNullableFilter<$PrismaModel = never> = {
+    equals?: number | IntFieldRefInput<$PrismaModel> | null
+    in?: number[] | null
+    notIn?: number[] | null
+    lt?: number | IntFieldRefInput<$PrismaModel>
+    lte?: number | IntFieldRefInput<$PrismaModel>
+    gt?: number | IntFieldRefInput<$PrismaModel>
+    gte?: number | IntFieldRefInput<$PrismaModel>
+    not?: NestedIntNullableFilter<$PrismaModel> | number | null
+  }
+
+  export type DecimalNullableFilter<$PrismaModel = never> = {
+    equals?: Decimal | DecimalJsLike | number | string | DecimalFieldRefInput<$PrismaModel> | null
+    in?: Decimal[] | DecimalJsLike[] | number[] | string[] | null
+    notIn?: Decimal[] | DecimalJsLike[] | number[] | string[] | null
+    lt?: Decimal | DecimalJsLike | number | string | DecimalFieldRefInput<$PrismaModel>
+    lte?: Decimal | DecimalJsLike | number | string | DecimalFieldRefInput<$PrismaModel>
+    gt?: Decimal | DecimalJsLike | number | string | DecimalFieldRefInput<$PrismaModel>
+    gte?: Decimal | DecimalJsLike | number | string | DecimalFieldRefInput<$PrismaModel>
+    not?: NestedDecimalNullableFilter<$PrismaModel> | Decimal | DecimalJsLike | number | string | null
   }
 
   export type CustomerNullableScalarRelationFilter = {
@@ -18705,6 +16964,38 @@ export namespace Prisma {
     discount?: SortOrder
   }
 
+  export type IntNullableWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: number | IntFieldRefInput<$PrismaModel> | null
+    in?: number[] | null
+    notIn?: number[] | null
+    lt?: number | IntFieldRefInput<$PrismaModel>
+    lte?: number | IntFieldRefInput<$PrismaModel>
+    gt?: number | IntFieldRefInput<$PrismaModel>
+    gte?: number | IntFieldRefInput<$PrismaModel>
+    not?: NestedIntNullableWithAggregatesFilter<$PrismaModel> | number | null
+    _count?: NestedIntNullableFilter<$PrismaModel>
+    _avg?: NestedFloatNullableFilter<$PrismaModel>
+    _sum?: NestedIntNullableFilter<$PrismaModel>
+    _min?: NestedIntNullableFilter<$PrismaModel>
+    _max?: NestedIntNullableFilter<$PrismaModel>
+  }
+
+  export type DecimalNullableWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: Decimal | DecimalJsLike | number | string | DecimalFieldRefInput<$PrismaModel> | null
+    in?: Decimal[] | DecimalJsLike[] | number[] | string[] | null
+    notIn?: Decimal[] | DecimalJsLike[] | number[] | string[] | null
+    lt?: Decimal | DecimalJsLike | number | string | DecimalFieldRefInput<$PrismaModel>
+    lte?: Decimal | DecimalJsLike | number | string | DecimalFieldRefInput<$PrismaModel>
+    gt?: Decimal | DecimalJsLike | number | string | DecimalFieldRefInput<$PrismaModel>
+    gte?: Decimal | DecimalJsLike | number | string | DecimalFieldRefInput<$PrismaModel>
+    not?: NestedDecimalNullableWithAggregatesFilter<$PrismaModel> | Decimal | DecimalJsLike | number | string | null
+    _count?: NestedIntNullableFilter<$PrismaModel>
+    _avg?: NestedDecimalNullableFilter<$PrismaModel>
+    _sum?: NestedDecimalNullableFilter<$PrismaModel>
+    _min?: NestedDecimalNullableFilter<$PrismaModel>
+    _max?: NestedDecimalNullableFilter<$PrismaModel>
+  }
+
   export type ContainerItemListRelationFilter = {
     every?: containerItemWhereInput
     some?: containerItemWhereInput
@@ -18762,6 +17053,17 @@ export namespace Prisma {
     id?: SortOrder
   }
 
+  export type DecimalFilter<$PrismaModel = never> = {
+    equals?: Decimal | DecimalJsLike | number | string | DecimalFieldRefInput<$PrismaModel>
+    in?: Decimal[] | DecimalJsLike[] | number[] | string[]
+    notIn?: Decimal[] | DecimalJsLike[] | number[] | string[]
+    lt?: Decimal | DecimalJsLike | number | string | DecimalFieldRefInput<$PrismaModel>
+    lte?: Decimal | DecimalJsLike | number | string | DecimalFieldRefInput<$PrismaModel>
+    gt?: Decimal | DecimalJsLike | number | string | DecimalFieldRefInput<$PrismaModel>
+    gte?: Decimal | DecimalJsLike | number | string | DecimalFieldRefInput<$PrismaModel>
+    not?: NestedDecimalFilter<$PrismaModel> | Decimal | DecimalJsLike | number | string
+  }
+
   export type ContainerScalarRelationFilter = {
     is?: containerWhereInput
     isNot?: containerWhereInput
@@ -18790,6 +17092,7 @@ export namespace Prisma {
     wholesalePrice?: SortOrder
     priceKsh?: SortOrder
     priceUsd?: SortOrder
+    costKsh?: SortOrder
     createdAt?: SortOrder
   }
 
@@ -18805,6 +17108,7 @@ export namespace Prisma {
     wholesalePrice?: SortOrder
     priceKsh?: SortOrder
     priceUsd?: SortOrder
+    costKsh?: SortOrder
   }
 
   export type containerItemMaxOrderByAggregateInput = {
@@ -18824,6 +17128,7 @@ export namespace Prisma {
     wholesalePrice?: SortOrder
     priceKsh?: SortOrder
     priceUsd?: SortOrder
+    costKsh?: SortOrder
     createdAt?: SortOrder
   }
 
@@ -18844,6 +17149,7 @@ export namespace Prisma {
     wholesalePrice?: SortOrder
     priceKsh?: SortOrder
     priceUsd?: SortOrder
+    costKsh?: SortOrder
     createdAt?: SortOrder
   }
 
@@ -18859,6 +17165,23 @@ export namespace Prisma {
     wholesalePrice?: SortOrder
     priceKsh?: SortOrder
     priceUsd?: SortOrder
+    costKsh?: SortOrder
+  }
+
+  export type DecimalWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: Decimal | DecimalJsLike | number | string | DecimalFieldRefInput<$PrismaModel>
+    in?: Decimal[] | DecimalJsLike[] | number[] | string[]
+    notIn?: Decimal[] | DecimalJsLike[] | number[] | string[]
+    lt?: Decimal | DecimalJsLike | number | string | DecimalFieldRefInput<$PrismaModel>
+    lte?: Decimal | DecimalJsLike | number | string | DecimalFieldRefInput<$PrismaModel>
+    gt?: Decimal | DecimalJsLike | number | string | DecimalFieldRefInput<$PrismaModel>
+    gte?: Decimal | DecimalJsLike | number | string | DecimalFieldRefInput<$PrismaModel>
+    not?: NestedDecimalWithAggregatesFilter<$PrismaModel> | Decimal | DecimalJsLike | number | string
+    _count?: NestedIntFilter<$PrismaModel>
+    _avg?: NestedDecimalFilter<$PrismaModel>
+    _sum?: NestedDecimalFilter<$PrismaModel>
+    _min?: NestedDecimalFilter<$PrismaModel>
+    _max?: NestedDecimalFilter<$PrismaModel>
   }
 
   export type SaleScalarRelationFilter = {
@@ -18935,6 +17258,7 @@ export namespace Prisma {
     etr?: SortOrder
     fob?: SortOrder
     loading?: SortOrder
+    landedCost?: SortOrder
     name?: SortOrder
     notes?: SortOrder
     prevCostPb?: SortOrder
@@ -18960,6 +17284,7 @@ export namespace Prisma {
     costUsd?: SortOrder
     fob?: SortOrder
     loading?: SortOrder
+    landedCost?: SortOrder
     prevCostPb?: SortOrder
     priceKsh?: SortOrder
     priceUsd?: SortOrder
@@ -18985,6 +17310,7 @@ export namespace Prisma {
     etr?: SortOrder
     fob?: SortOrder
     loading?: SortOrder
+    landedCost?: SortOrder
     name?: SortOrder
     notes?: SortOrder
     prevCostPb?: SortOrder
@@ -19016,6 +17342,7 @@ export namespace Prisma {
     etr?: SortOrder
     fob?: SortOrder
     loading?: SortOrder
+    landedCost?: SortOrder
     name?: SortOrder
     notes?: SortOrder
     prevCostPb?: SortOrder
@@ -19041,6 +17368,7 @@ export namespace Prisma {
     costUsd?: SortOrder
     fob?: SortOrder
     loading?: SortOrder
+    landedCost?: SortOrder
     prevCostPb?: SortOrder
     priceKsh?: SortOrder
     priceUsd?: SortOrder
@@ -19402,34 +17730,6 @@ export namespace Prisma {
     divide?: number
   }
 
-  export type DecimalFieldUpdateOperationsInput = {
-    set?: Decimal | DecimalJsLike | number | string
-    increment?: Decimal | DecimalJsLike | number | string
-    decrement?: Decimal | DecimalJsLike | number | string
-    multiply?: Decimal | DecimalJsLike | number | string
-    divide?: Decimal | DecimalJsLike | number | string
-  }
-
-  export type NullableDecimalFieldUpdateOperationsInput = {
-    set?: Decimal | DecimalJsLike | number | string | null
-    increment?: Decimal | DecimalJsLike | number | string
-    decrement?: Decimal | DecimalJsLike | number | string
-    multiply?: Decimal | DecimalJsLike | number | string
-    divide?: Decimal | DecimalJsLike | number | string
-  }
-
-  export type NullableIntFieldUpdateOperationsInput = {
-    set?: number | null
-    increment?: number
-    decrement?: number
-    multiply?: number
-    divide?: number
-  }
-
-  export type NullableDateTimeFieldUpdateOperationsInput = {
-    set?: Date | string | null
-  }
-
   export type jobcardCreateNestedManyWithoutPatientInput = {
     create?: XOR<jobcardCreateWithoutPatientInput, jobcardUncheckedCreateWithoutPatientInput> | jobcardCreateWithoutPatientInput[] | jobcardUncheckedCreateWithoutPatientInput[]
     connectOrCreate?: jobcardCreateOrConnectWithoutPatientInput | jobcardCreateOrConnectWithoutPatientInput[]
@@ -19456,6 +17756,10 @@ export namespace Prisma {
     connectOrCreate?: saleCreateOrConnectWithoutPatientInput | saleCreateOrConnectWithoutPatientInput[]
     createMany?: saleCreateManyPatientInputEnvelope
     connect?: saleWhereUniqueInput | saleWhereUniqueInput[]
+  }
+
+  export type NullableDateTimeFieldUpdateOperationsInput = {
+    set?: Date | string | null
   }
 
   export type jobcardUpdateManyWithoutPatientNestedInput = {
@@ -19540,6 +17844,14 @@ export namespace Prisma {
     connect?: saleitemWhereUniqueInput | saleitemWhereUniqueInput[]
   }
 
+  export type NullableDecimalFieldUpdateOperationsInput = {
+    set?: Decimal | DecimalJsLike | number | string | null
+    increment?: Decimal | DecimalJsLike | number | string
+    decrement?: Decimal | DecimalJsLike | number | string
+    multiply?: Decimal | DecimalJsLike | number | string
+    divide?: Decimal | DecimalJsLike | number | string
+  }
+
   export type customerUpdateOneWithoutSaleNestedInput = {
     create?: XOR<customerCreateWithoutSaleInput, customerUncheckedCreateWithoutSaleInput>
     connectOrCreate?: customerCreateOrConnectWithoutSaleInput
@@ -19572,6 +17884,14 @@ export namespace Prisma {
     update?: saleitemUpdateWithWhereUniqueWithoutSaleInput | saleitemUpdateWithWhereUniqueWithoutSaleInput[]
     updateMany?: saleitemUpdateManyWithWhereWithoutSaleInput | saleitemUpdateManyWithWhereWithoutSaleInput[]
     deleteMany?: saleitemScalarWhereInput | saleitemScalarWhereInput[]
+  }
+
+  export type NullableIntFieldUpdateOperationsInput = {
+    set?: number | null
+    increment?: number
+    decrement?: number
+    multiply?: number
+    divide?: number
   }
 
   export type saleitemUncheckedUpdateManyWithoutSaleNestedInput = {
@@ -19634,6 +17954,14 @@ export namespace Prisma {
     create?: XOR<containerCreateWithoutItemsInput, containerUncheckedCreateWithoutItemsInput>
     connectOrCreate?: containerCreateOrConnectWithoutItemsInput
     connect?: containerWhereUniqueInput
+  }
+
+  export type DecimalFieldUpdateOperationsInput = {
+    set?: Decimal | DecimalJsLike | number | string
+    increment?: Decimal | DecimalJsLike | number | string
+    decrement?: Decimal | DecimalJsLike | number | string
+    multiply?: Decimal | DecimalJsLike | number | string
+    divide?: Decimal | DecimalJsLike | number | string
   }
 
   export type containerUpdateOneRequiredWithoutItemsNestedInput = {
@@ -19888,28 +18216,6 @@ export namespace Prisma {
     _max?: NestedFloatFilter<$PrismaModel>
   }
 
-  export type NestedDecimalFilter<$PrismaModel = never> = {
-    equals?: Decimal | DecimalJsLike | number | string | DecimalFieldRefInput<$PrismaModel>
-    in?: Decimal[] | DecimalJsLike[] | number[] | string[]
-    notIn?: Decimal[] | DecimalJsLike[] | number[] | string[]
-    lt?: Decimal | DecimalJsLike | number | string | DecimalFieldRefInput<$PrismaModel>
-    lte?: Decimal | DecimalJsLike | number | string | DecimalFieldRefInput<$PrismaModel>
-    gt?: Decimal | DecimalJsLike | number | string | DecimalFieldRefInput<$PrismaModel>
-    gte?: Decimal | DecimalJsLike | number | string | DecimalFieldRefInput<$PrismaModel>
-    not?: NestedDecimalFilter<$PrismaModel> | Decimal | DecimalJsLike | number | string
-  }
-
-  export type NestedDecimalNullableFilter<$PrismaModel = never> = {
-    equals?: Decimal | DecimalJsLike | number | string | DecimalFieldRefInput<$PrismaModel> | null
-    in?: Decimal[] | DecimalJsLike[] | number[] | string[] | null
-    notIn?: Decimal[] | DecimalJsLike[] | number[] | string[] | null
-    lt?: Decimal | DecimalJsLike | number | string | DecimalFieldRefInput<$PrismaModel>
-    lte?: Decimal | DecimalJsLike | number | string | DecimalFieldRefInput<$PrismaModel>
-    gt?: Decimal | DecimalJsLike | number | string | DecimalFieldRefInput<$PrismaModel>
-    gte?: Decimal | DecimalJsLike | number | string | DecimalFieldRefInput<$PrismaModel>
-    not?: NestedDecimalNullableFilter<$PrismaModel> | Decimal | DecimalJsLike | number | string | null
-  }
-
   export type NestedDateTimeNullableFilter<$PrismaModel = never> = {
     equals?: Date | string | DateTimeFieldRefInput<$PrismaModel> | null
     in?: Date[] | string[] | null
@@ -19921,23 +18227,21 @@ export namespace Prisma {
     not?: NestedDateTimeNullableFilter<$PrismaModel> | Date | string | null
   }
 
-  export type NestedDecimalWithAggregatesFilter<$PrismaModel = never> = {
-    equals?: Decimal | DecimalJsLike | number | string | DecimalFieldRefInput<$PrismaModel>
-    in?: Decimal[] | DecimalJsLike[] | number[] | string[]
-    notIn?: Decimal[] | DecimalJsLike[] | number[] | string[]
-    lt?: Decimal | DecimalJsLike | number | string | DecimalFieldRefInput<$PrismaModel>
-    lte?: Decimal | DecimalJsLike | number | string | DecimalFieldRefInput<$PrismaModel>
-    gt?: Decimal | DecimalJsLike | number | string | DecimalFieldRefInput<$PrismaModel>
-    gte?: Decimal | DecimalJsLike | number | string | DecimalFieldRefInput<$PrismaModel>
-    not?: NestedDecimalWithAggregatesFilter<$PrismaModel> | Decimal | DecimalJsLike | number | string
-    _count?: NestedIntFilter<$PrismaModel>
-    _avg?: NestedDecimalFilter<$PrismaModel>
-    _sum?: NestedDecimalFilter<$PrismaModel>
-    _min?: NestedDecimalFilter<$PrismaModel>
-    _max?: NestedDecimalFilter<$PrismaModel>
+  export type NestedDateTimeNullableWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: Date | string | DateTimeFieldRefInput<$PrismaModel> | null
+    in?: Date[] | string[] | null
+    notIn?: Date[] | string[] | null
+    lt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    lte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    gt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    gte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    not?: NestedDateTimeNullableWithAggregatesFilter<$PrismaModel> | Date | string | null
+    _count?: NestedIntNullableFilter<$PrismaModel>
+    _min?: NestedDateTimeNullableFilter<$PrismaModel>
+    _max?: NestedDateTimeNullableFilter<$PrismaModel>
   }
 
-  export type NestedDecimalNullableWithAggregatesFilter<$PrismaModel = never> = {
+  export type NestedDecimalNullableFilter<$PrismaModel = never> = {
     equals?: Decimal | DecimalJsLike | number | string | DecimalFieldRefInput<$PrismaModel> | null
     in?: Decimal[] | DecimalJsLike[] | number[] | string[] | null
     notIn?: Decimal[] | DecimalJsLike[] | number[] | string[] | null
@@ -19945,12 +18249,7 @@ export namespace Prisma {
     lte?: Decimal | DecimalJsLike | number | string | DecimalFieldRefInput<$PrismaModel>
     gt?: Decimal | DecimalJsLike | number | string | DecimalFieldRefInput<$PrismaModel>
     gte?: Decimal | DecimalJsLike | number | string | DecimalFieldRefInput<$PrismaModel>
-    not?: NestedDecimalNullableWithAggregatesFilter<$PrismaModel> | Decimal | DecimalJsLike | number | string | null
-    _count?: NestedIntNullableFilter<$PrismaModel>
-    _avg?: NestedDecimalNullableFilter<$PrismaModel>
-    _sum?: NestedDecimalNullableFilter<$PrismaModel>
-    _min?: NestedDecimalNullableFilter<$PrismaModel>
-    _max?: NestedDecimalNullableFilter<$PrismaModel>
+    not?: NestedDecimalNullableFilter<$PrismaModel> | Decimal | DecimalJsLike | number | string | null
   }
 
   export type NestedIntNullableWithAggregatesFilter<$PrismaModel = never> = {
@@ -19980,18 +18279,47 @@ export namespace Prisma {
     not?: NestedFloatNullableFilter<$PrismaModel> | number | null
   }
 
-  export type NestedDateTimeNullableWithAggregatesFilter<$PrismaModel = never> = {
-    equals?: Date | string | DateTimeFieldRefInput<$PrismaModel> | null
-    in?: Date[] | string[] | null
-    notIn?: Date[] | string[] | null
-    lt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
-    lte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
-    gt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
-    gte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
-    not?: NestedDateTimeNullableWithAggregatesFilter<$PrismaModel> | Date | string | null
+  export type NestedDecimalNullableWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: Decimal | DecimalJsLike | number | string | DecimalFieldRefInput<$PrismaModel> | null
+    in?: Decimal[] | DecimalJsLike[] | number[] | string[] | null
+    notIn?: Decimal[] | DecimalJsLike[] | number[] | string[] | null
+    lt?: Decimal | DecimalJsLike | number | string | DecimalFieldRefInput<$PrismaModel>
+    lte?: Decimal | DecimalJsLike | number | string | DecimalFieldRefInput<$PrismaModel>
+    gt?: Decimal | DecimalJsLike | number | string | DecimalFieldRefInput<$PrismaModel>
+    gte?: Decimal | DecimalJsLike | number | string | DecimalFieldRefInput<$PrismaModel>
+    not?: NestedDecimalNullableWithAggregatesFilter<$PrismaModel> | Decimal | DecimalJsLike | number | string | null
     _count?: NestedIntNullableFilter<$PrismaModel>
-    _min?: NestedDateTimeNullableFilter<$PrismaModel>
-    _max?: NestedDateTimeNullableFilter<$PrismaModel>
+    _avg?: NestedDecimalNullableFilter<$PrismaModel>
+    _sum?: NestedDecimalNullableFilter<$PrismaModel>
+    _min?: NestedDecimalNullableFilter<$PrismaModel>
+    _max?: NestedDecimalNullableFilter<$PrismaModel>
+  }
+
+  export type NestedDecimalFilter<$PrismaModel = never> = {
+    equals?: Decimal | DecimalJsLike | number | string | DecimalFieldRefInput<$PrismaModel>
+    in?: Decimal[] | DecimalJsLike[] | number[] | string[]
+    notIn?: Decimal[] | DecimalJsLike[] | number[] | string[]
+    lt?: Decimal | DecimalJsLike | number | string | DecimalFieldRefInput<$PrismaModel>
+    lte?: Decimal | DecimalJsLike | number | string | DecimalFieldRefInput<$PrismaModel>
+    gt?: Decimal | DecimalJsLike | number | string | DecimalFieldRefInput<$PrismaModel>
+    gte?: Decimal | DecimalJsLike | number | string | DecimalFieldRefInput<$PrismaModel>
+    not?: NestedDecimalFilter<$PrismaModel> | Decimal | DecimalJsLike | number | string
+  }
+
+  export type NestedDecimalWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: Decimal | DecimalJsLike | number | string | DecimalFieldRefInput<$PrismaModel>
+    in?: Decimal[] | DecimalJsLike[] | number[] | string[]
+    notIn?: Decimal[] | DecimalJsLike[] | number[] | string[]
+    lt?: Decimal | DecimalJsLike | number | string | DecimalFieldRefInput<$PrismaModel>
+    lte?: Decimal | DecimalJsLike | number | string | DecimalFieldRefInput<$PrismaModel>
+    gt?: Decimal | DecimalJsLike | number | string | DecimalFieldRefInput<$PrismaModel>
+    gte?: Decimal | DecimalJsLike | number | string | DecimalFieldRefInput<$PrismaModel>
+    not?: NestedDecimalWithAggregatesFilter<$PrismaModel> | Decimal | DecimalJsLike | number | string
+    _count?: NestedIntFilter<$PrismaModel>
+    _avg?: NestedDecimalFilter<$PrismaModel>
+    _sum?: NestedDecimalFilter<$PrismaModel>
+    _min?: NestedDecimalFilter<$PrismaModel>
+    _max?: NestedDecimalFilter<$PrismaModel>
   }
 
   export type NestedBoolFilter<$PrismaModel = never> = {
@@ -20467,6 +18795,7 @@ export namespace Prisma {
     wholesalePrice?: Decimal | DecimalJsLike | number | string | null
     priceKsh?: Decimal | DecimalJsLike | number | string
     priceUsd?: Decimal | DecimalJsLike | number | string
+    costKsh?: Decimal | DecimalJsLike | number | string
     createdAt?: Date | string
   }
 
@@ -20486,6 +18815,7 @@ export namespace Prisma {
     wholesalePrice?: Decimal | DecimalJsLike | number | string | null
     priceKsh?: Decimal | DecimalJsLike | number | string
     priceUsd?: Decimal | DecimalJsLike | number | string
+    costKsh?: Decimal | DecimalJsLike | number | string
     createdAt?: Date | string
   }
 
@@ -20535,6 +18865,7 @@ export namespace Prisma {
     wholesalePrice?: DecimalNullableFilter<"containerItem"> | Decimal | DecimalJsLike | number | string | null
     priceKsh?: DecimalFilter<"containerItem"> | Decimal | DecimalJsLike | number | string
     priceUsd?: DecimalFilter<"containerItem"> | Decimal | DecimalJsLike | number | string
+    costKsh?: DecimalFilter<"containerItem"> | Decimal | DecimalJsLike | number | string
     createdAt?: DateTimeFilter<"containerItem"> | Date | string
   }
 
@@ -20638,6 +18969,7 @@ export namespace Prisma {
     etr?: Date | string | null
     fob?: Decimal | DecimalJsLike | number | string | null
     loading?: Decimal | DecimalJsLike | number | string | null
+    landedCost?: Decimal | DecimalJsLike | number | string | null
     name: string
     notes?: string | null
     prevCostPb?: Decimal | DecimalJsLike | number | string | null
@@ -20669,6 +19001,7 @@ export namespace Prisma {
     etr?: Date | string | null
     fob?: Decimal | DecimalJsLike | number | string | null
     loading?: Decimal | DecimalJsLike | number | string | null
+    landedCost?: Decimal | DecimalJsLike | number | string | null
     name: string
     notes?: string | null
     prevCostPb?: Decimal | DecimalJsLike | number | string | null
@@ -20751,6 +19084,7 @@ export namespace Prisma {
     etr?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     fob?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
     loading?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
+    landedCost?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
     name?: StringFieldUpdateOperationsInput | string
     notes?: NullableStringFieldUpdateOperationsInput | string | null
     prevCostPb?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
@@ -20782,6 +19116,7 @@ export namespace Prisma {
     etr?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     fob?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
     loading?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
+    landedCost?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
     name?: StringFieldUpdateOperationsInput | string
     notes?: NullableStringFieldUpdateOperationsInput | string | null
     prevCostPb?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
@@ -21209,6 +19544,7 @@ export namespace Prisma {
     wholesalePrice?: Decimal | DecimalJsLike | number | string | null
     priceKsh?: Decimal | DecimalJsLike | number | string
     priceUsd?: Decimal | DecimalJsLike | number | string
+    costKsh?: Decimal | DecimalJsLike | number | string
     createdAt?: Date | string
   }
 
@@ -21227,6 +19563,7 @@ export namespace Prisma {
     wholesalePrice?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
     priceKsh?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
     priceUsd?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    costKsh?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
@@ -21246,6 +19583,7 @@ export namespace Prisma {
     wholesalePrice?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
     priceKsh?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
     priceUsd?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    costKsh?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
@@ -21265,6 +19603,7 @@ export namespace Prisma {
     wholesalePrice?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
     priceKsh?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
     priceUsd?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    costKsh?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 

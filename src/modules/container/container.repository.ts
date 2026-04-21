@@ -66,6 +66,7 @@ export const addItemToContainer = async (containerId: number, item: any) => {
       quantityOrdered: item.quantityOrdered,
       landedCost: item.landedCost,
       priceKsh: item.priceKsh ?? 0,
+      costKsh: item.costKsh ?? 0,
       priceUsd: item.priceUsd ?? 0,
       wholesalePrice: item.wholesalePrice ?? null,
     },
@@ -80,8 +81,9 @@ export const addItemToContainer = async (containerId: number, item: any) => {
         where: { code: item.code },
         data: {
           qty: { increment: item.quantityOrdered },
-          costKsh: item.landedCost,
+          landedCost: item.landedCost,
           priceKsh: item.priceKsh ?? existing.priceKsh,
+          costKsh: item.costKsh ?? existing.costKsh,
           priceUsd: item.priceUsd ?? existing.priceUsd,
           wholesalePrice: item.wholesalePrice ?? existing.wholesalePrice,
           index: item.index,
@@ -105,9 +107,10 @@ export const addItemToContainer = async (containerId: number, item: any) => {
           axis: item.axis,
           nearAdd: item.nearAdd,
           priceKsh: item.priceKsh ?? 0,
+          costKsh: item.costKsh ?? 0,
           priceUsd: item.priceUsd ?? 0,
           wholesalePrice: item.wholesalePrice ?? null,
-          costKsh: item.landedCost,
+          landedCost: item.landedCost,
           supplier: container.supplierName,
         },
       });
@@ -133,6 +136,7 @@ export const bulkAddItems = (containerId: number, items: any[]) => {
     quantityOrdered: Number(item.quantityOrdered) || 1,
     landedCost: Number(item.landedCost) || 0,
     priceKsh: Number(item.priceKsh) || 0,
+    costKsh: Number(item.costKsh) || 0,
     priceUsd: Number(item.priceUsd) || 0,
   }));
 
@@ -164,8 +168,9 @@ export const receiveContainer = async (id: number) => {
           where: { code: item.code },
           data: {
             qty: { increment: item.quantityOrdered },
-            costKsh: item.landedCost,
+            landedCost: item.landedCost,
             priceKsh: item.priceKsh,
+            costKsh: item.costKsh,
             priceUsd: item.priceUsd,
             index: item.index,
             sph: item.sph,
@@ -190,8 +195,9 @@ export const receiveContainer = async (id: number) => {
             nearAdd: item.nearAdd,
             wholesalePrice: item.wholesalePrice,
             priceKsh: item.priceKsh,
+            costKsh: item.costKsh,
             priceUsd: item.priceUsd,
-            costKsh: item.landedCost,
+            landedCost: item.landedCost,
             supplier: container.supplierName,
           },
         });
@@ -202,5 +208,28 @@ export const receiveContainer = async (id: number) => {
       where: { id },
       data: { status: "received" },
     });
+  });
+};
+
+export const updateContainerItem = async (itemId: number, data: any) => {
+  return prisma.containerItem.update({
+    where: { id: itemId },
+    data: {
+      name: data.name,
+      code: data.code,
+      type: data.type,
+      index: data.index ?? null,
+      lensCategory: data.lensCategory ?? null,
+      sph: data.sph ?? null,
+      cyl: data.cyl ?? null,
+      axis: data.axis ?? null,
+      nearAdd: data.nearAdd ?? null,
+      quantityOrdered: Number(data.quantityOrdered),
+      landedCost: Number(data.landedCost),
+      priceKsh: Number(data.priceKsh) || 0,
+      costKsh: Number(data.costKsh) || 0,
+      priceUsd: Number(data.priceUsd) || 0,
+      wholesalePrice: data.wholesalePrice ?? null,
+    },
   });
 };
