@@ -396,7 +396,7 @@ const config = {
       "value": "prisma-client-js"
     },
     "output": {
-      "value": "C:\\Users\\Michael\\Desktop\\Dev\\eyeopticsserver\\generated\\client",
+      "value": "/home/kali/Desktop/Dev/eyeopticsserver/generated/client",
       "fromEnvVar": null
     },
     "config": {
@@ -405,7 +405,7 @@ const config = {
     "binaryTargets": [
       {
         "fromEnvVar": null,
-        "value": "windows",
+        "value": "debian-openssl-3.0.x",
         "native": true
       },
       {
@@ -438,12 +438,11 @@ const config = {
       }
     ],
     "previewFeatures": [],
-    "sourceFilePath": "C:\\Users\\Michael\\Desktop\\Dev\\eyeopticsserver\\prisma\\schema.prisma",
+    "sourceFilePath": "/home/kali/Desktop/Dev/eyeopticsserver/prisma/schema.prisma",
     "isCustomOutput": true
   },
   "relativeEnvPaths": {
-    "rootEnvPath": null,
-    "schemaEnvPath": "../../.env"
+    "rootEnvPath": null
   },
   "relativePath": "../../prisma",
   "clientVersion": "6.19.1",
@@ -452,7 +451,7 @@ const config = {
     "db"
   ],
   "activeProvider": "mysql",
-  "postinstall": false,
+  "postinstall": true,
   "inlineDatasources": {
     "db": {
       "url": {

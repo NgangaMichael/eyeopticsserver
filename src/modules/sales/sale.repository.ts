@@ -40,13 +40,41 @@ export const createSale = async (data: any) => {
 };
 
 // New Update function
+// src/modules/sales/sale.repository.ts
+
 export const updateSale = async (id: number, data: any) => {
-  return await prisma.sale.update({
-    where: { id },
-    data: {
+  return await prisma.$transaction(async (tx) => {
+    // 1. Fetch original items to calculate subtotal
+    const originalSale = await tx.sale.findUnique({
+      where: { id },
+      include: { saleitem: true }
+    });
+
+    if (!originalSale) throw new Error("Sale record not found");
+
+    // 2. Build our database update payload dynamically
+    const updatePayload: any = {
       etimsReceipt: data.etimsReceipt,
       etimsAmount: data.etimsAmount,
-    },
+    };
+
+    // 3. If a new discount is provided, recalculate the net grand total
+    if (data.discount !== undefined) {
+      const subtotal = originalSale.saleitem.reduce((acc: number, item: any) => 
+        acc + (Number(item.price) * Number(item.quantity)), 0
+      );
+      
+      const updatedDiscount = Number(data.discount) || 0;
+      
+      updatePayload.discount = updatedDiscount;
+      updatePayload.total = subtotal - updatedDiscount; // Automatically re-balance total
+    }
+
+    // 4. Persist tracking data update
+    return await tx.sale.update({
+      where: { id },
+      data: updatePayload,
+    });
   });
 };
 

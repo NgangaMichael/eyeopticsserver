@@ -17,12 +17,14 @@ export const createSaleSchema = z.object({
   }),
 });
 
+
 export const updateEtimsSchema = z.object({
   params: z.object({
     id: z.coerce.number().int().positive(),
   }),
   body: z.object({
-    etimsReceipt: z.string().optional(),
-    etimsAmount: z.number().nonnegative().optional(),
+    etimsReceipt: z.string().optional().nullable(),
+    etimsAmount: z.number().nonnegative().optional().nullable(),
+    discount: z.number().nonnegative().optional(), // Added validation for discount parameters
   }),
 });
