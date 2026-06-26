@@ -40,19 +40,23 @@ exports.login = void 0;
 const bcryptjs_1 = __importDefault(require("bcryptjs"));
 const jsonwebtoken_1 = __importDefault(require("jsonwebtoken"));
 const repo = __importStar(require("./auth.repository"));
-const JWT_SECRET = process.env.JWT_SECRET;
 const login = async (email, password) => {
+    const secret = process.env.JWT_SECRET;
+    if (!secret) {
+        throw new Error("JWT_SECRET is not defined");
+    }
     const user = await repo.findUserByEmail(email);
-    console.log("User fetched from repository:", user);
+    // 1. This check "narrows" the type. 
+    // If user is null, the function stops here.
     if (!user || !user.password) {
         throw { status: 401, message: "Invalid email or password" };
     }
     const isMatch = await bcryptjs_1.default.compare(password, user.password);
-    console.log("Password match result:", isMatch); // Debug log
     if (!isMatch) {
         throw { status: 401, message: "Invalid email or password" };
     }
-    const token = jsonwebtoken_1.default.sign({ userId: user.id, email: user.email }, JWT_SECRET, { expiresIn: "1d" });
+    // 2. Now TypeScript knows for sure 'user' is not null.
+    const token = jsonwebtoken_1.default.sign({ userId: user.id, email: user.email }, secret, { expiresIn: "1d" });
     return {
         token,
         user: {

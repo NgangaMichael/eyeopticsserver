@@ -8,8 +8,9 @@ exports.createSaleSchema = zod_1.z.object({
         customerId: zod_1.z.coerce.number().int().positive().optional(),
         referenceNumber: zod_1.z.string().min(1),
         discount: zod_1.z.number().nonnegative().optional(),
-        etimsReceipt: zod_1.z.string().optional(), // Added
-        etimsAmount: zod_1.z.number().nonnegative().optional(), // Added
+        miscellaneous: zod_1.z.number().nonnegative().optional(),
+        etimsReceipt: zod_1.z.string().optional(),
+        etimsAmount: zod_1.z.number().nonnegative().optional(),
         items: zod_1.z.array(zod_1.z.object({
             stockId: zod_1.z.number().int().positive(),
             quantity: zod_1.z.number().positive(),
@@ -22,8 +23,10 @@ exports.updateEtimsSchema = zod_1.z.object({
         id: zod_1.z.coerce.number().int().positive(),
     }),
     body: zod_1.z.object({
-        etimsReceipt: zod_1.z.string().optional(),
-        etimsAmount: zod_1.z.number().nonnegative().optional(),
+        etimsReceipt: zod_1.z.string().optional().nullable(),
+        etimsAmount: zod_1.z.number().nonnegative().optional().nullable(),
+        discount: zod_1.z.number().nonnegative().optional(),
+        miscellaneous: zod_1.z.number().nonnegative().optional(),
     }),
 });
 //# sourceMappingURL=sale.schema.js.map

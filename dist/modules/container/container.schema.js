@@ -35,6 +35,7 @@ exports.addItemSchema = zod_1.z.object({
         quantityOrdered: zod_1.z.number().positive(),
         landedCost: zod_1.z.number().nonnegative(),
         priceKsh: zod_1.z.number().nonnegative().optional(),
+        costKsh: zod_1.z.number().nonnegative().optional(),
         priceUsd: zod_1.z.number().nonnegative().optional(),
     }),
 });
@@ -56,6 +57,7 @@ exports.bulkAddItemsSchema = zod_1.z.object({
             quantityOrdered: zod_1.z.number().positive(),
             landedCost: zod_1.z.number().nonnegative(),
             priceKsh: zod_1.z.number().nonnegative().optional(),
+            costKsh: zod_1.z.number().nonnegative().optional(),
             priceUsd: zod_1.z.number().nonnegative().optional(),
         })).min(1, "At least one item is required"),
     }),

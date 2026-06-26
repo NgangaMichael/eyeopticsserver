@@ -23,6 +23,10 @@ export const updateSale = async (id: number, data: any) => {
   return repo.updateSale(id, data);
 };
 
+export const bulkUpdateSales = async (updates: any[]) => {
+  return await repo.bulkUpdateSales(updates);
+};
+
 export const deleteSale = async (id: number) => {
   await getSaleById(id);
   return repo.deleteSale(id);

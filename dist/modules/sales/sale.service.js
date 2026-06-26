@@ -33,7 +33,7 @@ var __importStar = (this && this.__importStar) || (function () {
     };
 })();
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.deleteSale = exports.updateSale = exports.getSaleById = exports.getAllSales = exports.createSale = void 0;
+exports.deleteSale = exports.bulkUpdateSales = exports.updateSale = exports.getSaleById = exports.getAllSales = exports.createSale = void 0;
 const repo = __importStar(require("./sale.repository"));
 const createSale = async (data) => {
     // You can keep business logic here (like validation)
@@ -57,6 +57,10 @@ const updateSale = async (id, data) => {
     return repo.updateSale(id, data);
 };
 exports.updateSale = updateSale;
+const bulkUpdateSales = async (updates) => {
+    return await repo.bulkUpdateSales(updates);
+};
+exports.bulkUpdateSales = bulkUpdateSales;
 const deleteSale = async (id) => {
     await (0, exports.getSaleById)(id);
     return repo.deleteSale(id);

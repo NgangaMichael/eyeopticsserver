@@ -39,38 +39,84 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.deleteJobCard = exports.getJobCardById = exports.getAllJobCards = exports.updateJobCard = exports.createJobCard = void 0;
 const repo = __importStar(require("./jobcard.repository"));
 const prisma_1 = __importDefault(require("../../lib/prisma"));
-const formatJobCardData = (data) => ({
-    jobCardNumber: data.jobCardNumber,
-    patientId: Number(data.patientId),
-    insuranceCompany: data.insuranceCompany,
-    notes: data.notes,
-    date: data.date ? new Date(data.date) : new Date(),
-    // Prescription
-    rSph: data.rSph, rCyl: data.rCyl, rAxis: data.rAxis ? Number(data.rAxis) : null,
-    rPrism: data.rPrism, rBase: data.rBase,
-    lSph: data.lSph, lCyl: data.lCyl, lAxis: data.lAxis ? Number(data.lAxis) : null,
-    lPrism: data.lPrism, lBase: data.lBase,
-    nearAdd: data.nearAdd, distPd: data.distPd, nearPd: data.nearPd, heights: data.heights,
-    // Split Lenses
-    rLens: data.rLens,
-    rLensStockId: data.rLensStockId ? Number(data.rLensStockId) : null,
-    rLensPrice: Number(data.rLensPrice || 0),
-    lLens: data.lLens,
-    lLensStockId: data.lLensStockId ? Number(data.lLensStockId) : null,
-    lLensPrice: Number(data.lLensPrice || 0),
-    // Frame
-    frame: data.frame,
-    frameQty: Number(data.frameQty || 0),
-    framePrice: Number(data.framePrice || 0),
-    frameStockId: data.frameStockId ? Number(data.frameStockId) : null,
-    // Financials
-    total: Number(data.total),
-    consultation: Number(data.consultation || 0),
-    discount: Number(data.discount || 0),
-    advance: Number(data.advance || 0),
-    balance: Number(data.balance || 0),
-    jobDelDate: data.jobDelDate ? new Date(data.jobDelDate) : null,
-});
+// const formatJobCardData = (data: any) => ({
+//   jobCardNumber: data.jobCardNumber,
+//   patientId: Number(data.patientId),
+//   insuranceCompany: data.insuranceCompany,
+//   notes: data.notes,
+//   date: data.date ? new Date(data.date) : new Date(),
+//   // Prescription
+//   rSph: data.rSph, rCyl: data.rCyl, rAxis: data.rAxis ? Number(data.rAxis) : null,
+//   rPrism: data.rPrism, rBase: data.rBase,
+//   lSph: data.lSph, lCyl: data.lCyl, lAxis: data.lAxis ? Number(data.lAxis) : null,
+//   lPrism: data.lPrism, lBase: data.lBase,
+//   nearAdd: data.nearAdd, distPd: data.distPd, nearPd: data.nearPd, heights: data.heights,
+//   // Split Lenses
+//   rLens: data.rLens,
+//   rLensStockId: data.rLensStockId ? Number(data.rLensStockId) : null,
+//   rLensPrice: Number(data.rLensPrice || 0),
+//   lLens: data.lLens,
+//   lLensStockId: data.lLensStockId ? Number(data.lLensStockId) : null,
+//   lLensPrice: Number(data.lLensPrice || 0),
+//   // Frame
+//   frame: data.frame,
+//   frameQty: Number(data.frameQty || 0),
+//   framePrice: Number(data.framePrice || 0),
+//   frameStockId: data.frameStockId ? Number(data.frameStockId) : null,
+//   // Financials
+//   total: Number(data.total),
+//   consultation: Number(data.consultation || 0),
+//   discount: Number(data.discount || 0),
+//   advance: Number(data.advance || 0),
+//   balance: Number(data.balance || 0),
+//   jobDelDate: data.jobDelDate ? new Date(data.jobDelDate) : null,
+// });
+const formatJobCardData = (data) => {
+    // Helper to handle empty strings for numeric/decimal fields
+    const parseDecimal = (val) => (val === "" || val === undefined || val === null ? null : val);
+    return {
+        jobCardNumber: data.jobCardNumber,
+        patientId: Number(data.patientId),
+        insuranceCompany: data.insuranceCompany,
+        notes: data.notes,
+        date: data.date ? new Date(data.date) : new Date(),
+        // Prescription: Convert "" to null so Prisma doesn't try to parse them as Decimals
+        rSph: parseDecimal(data.rSph),
+        rCyl: parseDecimal(data.rCyl),
+        rAxis: data.rAxis ? Number(data.rAxis) : null,
+        rPrism: parseDecimal(data.rPrism),
+        rBase: parseDecimal(data.rBase),
+        lSph: parseDecimal(data.lSph),
+        lCyl: parseDecimal(data.lCyl),
+        lAxis: data.lAxis ? Number(data.lAxis) : null,
+        lPrism: parseDecimal(data.lPrism),
+        lBase: parseDecimal(data.lBase),
+        // Other clinical measurements
+        nearAdd: parseDecimal(data.nearAdd),
+        distPd: parseDecimal(data.distPd),
+        nearPd: parseDecimal(data.nearPd),
+        heights: parseDecimal(data.heights),
+        // Split Lenses
+        rLens: data.rLens,
+        rLensStockId: data.rLensStockId ? Number(data.rLensStockId) : null,
+        rLensPrice: Number(data.rLensPrice || 0),
+        lLens: data.lLens,
+        lLensStockId: data.lLensStockId ? Number(data.lLensStockId) : null,
+        lLensPrice: Number(data.lLensPrice || 0),
+        // Frame
+        frame: data.frame,
+        frameQty: Number(data.frameQty || 0),
+        framePrice: Number(data.framePrice || 0),
+        frameStockId: data.frameStockId ? Number(data.frameStockId) : null,
+        // Financials
+        total: Number(data.total),
+        consultation: Number(data.consultation || 0),
+        discount: Number(data.discount || 0),
+        advance: Number(data.advance || 0),
+        balance: Number(data.balance || 0),
+        jobDelDate: data.jobDelDate ? new Date(data.jobDelDate) : null,
+    };
+};
 async function syncSaleAndStock(tx, patientId, total, items) {
     if (items.length === 0)
         return;

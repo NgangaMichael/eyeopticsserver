@@ -4897,6 +4897,7 @@ export namespace Prisma {
     etimsAmount: Decimal | null
     total: number | null
     discount: number | null
+    miscellaneous: number | null
   }
 
   export type SaleSumAggregateOutputType = {
@@ -4906,6 +4907,7 @@ export namespace Prisma {
     etimsAmount: Decimal | null
     total: number | null
     discount: number | null
+    miscellaneous: number | null
   }
 
   export type SaleMinAggregateOutputType = {
@@ -4917,6 +4919,7 @@ export namespace Prisma {
     etimsAmount: Decimal | null
     total: number | null
     discount: number | null
+    miscellaneous: number | null
     createdAt: Date | null
     updatedAt: Date | null
   }
@@ -4930,6 +4933,7 @@ export namespace Prisma {
     etimsAmount: Decimal | null
     total: number | null
     discount: number | null
+    miscellaneous: number | null
     createdAt: Date | null
     updatedAt: Date | null
   }
@@ -4943,6 +4947,7 @@ export namespace Prisma {
     etimsAmount: number
     total: number
     discount: number
+    miscellaneous: number
     createdAt: number
     updatedAt: number
     _all: number
@@ -4956,6 +4961,7 @@ export namespace Prisma {
     etimsAmount?: true
     total?: true
     discount?: true
+    miscellaneous?: true
   }
 
   export type SaleSumAggregateInputType = {
@@ -4965,6 +4971,7 @@ export namespace Prisma {
     etimsAmount?: true
     total?: true
     discount?: true
+    miscellaneous?: true
   }
 
   export type SaleMinAggregateInputType = {
@@ -4976,6 +4983,7 @@ export namespace Prisma {
     etimsAmount?: true
     total?: true
     discount?: true
+    miscellaneous?: true
     createdAt?: true
     updatedAt?: true
   }
@@ -4989,6 +4997,7 @@ export namespace Prisma {
     etimsAmount?: true
     total?: true
     discount?: true
+    miscellaneous?: true
     createdAt?: true
     updatedAt?: true
   }
@@ -5002,6 +5011,7 @@ export namespace Prisma {
     etimsAmount?: true
     total?: true
     discount?: true
+    miscellaneous?: true
     createdAt?: true
     updatedAt?: true
     _all?: true
@@ -5102,6 +5112,7 @@ export namespace Prisma {
     etimsAmount: Decimal | null
     total: number
     discount: number
+    miscellaneous: number
     createdAt: Date
     updatedAt: Date
     _count: SaleCountAggregateOutputType | null
@@ -5134,6 +5145,7 @@ export namespace Prisma {
     etimsAmount?: boolean
     total?: boolean
     discount?: boolean
+    miscellaneous?: boolean
     createdAt?: boolean
     updatedAt?: boolean
     customer?: boolean | sale$customerArgs<ExtArgs>
@@ -5153,11 +5165,12 @@ export namespace Prisma {
     etimsAmount?: boolean
     total?: boolean
     discount?: boolean
+    miscellaneous?: boolean
     createdAt?: boolean
     updatedAt?: boolean
   }
 
-  export type saleOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "customerId" | "patientId" | "referenceNumber" | "etimsReceipt" | "etimsAmount" | "total" | "discount" | "createdAt" | "updatedAt", ExtArgs["result"]["sale"]>
+  export type saleOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "customerId" | "patientId" | "referenceNumber" | "etimsReceipt" | "etimsAmount" | "total" | "discount" | "miscellaneous" | "createdAt" | "updatedAt", ExtArgs["result"]["sale"]>
   export type saleInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     customer?: boolean | sale$customerArgs<ExtArgs>
     patient?: boolean | sale$patientArgs<ExtArgs>
@@ -5181,6 +5194,7 @@ export namespace Prisma {
       etimsAmount: Prisma.Decimal | null
       total: number
       discount: number
+      miscellaneous: number
       createdAt: Date
       updatedAt: Date
     }, ExtArgs["result"]["sale"]>
@@ -5563,6 +5577,7 @@ export namespace Prisma {
     readonly etimsAmount: FieldRef<"sale", 'Decimal'>
     readonly total: FieldRef<"sale", 'Float'>
     readonly discount: FieldRef<"sale", 'Float'>
+    readonly miscellaneous: FieldRef<"sale", 'Float'>
     readonly createdAt: FieldRef<"sale", 'DateTime'>
     readonly updatedAt: FieldRef<"sale", 'DateTime'>
   }
@@ -13815,6 +13830,7 @@ export namespace Prisma {
     etimsAmount: 'etimsAmount',
     total: 'total',
     discount: 'discount',
+    miscellaneous: 'miscellaneous',
     createdAt: 'createdAt',
     updatedAt: 'updatedAt'
   };
@@ -14396,6 +14412,7 @@ export namespace Prisma {
     etimsAmount?: DecimalNullableFilter<"sale"> | Decimal | DecimalJsLike | number | string | null
     total?: FloatFilter<"sale"> | number
     discount?: FloatFilter<"sale"> | number
+    miscellaneous?: FloatFilter<"sale"> | number
     createdAt?: DateTimeFilter<"sale"> | Date | string
     updatedAt?: DateTimeFilter<"sale"> | Date | string
     customer?: XOR<CustomerNullableScalarRelationFilter, customerWhereInput> | null
@@ -14412,6 +14429,7 @@ export namespace Prisma {
     etimsAmount?: SortOrderInput | SortOrder
     total?: SortOrder
     discount?: SortOrder
+    miscellaneous?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
     customer?: customerOrderByWithRelationInput
@@ -14432,6 +14450,7 @@ export namespace Prisma {
     etimsAmount?: DecimalNullableFilter<"sale"> | Decimal | DecimalJsLike | number | string | null
     total?: FloatFilter<"sale"> | number
     discount?: FloatFilter<"sale"> | number
+    miscellaneous?: FloatFilter<"sale"> | number
     createdAt?: DateTimeFilter<"sale"> | Date | string
     updatedAt?: DateTimeFilter<"sale"> | Date | string
     customer?: XOR<CustomerNullableScalarRelationFilter, customerWhereInput> | null
@@ -14448,6 +14467,7 @@ export namespace Prisma {
     etimsAmount?: SortOrderInput | SortOrder
     total?: SortOrder
     discount?: SortOrder
+    miscellaneous?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
     _count?: saleCountOrderByAggregateInput
@@ -14469,6 +14489,7 @@ export namespace Prisma {
     etimsAmount?: DecimalNullableWithAggregatesFilter<"sale"> | Decimal | DecimalJsLike | number | string | null
     total?: FloatWithAggregatesFilter<"sale"> | number
     discount?: FloatWithAggregatesFilter<"sale"> | number
+    miscellaneous?: FloatWithAggregatesFilter<"sale"> | number
     createdAt?: DateTimeWithAggregatesFilter<"sale"> | Date | string
     updatedAt?: DateTimeWithAggregatesFilter<"sale"> | Date | string
   }
@@ -15515,6 +15536,7 @@ export namespace Prisma {
     etimsAmount?: Decimal | DecimalJsLike | number | string | null
     total: number
     discount?: number
+    miscellaneous?: number
     createdAt?: Date | string
     updatedAt?: Date | string
     customer?: customerCreateNestedOneWithoutSaleInput
@@ -15531,6 +15553,7 @@ export namespace Prisma {
     etimsAmount?: Decimal | DecimalJsLike | number | string | null
     total: number
     discount?: number
+    miscellaneous?: number
     createdAt?: Date | string
     updatedAt?: Date | string
     saleitem?: saleitemUncheckedCreateNestedManyWithoutSaleInput
@@ -15542,6 +15565,7 @@ export namespace Prisma {
     etimsAmount?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
     total?: FloatFieldUpdateOperationsInput | number
     discount?: FloatFieldUpdateOperationsInput | number
+    miscellaneous?: FloatFieldUpdateOperationsInput | number
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     customer?: customerUpdateOneWithoutSaleNestedInput
@@ -15558,6 +15582,7 @@ export namespace Prisma {
     etimsAmount?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
     total?: FloatFieldUpdateOperationsInput | number
     discount?: FloatFieldUpdateOperationsInput | number
+    miscellaneous?: FloatFieldUpdateOperationsInput | number
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     saleitem?: saleitemUncheckedUpdateManyWithoutSaleNestedInput
@@ -15572,6 +15597,7 @@ export namespace Prisma {
     etimsAmount?: Decimal | DecimalJsLike | number | string | null
     total: number
     discount?: number
+    miscellaneous?: number
     createdAt?: Date | string
     updatedAt?: Date | string
   }
@@ -15582,6 +15608,7 @@ export namespace Prisma {
     etimsAmount?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
     total?: FloatFieldUpdateOperationsInput | number
     discount?: FloatFieldUpdateOperationsInput | number
+    miscellaneous?: FloatFieldUpdateOperationsInput | number
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
@@ -15595,6 +15622,7 @@ export namespace Prisma {
     etimsAmount?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
     total?: FloatFieldUpdateOperationsInput | number
     discount?: FloatFieldUpdateOperationsInput | number
+    miscellaneous?: FloatFieldUpdateOperationsInput | number
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
@@ -16916,6 +16944,7 @@ export namespace Prisma {
     etimsAmount?: SortOrder
     total?: SortOrder
     discount?: SortOrder
+    miscellaneous?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
   }
@@ -16927,6 +16956,7 @@ export namespace Prisma {
     etimsAmount?: SortOrder
     total?: SortOrder
     discount?: SortOrder
+    miscellaneous?: SortOrder
   }
 
   export type saleMaxOrderByAggregateInput = {
@@ -16938,6 +16968,7 @@ export namespace Prisma {
     etimsAmount?: SortOrder
     total?: SortOrder
     discount?: SortOrder
+    miscellaneous?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
   }
@@ -16951,6 +16982,7 @@ export namespace Prisma {
     etimsAmount?: SortOrder
     total?: SortOrder
     discount?: SortOrder
+    miscellaneous?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
   }
@@ -16962,6 +16994,7 @@ export namespace Prisma {
     etimsAmount?: SortOrder
     total?: SortOrder
     discount?: SortOrder
+    miscellaneous?: SortOrder
   }
 
   export type IntNullableWithAggregatesFilter<$PrismaModel = never> = {
@@ -18341,6 +18374,7 @@ export namespace Prisma {
     etimsAmount?: Decimal | DecimalJsLike | number | string | null
     total: number
     discount?: number
+    miscellaneous?: number
     createdAt?: Date | string
     updatedAt?: Date | string
     patient?: patientCreateNestedOneWithoutSalesInput
@@ -18355,6 +18389,7 @@ export namespace Prisma {
     etimsAmount?: Decimal | DecimalJsLike | number | string | null
     total: number
     discount?: number
+    miscellaneous?: number
     createdAt?: Date | string
     updatedAt?: Date | string
     saleitem?: saleitemUncheckedCreateNestedManyWithoutSaleInput
@@ -18398,6 +18433,7 @@ export namespace Prisma {
     etimsAmount?: DecimalNullableFilter<"sale"> | Decimal | DecimalJsLike | number | string | null
     total?: FloatFilter<"sale"> | number
     discount?: FloatFilter<"sale"> | number
+    miscellaneous?: FloatFilter<"sale"> | number
     createdAt?: DateTimeFilter<"sale"> | Date | string
     updatedAt?: DateTimeFilter<"sale"> | Date | string
   }
@@ -18497,6 +18533,7 @@ export namespace Prisma {
     etimsAmount?: Decimal | DecimalJsLike | number | string | null
     total: number
     discount?: number
+    miscellaneous?: number
     createdAt?: Date | string
     updatedAt?: Date | string
     customer?: customerCreateNestedOneWithoutSaleInput
@@ -18511,6 +18548,7 @@ export namespace Prisma {
     etimsAmount?: Decimal | DecimalJsLike | number | string | null
     total: number
     discount?: number
+    miscellaneous?: number
     createdAt?: Date | string
     updatedAt?: Date | string
     saleitem?: saleitemUncheckedCreateNestedManyWithoutSaleInput
@@ -18933,6 +18971,7 @@ export namespace Prisma {
     etimsAmount?: Decimal | DecimalJsLike | number | string | null
     total: number
     discount?: number
+    miscellaneous?: number
     createdAt?: Date | string
     updatedAt?: Date | string
     customer?: customerCreateNestedOneWithoutSaleInput
@@ -18948,6 +18987,7 @@ export namespace Prisma {
     etimsAmount?: Decimal | DecimalJsLike | number | string | null
     total: number
     discount?: number
+    miscellaneous?: number
     createdAt?: Date | string
     updatedAt?: Date | string
   }
@@ -19042,6 +19082,7 @@ export namespace Prisma {
     etimsAmount?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
     total?: FloatFieldUpdateOperationsInput | number
     discount?: FloatFieldUpdateOperationsInput | number
+    miscellaneous?: FloatFieldUpdateOperationsInput | number
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     customer?: customerUpdateOneWithoutSaleNestedInput
@@ -19057,6 +19098,7 @@ export namespace Prisma {
     etimsAmount?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
     total?: FloatFieldUpdateOperationsInput | number
     discount?: FloatFieldUpdateOperationsInput | number
+    miscellaneous?: FloatFieldUpdateOperationsInput | number
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
@@ -19252,6 +19294,7 @@ export namespace Prisma {
     etimsAmount?: Decimal | DecimalJsLike | number | string | null
     total: number
     discount?: number
+    miscellaneous?: number
     createdAt?: Date | string
     updatedAt?: Date | string
   }
@@ -19262,6 +19305,7 @@ export namespace Prisma {
     etimsAmount?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
     total?: FloatFieldUpdateOperationsInput | number
     discount?: FloatFieldUpdateOperationsInput | number
+    miscellaneous?: FloatFieldUpdateOperationsInput | number
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     patient?: patientUpdateOneWithoutSalesNestedInput
@@ -19276,6 +19320,7 @@ export namespace Prisma {
     etimsAmount?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
     total?: FloatFieldUpdateOperationsInput | number
     discount?: FloatFieldUpdateOperationsInput | number
+    miscellaneous?: FloatFieldUpdateOperationsInput | number
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     saleitem?: saleitemUncheckedUpdateManyWithoutSaleNestedInput
@@ -19289,6 +19334,7 @@ export namespace Prisma {
     etimsAmount?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
     total?: FloatFieldUpdateOperationsInput | number
     discount?: FloatFieldUpdateOperationsInput | number
+    miscellaneous?: FloatFieldUpdateOperationsInput | number
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
@@ -19341,6 +19387,7 @@ export namespace Prisma {
     etimsAmount?: Decimal | DecimalJsLike | number | string | null
     total: number
     discount?: number
+    miscellaneous?: number
     createdAt?: Date | string
     updatedAt?: Date | string
   }
@@ -19470,6 +19517,7 @@ export namespace Prisma {
     etimsAmount?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
     total?: FloatFieldUpdateOperationsInput | number
     discount?: FloatFieldUpdateOperationsInput | number
+    miscellaneous?: FloatFieldUpdateOperationsInput | number
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     customer?: customerUpdateOneWithoutSaleNestedInput
@@ -19484,6 +19532,7 @@ export namespace Prisma {
     etimsAmount?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
     total?: FloatFieldUpdateOperationsInput | number
     discount?: FloatFieldUpdateOperationsInput | number
+    miscellaneous?: FloatFieldUpdateOperationsInput | number
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     saleitem?: saleitemUncheckedUpdateManyWithoutSaleNestedInput
@@ -19497,6 +19546,7 @@ export namespace Prisma {
     etimsAmount?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
     total?: FloatFieldUpdateOperationsInput | number
     discount?: FloatFieldUpdateOperationsInput | number
+    miscellaneous?: FloatFieldUpdateOperationsInput | number
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }

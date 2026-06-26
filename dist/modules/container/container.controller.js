@@ -33,7 +33,7 @@ var __importStar = (this && this.__importStar) || (function () {
     };
 })();
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.receiveContainer = exports.deleteItem = exports.bulkAddItems = exports.addItem = exports.deleteContainer = exports.updateContainer = exports.getContainer = exports.getContainers = exports.createContainer = void 0;
+exports.receiveContainer = exports.deleteItem = exports.bulkAddItems = exports.addItem = exports.deleteContainer = exports.updateItem = exports.updateContainer = exports.getContainer = exports.getContainers = exports.createContainer = void 0;
 const service = __importStar(require("./container.service"));
 const createContainer = async (req, res, next) => {
     try {
@@ -75,6 +75,16 @@ const updateContainer = async (req, res, next) => {
     }
 };
 exports.updateContainer = updateContainer;
+const updateItem = async (req, res, next) => {
+    try {
+        const item = await service.updateContainerItem(Number(req.params.id), Number(req.params.itemId), req.body);
+        res.json(item);
+    }
+    catch (err) {
+        next(err);
+    }
+};
+exports.updateItem = updateItem;
 const deleteContainer = async (req, res, next) => {
     try {
         await service.deleteContainer(Number(req.params.id));

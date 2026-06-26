@@ -5,8 +5,9 @@ export const createSaleSchema = z.object({
     customerId: z.coerce.number().int().positive().optional(),
     referenceNumber: z.string().min(1),
     discount: z.number().nonnegative().optional(),
-    etimsReceipt: z.string().optional(), // Added
-    etimsAmount: z.number().nonnegative().optional(), // Added
+    miscellaneous: z.number().nonnegative().optional(),
+    etimsReceipt: z.string().optional(),
+    etimsAmount: z.number().nonnegative().optional(),
     items: z.array(
       z.object({
         stockId: z.number().int().positive(),
@@ -25,6 +26,7 @@ export const updateEtimsSchema = z.object({
   body: z.object({
     etimsReceipt: z.string().optional().nullable(),
     etimsAmount: z.number().nonnegative().optional().nullable(),
-    discount: z.number().nonnegative().optional(), // Added validation for discount parameters
+    discount: z.number().nonnegative().optional(),
+    miscellaneous: z.number().nonnegative().optional(),
   }),
 });

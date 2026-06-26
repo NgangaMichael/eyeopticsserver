@@ -66,11 +66,12 @@ model sale {
   etimsReceipt String? // eTIMS Receipt Number
   etimsAmount  Decimal? @db.Decimal(10, 2) // Amount recorded in eTIMS
 
-  total     Float
-  discount  Float      @default(0)
-  createdAt DateTime   @default(now())
-  updatedAt DateTime   @updatedAt
-  saleitem  saleitem[]
+  total         Float
+  discount      Float      @default(0)
+  miscellaneous Float      @default(0)
+  createdAt     DateTime   @default(now())
+  updatedAt     DateTime   @updatedAt
+  saleitem      saleitem[]
 
   @@index([customerId], map: "Sale_customerId_fkey")
 }

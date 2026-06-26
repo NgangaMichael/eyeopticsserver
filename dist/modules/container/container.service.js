@@ -33,7 +33,7 @@ var __importStar = (this && this.__importStar) || (function () {
     };
 })();
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.receiveContainer = exports.deleteContainerItem = exports.bulkAddItems = exports.addItemToContainer = exports.deleteContainer = exports.updateContainer = exports.getContainerById = exports.getAllContainers = exports.createContainer = void 0;
+exports.receiveContainer = exports.deleteContainerItem = exports.bulkAddItems = exports.addItemToContainer = exports.deleteContainer = exports.updateContainerItem = exports.updateContainer = exports.getContainerById = exports.getAllContainers = exports.createContainer = void 0;
 const repo = __importStar(require("./container.repository"));
 const createContainer = async (data) => {
     return repo.createContainer(data);
@@ -59,6 +59,17 @@ const updateContainer = async (id, data) => {
     return repo.updateContainer(id, data);
 };
 exports.updateContainer = updateContainer;
+const updateContainerItem = async (containerId, itemId, data) => {
+    const container = await repo.getContainerById(containerId);
+    if (!container)
+        throw { status: 404, message: "Container not found" };
+    // Prevent editing if already received
+    if (container.status === "received") {
+        throw { status: 403, message: "Cannot edit items in a received container" };
+    }
+    return repo.updateContainerItem(itemId, data);
+};
+exports.updateContainerItem = updateContainerItem;
 const deleteContainer = async (id) => {
     const container = await repo.getContainerById(id);
     if (!container)

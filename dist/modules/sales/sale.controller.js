@@ -33,7 +33,7 @@ var __importStar = (this && this.__importStar) || (function () {
     };
 })();
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.deleteSale = exports.updateSale = exports.getSale = exports.getSales = exports.createSale = void 0;
+exports.deleteSale = exports.bulkUpdateSales = exports.updateSale = exports.getSale = exports.getSales = exports.createSale = void 0;
 const service = __importStar(require("./sale.service"));
 const createSale = async (req, res, next) => {
     try {
@@ -75,6 +75,26 @@ const updateSale = async (req, res, next) => {
     }
 };
 exports.updateSale = updateSale;
+// Replace your bulkUpdateSales function inside sale.controller.ts with this:
+const bulkUpdateSales = async (req, res, next) => {
+    try {
+        const updates = req.body;
+        // 1. Log the payload to make sure Express is reading the array correctly
+        console.log("► [Bulk Update] Incoming Request Body:", updates);
+        if (!Array.isArray(updates)) {
+            console.warn("✖ [Bulk Update] Failed: req.body is not an array!");
+            return res.status(400).json({ message: "Payload must be an array of updates." });
+        }
+        await service.bulkUpdateSales(updates);
+        res.json({ success: true, message: "Bulk update executed successfully" });
+    }
+    catch (err) {
+        // 2. FORCE PRINT THE CRASH REASON TO TERMINAL
+        console.error("❌ [Bulk Update Critical Error]:", err);
+        next(err);
+    }
+};
+exports.bulkUpdateSales = bulkUpdateSales;
 const deleteSale = async (req, res, next) => {
     try {
         await service.deleteSale(Number(req.params.id));

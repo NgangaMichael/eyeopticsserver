@@ -8,16 +8,18 @@ export const createSale = async (data: any) => {
     );
     
     const discountAmount = Number(data.discount) || 0;
-    const finalTotal = subtotal - discountAmount;
+    const miscAmount = Number(data.miscellaneous) || 0;
+    const finalTotal = subtotal - discountAmount - miscAmount;
 
     const sale = await tx.sale.create({
       data: {
         customerId: data.customerId ? Number(data.customerId) : null,
         referenceNumber: data.referenceNumber,
-        etimsReceipt: data.etimsReceipt || null, // Added
-        etimsAmount: data.etimsAmount || null,   // Added
+        etimsReceipt: data.etimsReceipt || null, 
+        etimsAmount: data.etimsAmount || null,   
         total: finalTotal,
         discount: discountAmount,
+        miscellaneous: miscAmount,
         saleitem: {
           create: data.items.map((item: any) => ({
             stockId: Number(item.stockId),
@@ -39,12 +41,8 @@ export const createSale = async (data: any) => {
   });
 };
 
-// New Update function
-// src/modules/sales/sale.repository.ts
-
 export const updateSale = async (id: number, data: any) => {
   return await prisma.$transaction(async (tx) => {
-    // 1. Fetch original items to calculate subtotal
     const originalSale = await tx.sale.findUnique({
       where: { id },
       include: { saleitem: true }
@@ -52,25 +50,24 @@ export const updateSale = async (id: number, data: any) => {
 
     if (!originalSale) throw new Error("Sale record not found");
 
-    // 2. Build our database update payload dynamically
     const updatePayload: any = {
       etimsReceipt: data.etimsReceipt,
       etimsAmount: data.etimsAmount,
     };
 
-    // 3. If a new discount is provided, recalculate the net grand total
-    if (data.discount !== undefined) {
+    if (data.discount !== undefined || data.miscellaneous !== undefined) {
       const subtotal = originalSale.saleitem.reduce((acc: number, item: any) => 
         acc + (Number(item.price) * Number(item.quantity)), 0
       );
       
-      const updatedDiscount = Number(data.discount) || 0;
+      const updatedDiscount = data.discount !== undefined ? (Number(data.discount) || 0) : Number(originalSale.discount || 0);
+      const updatedMisc = data.miscellaneous !== undefined ? (Number(data.miscellaneous) || 0) : Number((originalSale as any).miscellaneous || 0);
       
       updatePayload.discount = updatedDiscount;
-      updatePayload.total = subtotal - updatedDiscount; // Automatically re-balance total
+      updatePayload.miscellaneous = updatedMisc;
+      updatePayload.total = subtotal - updatedDiscount - updatedMisc; 
     }
 
-    // 4. Persist tracking data update
     return await tx.sale.update({
       where: { id },
       data: updatePayload,
@@ -98,12 +95,44 @@ export const getSaleById = (id: number) => {
     where: { id },
     include: {
       customer: true,
-      saleitem: { // This was line 71 causing your error!
+      patient: true, // Included patient just in case your views pull customer/patient context here
+      saleitem: { 
         include: {
           stock: true,
         },
       },
     },
+  });
+};
+
+export const bulkUpdateSales = async (updates: any[]) => {
+  return await prisma.$transaction(async (tx) => {
+    for (const update of updates) {
+      const originalSale = await tx.sale.findUnique({
+        where: { id: Number(update.id) },
+        include: { saleitem: true }
+      });
+
+      if (!originalSale) continue;
+
+      // Calculate the strict raw subtotal from the invoice items
+      const subtotal = originalSale.saleitem.reduce((acc: number, item: any) => 
+        acc + (Number(item.price) * Number(item.quantity)), 0
+      );
+
+      const updatedDiscount = Number(update.discount) || 0;
+      const existingMisc = Number((originalSale as any).miscellaneous || 0);
+
+      await tx.sale.update({
+        where: { id: Number(update.id) },
+        data: {
+          etimsReceipt: update.etimsReceipt,
+          etimsAmount: update.etimsAmount,
+          discount: updatedDiscount, // Saves actual currency amount into existing discount column
+          total: subtotal - updatedDiscount - existingMisc // Correctly subtracts both metrics
+        },
+      });
+    }
   });
 };
 

@@ -164,6 +164,7 @@ exports.Prisma.SaleScalarFieldEnum = {
   etimsAmount: 'etimsAmount',
   total: 'total',
   discount: 'discount',
+  miscellaneous: 'miscellaneous',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt'
 };
