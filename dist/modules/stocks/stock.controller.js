@@ -45,10 +45,22 @@ const createStock = async (req, res, next) => {
     }
 };
 exports.createStock = createStock;
+// export const getStocks = async (req: Request, res: Response, next: NextFunction) => {
+//   try {
+//     const stocks = await service.getAllStock();
+//     res.json(stocks);
+//   } catch (err) {
+//     next(err);
+//   }
+// };
 const getStocks = async (req, res, next) => {
     try {
-        const stocks = await service.getAllStock();
-        res.json(stocks);
+        const page = Number(req.query.page) || 1;
+        const pageSize = Number(req.query.pageSize) || 50;
+        const search = req.query.search || undefined;
+        const type = req.query.type || undefined;
+        const [stocks, total] = await service.getAllStock(page, pageSize, { search, type });
+        res.json({ stocks, total, page, pageSize });
     }
     catch (err) {
         next(err);

@@ -12,10 +12,24 @@ export const createStock = async (req: Request, res: Response, next: NextFunctio
   }
 };
 
+// export const getStocks = async (req: Request, res: Response, next: NextFunction) => {
+//   try {
+//     const stocks = await service.getAllStock();
+//     res.json(stocks);
+//   } catch (err) {
+//     next(err);
+//   }
+// };
+
 export const getStocks = async (req: Request, res: Response, next: NextFunction) => {
   try {
-    const stocks = await service.getAllStock();
-    res.json(stocks);
+    const page = Number(req.query.page) || 1;
+    const pageSize = Number(req.query.pageSize) || 50;
+    const search = (req.query.search as string) || undefined;
+    const type = (req.query.type as string) || undefined;
+
+    const [stocks, total] = await service.getAllStock(page, pageSize, { search, type });
+    res.json({ stocks, total, page, pageSize });
   } catch (err) {
     next(err);
   }

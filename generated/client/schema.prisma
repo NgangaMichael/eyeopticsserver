@@ -161,6 +161,10 @@ model stock {
 
   isDeleted Boolean    @default(false)
   saleitem  saleitem[]
+
+  @@index([isDeleted, createdAt])
+  @@index([name])
+  @@index([code])
 }
 
 model supplier {

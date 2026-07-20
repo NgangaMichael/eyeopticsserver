@@ -29,11 +29,34 @@ export const createStock = (data: any) => {
   });
 };
 
-export const getAllStock = () => {
-  return prisma.stock.findMany({
-    where: { isDeleted: false },
-    orderBy: { createdAt: "desc" }
-  });
+// export const getAllStock = () => {
+//   return prisma.stock.findMany({
+//     where: { isDeleted: false },
+//     orderBy: { createdAt: "desc" }
+//   });
+// };
+
+export const getAllStock = (page: number, pageSize: number, filters: { search?: string; type?: string }) => {
+  const where = {
+    isDeleted: false,
+    ...(filters.type && { type: filters.type }),
+    ...(filters.search && {
+      OR: [
+        { name: { contains: filters.search } },
+        { code: { contains: filters.search } },
+      ],
+    }),
+  };
+
+  return Promise.all([
+    prisma.stock.findMany({
+      where,
+      orderBy: { createdAt: "desc" },
+      skip: (page - 1) * pageSize,
+      take: pageSize,
+    }),
+    prisma.stock.count({ where }),
+  ]);
 };
 
 export const getStockById = (id: number) => {
